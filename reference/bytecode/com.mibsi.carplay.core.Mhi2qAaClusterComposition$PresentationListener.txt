@@ -1,0 +1,13 @@
+public interface com.mibsi.carplay.core.Mhi2qAaClusterComposition$PresentationListener {
+  public abstract boolean onTurnCardPresented(int, int, int, int, int, int);
+    descriptor: (IIIIII)Z
+
+  public abstract boolean onTurnCardHidden(int);
+    descriptor: (I)Z
+
+  public abstract boolean onVcMenuPresented(int, int, int, int, int, int);
+    descriptor: (IIIIII)Z
+
+  public abstract boolean onVcMenuHidden(int);
+    descriptor: (I)Z
+}

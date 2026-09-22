@@ -1,0 +1,138 @@
+class de.audi.app.terminalmode.combi.TerminalModeBapCombi$EventListener extends de.audi.app.terminalmode.events.DefaultEventListener {
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0$;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private de.audi.app.terminalmode.combi.TerminalModeBapCombi$EventListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #3                  // Field this$0$:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+         5: aload_0
+         6: invokespecial #4                  // Method de/audi/app/terminalmode/events/DefaultEventListener."<init>":()V
+         9: aload_0
+        10: aload_2
+        11: putfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        14: return
+
+  public void updateNowPlayingData(de.audi.app.terminalmode.events.TrackDataChangedEvent);
+    descriptor: (Lde/audi/app/terminalmode/events/TrackDataChangedEvent;)V
+    Code:
+         0: aload_1
+         1: invokevirtual #6                  // Method de/audi/app/terminalmode/events/TrackDataChangedEvent.getTitle:()Ljava/lang/String;
+         4: astore_2
+         5: aload_1
+         6: invokevirtual #7                  // Method de/audi/app/terminalmode/events/TrackDataChangedEvent.getArtist:()Ljava/lang/String;
+         9: astore_3
+        10: aload_1
+        11: invokevirtual #8                  // Method de/audi/app/terminalmode/events/TrackDataChangedEvent.getAlbum:()Ljava/lang/String;
+        14: astore        4
+        16: aload_2
+        17: ifnonnull     23
+        20: ldc           #9                  // String
+        22: astore_2
+        23: aload_3
+        24: ifnonnull     30
+        27: ldc           #9                  // String
+        29: astore_3
+        30: aload         4
+        32: ifnonnull     39
+        35: ldc           #9                  // String
+        37: astore        4
+        39: aload_2
+        40: invokevirtual #10                 // Method java/lang/String.length:()I
+        43: ifle          51
+        46: bipush        6
+        48: goto          52
+        51: iconst_0
+        52: istore        5
+        54: aload_3
+        55: invokevirtual #10                 // Method java/lang/String.length:()I
+        58: ifle          66
+        61: bipush        73
+        63: goto          67
+        66: iconst_0
+        67: istore        6
+        69: aload         4
+        71: invokevirtual #10                 // Method java/lang/String.length:()I
+        74: ifle          82
+        77: bipush        74
+        79: goto          83
+        82: iconst_0
+        83: istore        7
+        85: new           #11                 // class de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo
+        88: dup
+        89: invokespecial #12                 // Method de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo."<init>":()V
+        92: astore        8
+        94: aload         8
+        96: aload_2
+        97: iload         5
+        99: iconst_0
+       100: invokevirtual #13                 // Method de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo.setPrimaryInformation:(Ljava/lang/String;II)V
+       103: aload         8
+       105: aload_3
+       106: iload         6
+       108: invokevirtual #14                 // Method de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo.setSecondaryInformation:(Ljava/lang/String;I)V
+       111: aload         8
+       113: aload         4
+       115: iload         7
+       117: invokevirtual #15                 // Method de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo.setTertiaryInformation:(Ljava/lang/String;I)V
+       120: aload_0
+       121: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+       124: invokestatic  #16                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+       127: aload         8
+       129: invokeinterface #17,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateCurrentStation:(Lde/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo;)V
+       134: aload_0
+       135: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+       138: invokestatic  #16                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+       141: iconst_0
+       142: invokeinterface #18,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateActiveInfoState:(I)V
+       147: return
+
+  public void updatePlayPosition(de.audi.app.terminalmode.events.TrackPlayPositionEvent);
+    descriptor: (Lde/audi/app/terminalmode/events/TrackPlayPositionEvent;)V
+    Code:
+         0: aload_1
+         1: invokevirtual #19                 // Method de/audi/app/terminalmode/events/TrackPlayPositionEvent.getTotalTimeOfTrack:()I
+         4: ifne          44
+         7: aload_0
+         8: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        11: invokestatic  #16                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        14: invokestatic  #20                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition.builder:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        17: ldc           #21                 // int 65535
+        19: invokestatic  #22                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        22: invokevirtual #23                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTimePosition:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        25: ldc           #21                 // int 65535
+        27: invokestatic  #22                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        30: invokevirtual #24                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTotalPlayTime:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        33: invokevirtual #25                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.build:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;
+        36: invokeinterface #26,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updatePlayPosition:(Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;)V
+        41: goto          82
+        44: aload_0
+        45: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        48: invokestatic  #16                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        51: invokestatic  #20                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition.builder:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        54: aload_1
+        55: invokevirtual #27                 // Method de/audi/app/terminalmode/events/TrackPlayPositionEvent.getPlayTime:()I
+        58: invokestatic  #22                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        61: invokevirtual #23                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTimePosition:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        64: aload_1
+        65: invokevirtual #19                 // Method de/audi/app/terminalmode/events/TrackPlayPositionEvent.getTotalTimeOfTrack:()I
+        68: invokestatic  #22                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        71: invokevirtual #24                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTotalPlayTime:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        74: invokevirtual #25                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.build:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;
+        77: invokeinterface #26,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updatePlayPosition:(Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;)V
+        82: return
+
+  de.audi.app.terminalmode.combi.TerminalModeBapCombi$EventListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi$1);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$1;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokespecial #2                  // Method "<init>":(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+         6: return
+}

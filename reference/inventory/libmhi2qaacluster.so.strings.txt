@@ -1,0 +1,170 @@
+000007b9	_init
+000007bf	_fini
+000007c5	_ITM_deregisterTMCloneTable
+000007e1	_ITM_registerTMCloneTable
+000007fb	__cxa_finalize
+0000080a	__deregister_frame_info
+00000822	__register_frame_info
+00000838	_Jv_RegisterClasses
+0000084c	memcpy
+00000853	pthread_mutex_lock
+00000866	pthread_mutex_unlock
+0000087b	memcmp
+00000882	malloc
+0000088e	getenv
+00000895	strtoul
+0000089d	realloc
+000008a5	usleep
+000008ac	write
+000008b2	close
+000008b8	lseek
+000008c3	strcmp
+000008ca	memset
+000008d1	pthread_create
+000008e0	pthread_detach
+000008ef	strncmp
+000008f7	unlink
+000008fe	dladdr
+00000905	dlopen
+0000090c	dlsym
+00000912	sysconf
+0000091a	mprotect
+00000923	dlerror
+0000092b	__get_errno_ptr
+0000093b	strlen
+00000942	rename
+00000949	pthread_cond_wait
+0000095b	pthread_cond_signal
+0000096f	pthread_join
+0000097c	clock_gettime
+0000098a	vsnprintf
+00000994	accept
+0000099b	fcntl
+000009a6	sigemptyset
+000009b2	sigaddset
+000009bc	pthread_sigmask
+000009cc	pthread_cond_timedwait
+000009e3	socket
+000009ea	setsockopt
+000009fa	listen
+00000a01	shutdown
+00000a0a	access
+00000a11	spawnl
+00000a1d	waitpid
+00000a25	libsocket.so.3
+00000a34	_btext
+00000a3b	__exidx_start
+00000a49	__exidx_end
+00000a55	__data_start
+00000a62	_edata
+00000a69	__bss_start
+00000a75	__bss_start__
+00000a83	__bss_end__
+00000a8f	__end__
+00000a97	_stack
+00000a9e	libmhi2qaacluster.so
+00000ab3	libsocket.so.2
+0000b6b8	_ZN24NavigationStatusEndpoint12routeMessageEhtRK10shared_ptrI8IoBufferE
+0000b700	_ZN13MessageRouter15registerServiceEP20ProtocolEndpointBase
+0000b73c	AA_CLUSTER_SERVICE_ID
+0000b754	%02x%s
+0000b760	libautoreceiver.so
+0000b774	/eso/lib/libautoreceiver.so
+0000b798	/tmp/mhi2q_aa_sdr_stock.pb
+0000b7b4	/tmp/mhi2q_aa_sdr_cluster.pb
+0000b7d4	/tmp/mhi2q_aa_ui_view.state
+0000b7f0	/mnt/app/root/mhi2q_aa_vc_backup/mode
+0000b81c	register
+0000b828	announce
+0000b834	vc-full-input
+0000b844	AA_CLUSTER_OUTPUT
+0000b860	native
+0000b868	stream
+0000b874	AA_CLUSTER_EXTERNAL_DISPLAY
+0000b894	AA_CLUSTER_ENDPOINT
+0000b8a8	legacy
+0000b8b0	_ZN13MessageRouter13queueOutgoingEhPvj
+0000b8ec	_ZN13MessageRouter13marshallProtoEtRKN6google8protobuf11MessageLiteEP8IoBuffer
+0000b93c	_ZN13MediaSinkBase10sendConfigEi
+0000b960	_ZN10Controller21handleVersionResponseEPvj
+0000b99c	_ZN13MediaSinkBase9ackFramesEij
+0000b9bc	_ZN13MessageRouter24queueOutgoingUnencryptedEhPvj
+0000b9f0	_ZN9VideoSink13setVideoFocusEib
+0000ba10	_ZN13MediaSinkBase12routeMessageEhtRK10shared_ptrI8IoBufferE
+0000ba50	0123456789abcdef
+0000ba64	MHI2Q_AA_NAV_V3
+0000ba9c	%s.new
+0000baa4	0123456789abcdef
+0000bab8	/tmp/mhi2q_aa_nav_proxy.state
+0000bad8	/tmp/mhi2q_aa_nav_proxy.state.new
+0000bb2c	stream: viewer connected, waiting for complete IDR access unit
+0000bb6c	stream: non-IDR received while unsynchronized; requesting focus bounce
+0000bbb4	stream: cannot prime viewer without codec configuration
+0000bbec	stream: viewer synchronized at complete IDR access unit
+0000bc24	stream: viewer disconnected after %llu bytes
+0000bc54	annex-b
+0000bc5c	timed-access-units
+0000bc70	framed-access-units
+0000bc84	stream: socket creation failed errno=%d
+0000bcac	stream: cannot listen on TCP port %u errno=%d
+0000bcdc	stream: writer thread creation failed (%d)
+0000bd08	stream: loopback ready port=%u mode=%s queue=%u bytes packets=%u max=%u
+0000bd50	stream: oversized access unit length=%u max=%u
+0000bd80	stream: queue saturated after %u ms; marking discontinuity packets=%u bytes=%u length=%u
+0000bddc	display: external decoder disabled
+0000be00	/eso/bin/apps/mhi2q-aa-cluster-display
+0000be28	display: executable unavailable at %s errno=%d
+0000be58	--live
+0000be60	display: cannot spawn external decoder errno=%d
+0000be90	display: external hardware decoder started pid=%d
+0000bec4	display: cannot request UI-refresh hold pid=%d errno=%d
+0000befc	display: UI-refresh hold requested pid=%d
+0000bf28	display: external decoder exited status=0x%x
+0000bf58	display: waitpid failed errno=%d
+0000bf7c	display: external decoder did not exit after socket close; terminating
+0000bfc4	/eso/bin/apps/mhi2q-aa-turn-card-renderer
+0000bff0	turn-card: cannot spawn renderer errno=%d
+0000c01c	turn-card: renderer started pid=%d
+0000c040	turn-card: singleton owned by an earlier GAL renderer; retrying in 10s
+0000c088	turn-card: renderer exited result=%d status=0x%x stop=%d
+0000c0c4	turn-card: executable unavailable at %s errno=%d
+0000c0f8	turn-card: cannot start supervisor rc=%d
+0000e821	GCC: (GNU) 4.9.4
+0000e833	GCC: (GNU) 4.9.4
+0000e845	GCC: (GNU) 4.9.4
+0000e857	GCC: (GNU) 4.9.4
+0000e869	GCC: (GNU) 4.9.4
+0000e87b	GCC: (GNU) 4.9.4
+0000e88d	GCC: (GNU) 4.9.4
+0000e89f	GCC: (GNU) 4.9.4
+0000e8b1	GCC: (GNU) 4.9.4
+0000e8c3	GCC: (GNU) 4.9.4
+0000e8d5	GCC: (GNU) 4.9.4
+0000e8e7	GCC: (GNU) 4.9.4
+0000e8f9	GCC: (GNU) 4.9.4
+0000e90b	GCC: (GNU) 4.9.4
+0000e91d	GCC: (GNU) 4.9.4
+0000e92f	GCC: (GNU) 4.9.4
+0000e941	GCC: (GNU) 4.9.4
+0000e953	GCC: (GNU) 4.9.4
+0000e969	aeabi
+0000e992	.shstrtab
+0000e99c	.hash
+0000e9a2	.dynsym
+0000e9aa	.dynstr
+0000e9b2	.gnu.version
+0000e9bf	.gnu.version_r
+0000e9ce	.rel.dyn
+0000e9d7	.rel.plt
+0000e9e0	.init
+0000e9e6	.text
+0000e9ec	.fini
+0000e9f2	.rodata
+0000e9fa	.ARM.exidx
+0000ea05	.eh_frame
+0000ea0f	.init_array
+0000ea1b	.fini_array
+0000ea2c	.dynamic
+0000ea3a	.data
+0000ea45	.comment
+0000ea4e	.ARM.attributes

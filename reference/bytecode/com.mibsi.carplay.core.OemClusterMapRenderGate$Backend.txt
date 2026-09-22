@@ -1,0 +1,13 @@
+interface com.mibsi.carplay.core.OemClusterMapRenderGate$Backend {
+  public abstract java.lang.Object current();
+    descriptor: ()Ljava/lang/Object;
+
+  public abstract boolean visible(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public abstract boolean write(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)Z
+
+  public abstract boolean execute(java.lang.Runnable);
+    descriptor: (Ljava/lang/Runnable;)Z
+}

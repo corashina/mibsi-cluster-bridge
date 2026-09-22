@@ -1,0 +1,4 @@
+public interface com.mibsi.carplay.rgd.RendererServer$StateListener {
+  public abstract void onRendererStateChanged(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}

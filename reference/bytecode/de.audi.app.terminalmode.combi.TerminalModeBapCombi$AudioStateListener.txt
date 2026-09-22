@@ -1,0 +1,64 @@
+final class de.audi.app.terminalmode.combi.TerminalModeBapCombi$AudioStateListener implements de.audi.app.terminalmode.audio.IAudioStateListener {
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0$;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private de.audi.app.terminalmode.combi.TerminalModeBapCombi$AudioStateListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #3                  // Field this$0$:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+         5: aload_0
+         6: invokespecial #4                  // Method java/lang/Object."<init>":()V
+         9: aload_0
+        10: aload_2
+        11: putfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        14: return
+
+  public void audioStateChanged(de.audi.app.terminalmode.audio.AudioConnectionState);
+    descriptor: (Lde/audi/app/terminalmode/audio/AudioConnectionState;)V
+    Code:
+         0: return
+
+  public void audioFocusChanged(boolean);
+    descriptor: (Z)V
+    Code:
+         0: iload_1
+         1: ifeq          42
+         4: aload_0
+         5: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+         8: invokestatic  #6                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$600:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/IContext;
+        11: invokeinterface #7,  1            // InterfaceMethod de/audi/app/terminalmode/IContext.getEventBus:()Lde/audi/app/terminalmode/events/IEventBus;
+        16: aload_0
+        17: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        20: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$700:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$EventListener;
+        23: invokeinterface #9,  2            // InterfaceMethod de/audi/app/terminalmode/events/IEventBus.registerListener:(Lde/audi/app/terminalmode/events/IEventListener;)Z
+        28: pop
+        29: aload_0
+        30: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        33: invokestatic  #10                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$800:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$CachingEventListener;
+        36: invokevirtual #11                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi$CachingEventListener.sendCachedEvents:()V
+        39: goto          67
+        42: aload_0
+        43: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        46: invokestatic  #6                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$600:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/IContext;
+        49: invokeinterface #7,  1            // InterfaceMethod de/audi/app/terminalmode/IContext.getEventBus:()Lde/audi/app/terminalmode/events/IEventBus;
+        54: aload_0
+        55: getfield      #5                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        58: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$700:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$EventListener;
+        61: invokeinterface #12,  2           // InterfaceMethod de/audi/app/terminalmode/events/IEventBus.unregisterListener:(Lde/audi/app/terminalmode/events/IEventListener;)Z
+        66: pop
+        67: return
+
+  de.audi.app.terminalmode.combi.TerminalModeBapCombi$AudioStateListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi$1);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$1;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokespecial #2                  // Method "<init>":(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+         6: return
+}

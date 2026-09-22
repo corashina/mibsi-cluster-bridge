@@ -1,0 +1,23 @@
+public final class com.mibsi.carplay.core.ScreenNavStatusGate {
+  private com.mibsi.carplay.core.ScreenNavStatusGate();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static void onOemRgActive(boolean);
+    descriptor: (Z)V
+    Code:
+         0: iload_0
+         1: invokestatic  #2                  // Method com/mibsi/carplay/rgd/Mhi2qAaNavProxy.onOemRgActive:(Z)V
+         4: return
+
+  public static de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi prepareCombiBAPService(de.audi.tghu.navi.app.cluster.ClusterService, de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi);
+    descriptor: (Lde/audi/tghu/navi/app/cluster/ClusterService;Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #3                  // Method com/mibsi/carplay/rgd/Mhi2qAaNavProxy.prepareCombiBAPService:(Lde/audi/tghu/navi/app/cluster/ClusterService;Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         5: areturn
+}

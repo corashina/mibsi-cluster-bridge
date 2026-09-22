@@ -1,0 +1,214 @@
+000000f4	/usr/lib/ldqnx.so.2
+00000aa1	libsocket.so.3
+00000ab0	clock_gettime
+00000abe	waitpid
+00000ac6	connect
+00000ace	sigemptyset
+00000ada	strerror
+00000ae3	getenv
+00000aea	_Stdout
+00000af2	memcpy
+00000afe	malloc
+00000b05	socket
+00000b0c	dlclose
+00000b19	calloc
+00000b20	write
+00000b26	fprintf
+00000b2e	__deregister_frame_info
+00000b46	__get_errno_ptr
+00000b56	dlopen
+00000b5d	memcmp
+00000b64	sscanf
+00000b6b	fread
+00000b71	dlsym
+00000b77	fopen
+00000b7d	memset
+00000b84	fclose
+00000b8b	strcmp
+00000b92	pthread_mutex_unlock
+00000ba7	_Stderr
+00000baf	access
+00000bb6	pthread_mutex_lock
+00000bce	_Jv_RegisterClasses
+00000be2	fcntl
+00000be8	__register_frame_info
+00000c03	libc.so.3
+00000c0d	dlerror
+00000c15	_init_array
+00000c21	errno
+00000c27	usleep
+00000c2e	_preinit_array
+00000c3d	execl
+00000c48	spawnl
+00000c4f	fflush
+00000c56	nanosleep
+00000c65	fseek
+00000c6b	memchr
+00000c72	strstr
+00000c79	signal
+00000c80	unlink
+00000c87	setenv
+00000c93	sigaction
+00000c9d	_init_libc
+00000ca8	ftell
+00000cae	_fini_array
+00000cba	atexit
+00000cc1	freopen
+00000cc9	_exit
+00000ccf	_btext
+00000cd6	__exidx_start
+00000ce4	__exidx_end
+00000cf0	__data_start
+00000cfd	_edata
+00000d04	__bss_start
+00000d10	__bss_start__
+00000d1e	__bss_end__
+00000d2a	__end__
+00000d32	_stack
+00000d39	qcom_tiled_copy_nv12_crop
+00000d53	mibsi_vin_wait_allowed
+00000d6a	_init
+00000d70	qcom_tiled_draw_luma_rect
+00000d8a	p5092_vc_route_restore
+00000da1	aa_refresh_transition_update
+00000dbe	qcom_tiled_plane_size
+00000dd4	qcom_tiled_fill_nv12
+00000de9	p5092_vc_route_projection_requested
+00000e0d	_ITM_registerTMCloneTable
+00000e27	p5092_vc_route_rearm
+00000e3c	mibsi_vin_check
+00000e4c	p5092_vc_route_poll
+00000e60	_ITM_deregisterTMCloneTable
+00000e7c	qcom_tiled_rect_is_black
+00000e95	aa_refresh_transition_begin
+00000eb1	_fini
+00000eb7	qcom_tiled_read_luma
+00000ecc	_Znwj
+00000ed2	standalone_decoder_main
+00000eea	libsocket.so.2
+000068a0	output frame=%u bytes=%u flags=0x%08x timestamp=%lld
+000068d8	event type=%u data1=0x%08x data2=0x%08x
+00006908	open %s failed: %s
+0000691c	OMX.QCOM.index.param.video.SyntaxHdr
+00006944	SyntaxHdr index result=0x%08x index=0x%08x
+00006970	SyntaxHdr set length=%u result=0x%08x
+00006998	state=%u reached after %u ms
+000069b8	state timeout wanted=%u current=%u
+000069dc	missing %s: %s
+000069ec	EmptyThisBuffer nal=%u result=0x%08x
+00006a14	input return timeout at NAL %u
+00006a34	submitted NAL units=%u
+00006a4c	/tmp/mhi2q_aa_ui_view.state
+00006a68	usage: %s stream.h264
+00006a80	loaded %s: %lu bytes
+00006a98	libOmxCore.so
+00006aa8	dlopen libOmxCore.so failed: %s
+00006acc	OMX_Init
+00006ad8	OMX_Deinit
+00006ae4	OMX_GetHandle
+00006af4	OMX_FreeHandle
+00006b04	OMX_Init=0x%08x
+00006b18	OMX.qcom.video.decoder.avc
+00006b34	OMX_GetHandle=0x%08x component=%p
+00006b58	output formats end index=%u result=0x%08x
+00006b84	output format index=%u compression=0x%08x color=0x%08x fps=0x%08x
+00006bc8	port=%u query=0x%08x buffers=%u size=%u dimensions=%ux%u stride=%u slice=%u format=0x%08x
+00006c24	SendCommand Idle=0x%08x
+00006c40	AllocateBuffer port=%u index=%u result=0x%08x
+00006c70	allocated port=%u count=%u
+00006c8c	SendCommand Executing=0x%08x
+00006cac	FillThisBuffer index=%u result=0x%08x
+00006cd4	decode summary callbacks=%u frames=%u bytes=%llu
+00006d08	cleanup Idle=0x%08x
+00006d20	cleanup Loaded=0x%08x
+00006d38	OMX_FreeHandle=0x%08x
+00006d50	OMX_Deinit=0x%08x
+00006d64	external hardware decode success=%d
+00006d8c	--check-vin
+00006d98	--live-carplay
+00006da8	/dev/null
+00006db4	IVRDISPLAY
+00006dc0	SCREEN
+00006dc8	LD_LIBRARY_PATH
+00006dd8	/proc/boot:/usr/lib:/armle/lib:/armle/lib/dll:/armle/graphics:/lib:/mnt/app/root/lib-target:/eso/lib:/mnt/app/usr/lib:/mnt/app/armle/lib:/mnt/app/armle/lib/dll:/mnt/app/armle/usr/lib:/lib/dll
+00006e98	AA_CLUSTER_HOLD
+00006ea8	AA_CLUSTER_IVP_CONFIG_ONLY
+00006ec4	AA_CLUSTER_CROP
+00006edc	viewport
+00006ee8	/mnt/app/root/mhi2q_aa_vc_backup/mode
+00006f10	AA_CLUSTER_CROP_RECT
+00006f28	%d,%d,%d,%d
+00006f34	--live
+00006f3c	OMX_SetupTunnel
+00006f4c	stable direct decoder-to-Screen recovery path selected
+00006f84	IPL_CONFIG_DIR
+00006f94	/etc/eso/production
+00006fa8	GRAPHICS_ROOT
+00006fb8	/proc/boot/
+00006fc4	DISPLAY_CATALOG_PATH
+00006fe4	QC_GFX_CONF_DIR
+00006ff4	/mnt/app/navigation
+00007008	ADRENO
+00007010	OXILI
+00007018	libdisplayinit.so
+0000702c	libscreen.so.1
+0000703c	libEGL.so.1
+00007048	display_init
+00007058	display_create_window
+00007070	screen_set_window_property_iv
+00007090	screen_get_window_property_iv
+000070b0	screen_create_window_buffers
+000070d0	screen_destroy_window_buffers
+000070f0	screen_destroy_window
+00007108	screen_get_window_property_pv
+00007128	screen_get_buffer_property_pv
+00007148	screen_post_window
+0000715c	screen_create_window
+00007174	screen_create_window_type
+00007190	eglGetDisplay
+000071a0	eglInitialize
+000071b0	eglChooseConfig
+000071c0	eglGetError
+000071cc	eglTerminate
+000071dc	/etc/eso/production/
+000071f4	/eso/bin/apps/versedt
+0000720c	versedt
+0000721c	/tmp/mhi2q_aa_context70.request
+00007240	/eso/bin/apps/dmdt
+000073a3	[/bin/sh
+000073b4	IPL_CONFIG_DIR=/etc/eso/production exec /eso/bin/apps/pc s:1501:30 2>/dev/null
+0000764c	MIBSI_VIN_RUNTIME_V1
+00007684	VIN_END
+0000768d	GCC: (GNU) 4.9.4
+0000769f	GCC: (GNU) 4.9.4
+000076b1	GCC: (GNU) 4.9.4
+000076c3	GCC: (GNU) 4.9.4
+000076d5	GCC: (GNU) 4.9.4
+000076e7	GCC: (GNU) 4.9.4
+000076f9	GCC: (GNU) 4.9.4
+0000770b	GCC: (GNU) 4.9.4
+0000771d	GCC: (GNU) 4.9.4
+0000772f	GCC: (GNU) 4.9.4
+00007741	GCC: (GNU) 4.9.4
+00007757	aeabi
+0000777e	.shstrtab
+00007788	.interp
+00007790	.hash
+00007796	.dynsym
+0000779e	.dynstr
+000077a6	.gnu.version
+000077b3	.gnu.version_r
+000077c2	.rel.dyn
+000077cb	.rel.plt
+000077d4	.init
+000077da	.text
+000077e0	.fini
+000077e6	.rodata
+000077ee	.ARM.exidx
+000077f9	.eh_frame
+00007803	.init_array
+0000780f	.fini_array
+00007820	.dynamic
+0000782e	.data
+00007839	.comment
+00007842	.ARM.attributes

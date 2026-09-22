@@ -1,0 +1,133 @@
+public final class com.mibsi.carplay.rgd.TurnCardPolicy {
+  private static final int PREPARE_CITY_M;
+    descriptor: I
+
+  private static final int PREPARE_HIGHWAY_M;
+    descriptor: I
+
+  private static final int ACTION_PERCENT;
+    descriptor: I
+
+  private static final int OPEN_CITY_SECONDS;
+    descriptor: I
+
+  private static final int CLOSE_CITY_SECONDS;
+    descriptor: I
+
+  private static final int OPEN_HIGHWAY_SECONDS;
+    descriptor: I
+
+  private static final int CLOSE_HIGHWAY_SECONDS;
+    descriptor: I
+
+  private static final int OPEN_CITY_M;
+    descriptor: I
+
+  private static final int CLOSE_CITY_M;
+    descriptor: I
+
+  private static final int OPEN_HIGHWAY_M;
+    descriptor: I
+
+  private static final int CLOSE_HIGHWAY_M;
+    descriptor: I
+
+  private com.mibsi.carplay.rgd.TurnCardPolicy();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static int actionThreshold(int);
+    descriptor: (I)I
+    Code:
+         0: iload_0
+         1: invokestatic  #2                  // Method com/mibsi/carplay/aa/ManeuverMapper.isHighway:(I)Z
+         4: ifeq          13
+         7: sipush        3000
+        10: goto          16
+        13: sipush        1500
+        16: istore_1
+        17: iload_1
+        18: bipush        15
+        20: imul
+        21: bipush        100
+        23: idiv
+        24: ireturn
+
+  public static boolean shouldOpen(int, int, int, boolean);
+    descriptor: (IIIZ)Z
+    Code:
+         0: iload_2
+         1: ifne          6
+         4: iconst_0
+         5: ireturn
+         6: iload_2
+         7: bipush        39
+         9: if_icmplt     20
+        12: iload_2
+        13: bipush        42
+        15: if_icmpgt     20
+        18: iconst_1
+        19: ireturn
+        20: iload_2
+        21: invokestatic  #2                  // Method com/mibsi/carplay/aa/ManeuverMapper.isHighway:(I)Z
+        24: istore        4
+        26: iload         4
+        28: ifeq          45
+        31: iload_3
+        32: ifeq          40
+        35: bipush        55
+        37: goto          56
+        40: bipush        45
+        42: goto          56
+        45: iload_3
+        46: ifeq          54
+        49: bipush        45
+        51: goto          56
+        54: bipush        35
+        56: istore        5
+        58: iload         4
+        60: ifeq          79
+        63: iload_3
+        64: ifeq          73
+        67: sipush        1500
+        70: goto          92
+        73: sipush        1200
+        76: goto          92
+        79: iload_3
+        80: ifeq          89
+        83: sipush        560
+        86: goto          92
+        89: sipush        450
+        92: istore        6
+        94: iload_0
+        95: iflt          104
+        98: iload_0
+        99: iload         5
+       101: if_icmple     114
+       104: iload_1
+       105: iflt          118
+       108: iload_1
+       109: iload         6
+       111: if_icmpgt     118
+       114: iconst_1
+       115: goto          119
+       118: iconst_0
+       119: ireturn
+
+  public static int bapManeuverState(boolean, boolean);
+    descriptor: (ZZ)I
+    Code:
+         0: iload_0
+         1: ifne          6
+         4: iconst_0
+         5: ireturn
+         6: iload_1
+         7: ifeq          14
+        10: iconst_4
+        11: goto          15
+        14: iconst_2
+        15: ireturn
+}

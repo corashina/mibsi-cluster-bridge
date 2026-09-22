@@ -1,0 +1,271 @@
+public final class com.mibsi.carplay.core.OemClusterMapRenderGate {
+  private static com.mibsi.carplay.core.OemClusterMapRenderGate$Backend backend;
+    descriptor: Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+
+  private static boolean wanted;
+    descriptor: Z
+
+  private static boolean queued;
+    descriptor: Z
+
+  private static java.lang.Object held;
+    descriptor: Ljava/lang/Object;
+
+  private static boolean heldDesired;
+    descriptor: Z
+
+  private static java.lang.Object observed;
+    descriptor: Ljava/lang/Object;
+
+  private static boolean observedDesired;
+    descriptor: Z
+
+  private static long nextCheck;
+    descriptor: J
+
+  private static boolean failureLogged;
+    descriptor: Z
+
+  private static boolean restorePending;
+    descriptor: Z
+
+  private com.mibsi.carplay.core.OemClusterMapRenderGate();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #2                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static synchronized boolean filter(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)Z
+    Code:
+         0: aload_0
+         1: ifnull        15
+         4: aload_0
+         5: getstatic     #3                  // Field held:Ljava/lang/Object;
+         8: if_acmpne     15
+        11: iload_1
+        12: putstatic     #4                  // Field heldDesired:Z
+        15: aload_0
+        16: ifnull        31
+        19: aload_0
+        20: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+        23: invokeinterface #6,  1            // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.current:()Ljava/lang/Object;
+        28: if_acmpeq     33
+        31: iload_1
+        32: ireturn
+        33: aload_0
+        34: putstatic     #7                  // Field observed:Ljava/lang/Object;
+        37: iload_1
+        38: putstatic     #8                  // Field observedDesired:Z
+        41: getstatic     #9                  // Field wanted:Z
+        44: ifeq          58
+        47: aload_0
+        48: getstatic     #3                  // Field held:Ljava/lang/Object;
+        51: if_acmpne     58
+        54: iconst_0
+        55: goto          59
+        58: iload_1
+        59: ireturn
+        60: astore_2
+        61: iload_1
+        62: ireturn
+      Exception table:
+         from    to  target type
+             0    32    60   Class java/lang/Throwable
+            33    59    60   Class java/lang/Throwable
+
+  public static synchronized boolean request(boolean);
+    descriptor: (Z)Z
+    Code:
+         0: getstatic     #9                  // Field wanted:Z
+         3: iload_0
+         4: if_icmpeq     11
+         7: lconst_0
+         8: putstatic     #11                 // Field nextCheck:J
+        11: iload_0
+        12: putstatic     #9                  // Field wanted:Z
+        15: getstatic     #9                  // Field wanted:Z
+        18: ifne          35
+        21: getstatic     #3                  // Field held:Ljava/lang/Object;
+        24: ifnonnull     35
+        27: getstatic     #12                 // Field queued:Z
+        30: ifne          35
+        33: iconst_1
+        34: ireturn
+        35: invokestatic  #13                 // Method java/lang/System.currentTimeMillis:()J
+        38: lstore_1
+        39: getstatic     #12                 // Field queued:Z
+        42: ifne          99
+        45: lload_1
+        46: getstatic     #11                 // Field nextCheck:J
+        49: lcmp
+        50: iflt          99
+        53: lload_1
+        54: ldc2_w        #14                 // long 1000l
+        57: ladd
+        58: putstatic     #11                 // Field nextCheck:J
+        61: iconst_1
+        62: putstatic     #12                 // Field queued:Z
+        65: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+        68: new           #16                 // class com/mibsi/carplay/core/OemClusterMapRenderGate$1
+        71: dup
+        72: invokespecial #17                 // Method com/mibsi/carplay/core/OemClusterMapRenderGate$1."<init>":()V
+        75: invokeinterface #18,  2           // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.execute:(Ljava/lang/Runnable;)Z
+        80: ifne          87
+        83: iconst_0
+        84: putstatic     #12                 // Field queued:Z
+        87: goto          99
+        90: astore_3
+        91: iconst_0
+        92: putstatic     #12                 // Field queued:Z
+        95: aload_3
+        96: invokestatic  #19                 // Method reportFailure:(Ljava/lang/Throwable;)V
+        99: getstatic     #9                  // Field wanted:Z
+       102: ifne          121
+       105: getstatic     #3                  // Field held:Ljava/lang/Object;
+       108: ifnonnull     121
+       111: getstatic     #12                 // Field queued:Z
+       114: ifne          121
+       117: iconst_1
+       118: goto          122
+       121: iconst_0
+       122: ireturn
+      Exception table:
+         from    to  target type
+            65    87    90   Class java/lang/Throwable
+
+  private static synchronized void reconcile();
+    descriptor: ()V
+    Code:
+         0: getstatic     #9                  // Field wanted:Z
+         3: ifeq          17
+         6: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+         9: invokeinterface #6,  1            // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.current:()Ljava/lang/Object;
+        14: goto          18
+        17: aconst_null
+        18: astore_0
+        19: getstatic     #3                  // Field held:Ljava/lang/Object;
+        22: ifnull        85
+        25: getstatic     #9                  // Field wanted:Z
+        28: ifeq          44
+        31: aload_0
+        32: getstatic     #3                  // Field held:Ljava/lang/Object;
+        35: if_acmpne     44
+        38: getstatic     #20                 // Field restorePending:Z
+        41: ifeq          85
+        44: iconst_1
+        45: putstatic     #20                 // Field restorePending:Z
+        48: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+        51: getstatic     #3                  // Field held:Ljava/lang/Object;
+        54: getstatic     #4                  // Field heldDesired:Z
+        57: invokeinterface #21,  3           // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.write:(Ljava/lang/Object;Z)Z
+        62: ifne          70
+        65: iconst_0
+        66: putstatic     #12                 // Field queued:Z
+        69: return
+        70: aconst_null
+        71: putstatic     #3                  // Field held:Ljava/lang/Object;
+        74: iconst_0
+        75: putstatic     #20                 // Field restorePending:Z
+        78: ldc           #22                 // String OEMMapRender
+        80: ldc           #23                 // String cockpit OEM visibility restored
+        82: invokestatic  #24                 // Method com/mibsi/carplay/framework/Log.w:(Ljava/lang/String;Ljava/lang/String;)V
+        85: getstatic     #9                  // Field wanted:Z
+        88: ifeq          165
+        91: aload_0
+        92: ifnull        165
+        95: getstatic     #3                  // Field held:Ljava/lang/Object;
+        98: ifnonnull     165
+       101: aload_0
+       102: getstatic     #7                  // Field observed:Ljava/lang/Object;
+       105: if_acmpne     114
+       108: getstatic     #8                  // Field observedDesired:Z
+       111: goto          123
+       114: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+       117: aload_0
+       118: invokeinterface #25,  2           // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.visible:(Ljava/lang/Object;)Z
+       123: istore_1
+       124: aload_0
+       125: putstatic     #3                  // Field held:Ljava/lang/Object;
+       128: iload_1
+       129: putstatic     #4                  // Field heldDesired:Z
+       132: getstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+       135: aload_0
+       136: iconst_0
+       137: invokeinterface #21,  3           // InterfaceMethod com/mibsi/carplay/core/OemClusterMapRenderGate$Backend.write:(Ljava/lang/Object;Z)Z
+       142: ifne          154
+       145: aconst_null
+       146: putstatic     #3                  // Field held:Ljava/lang/Object;
+       149: iconst_0
+       150: putstatic     #12                 // Field queued:Z
+       153: return
+       154: iconst_0
+       155: putstatic     #20                 // Field restorePending:Z
+       158: ldc           #22                 // String OEMMapRender
+       160: ldc           #26                 // String cockpit OEM rendering suspended
+       162: invokestatic  #24                 // Method com/mibsi/carplay/framework/Log.w:(Ljava/lang/String;Ljava/lang/String;)V
+       165: iconst_0
+       166: putstatic     #27                 // Field failureLogged:Z
+       169: iconst_0
+       170: putstatic     #12                 // Field queued:Z
+       173: goto          199
+       176: astore_0
+       177: iconst_1
+       178: putstatic     #20                 // Field restorePending:Z
+       181: aload_0
+       182: invokestatic  #19                 // Method reportFailure:(Ljava/lang/Throwable;)V
+       185: iconst_0
+       186: putstatic     #12                 // Field queued:Z
+       189: goto          199
+       192: astore_2
+       193: iconst_0
+       194: putstatic     #12                 // Field queued:Z
+       197: aload_2
+       198: athrow
+       199: return
+      Exception table:
+         from    to  target type
+             0    65   176   Class java/lang/Throwable
+            70   149   176   Class java/lang/Throwable
+           154   169   176   Class java/lang/Throwable
+             0    65   192   any
+            70   149   192   any
+           154   169   192   any
+           176   185   192   any
+
+  private static void reportFailure(java.lang.Throwable);
+    descriptor: (Ljava/lang/Throwable;)V
+    Code:
+         0: getstatic     #27                 // Field failureLogged:Z
+         3: ifne          30
+         6: ldc           #22                 // String OEMMapRender
+         8: new           #28                 // class java/lang/StringBuffer
+        11: dup
+        12: invokespecial #29                 // Method java/lang/StringBuffer."<init>":()V
+        15: ldc           #30                 // String visibility retry:
+        17: invokevirtual #31                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        20: aload_0
+        21: invokevirtual #32                 // Method java/lang/StringBuffer.append:(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+        24: invokevirtual #33                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        27: invokestatic  #24                 // Method com/mibsi/carplay/framework/Log.w:(Ljava/lang/String;Ljava/lang/String;)V
+        30: iconst_1
+        31: putstatic     #27                 // Field failureLogged:Z
+        34: return
+
+  static void access$100();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #1                  // Method reconcile:()V
+         3: return
+
+  static {};
+    descriptor: ()V
+    Code:
+         0: new           #34                 // class com/mibsi/carplay/core/OemClusterMapRenderGate$NavigationBackend
+         3: dup
+         4: aconst_null
+         5: invokespecial #35                 // Method com/mibsi/carplay/core/OemClusterMapRenderGate$NavigationBackend."<init>":(Lcom/mibsi/carplay/core/OemClusterMapRenderGate$1;)V
+         8: putstatic     #5                  // Field backend:Lcom/mibsi/carplay/core/OemClusterMapRenderGate$Backend;
+        11: return
+}

@@ -1,0 +1,157 @@
+final class de.audi.app.terminalmode.combi.TerminalModeBapCombi$ActiveDeviceStateListener implements de.audi.app.terminalmode.device.IActiveDeviceStateListener {
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private final de.audi.app.terminalmode.combi.TerminalModeBapCombi this$0$;
+    descriptor: Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+
+  private de.audi.app.terminalmode.combi.TerminalModeBapCombi$ActiveDeviceStateListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #2                  // Field this$0$:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+         5: aload_0
+         6: invokespecial #3                  // Method java/lang/Object."<init>":()V
+         9: aload_0
+        10: aload_2
+        11: putfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        14: return
+
+  public void updateActiveDeviceState(de.audi.app.terminalmode.device.TMDevice);
+    descriptor: (Lde/audi/app/terminalmode/device/TMDevice;)V
+    Code:
+         0: aload_1
+         1: invokevirtual #5                  // Method de/audi/app/terminalmode/device/TMDevice.connectionState:()Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+         4: getstatic     #6                  // Field de/audi/app/terminalmode/device/TMDevice$ConnectionState.ACTIVATING:Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+         7: invokevirtual #7                  // Method de/audi/app/terminalmode/device/TMDevice$ConnectionState.is:(Ljava/lang/Object;)Z
+        10: ifeq          160
+        13: aload_0
+        14: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        17: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        20: bipush        9
+        22: invokeinterface #9,  2            // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateActiveInfoState:(I)V
+        27: aload_0
+        28: aload_1
+        29: invokespecial #10                 // Method getBapSourceType:(Lde/audi/app/terminalmode/device/TMDevice;)I
+        32: istore_2
+        33: aload_0
+        34: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        37: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        40: iload_2
+        41: iconst_0
+        42: iconst_0
+        43: iconst_0
+        44: iconst_0
+        45: iconst_0
+        46: invokeinterface #11,  7           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateActiveSource:(IIIZZI)V
+        51: aload_0
+        52: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        55: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        58: new           #12                 // class de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo
+        61: dup
+        62: invokespecial #13                 // Method de/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo."<init>":()V
+        65: invokeinterface #14,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateCurrentStation:(Lde/audi/atip/interapp/combi/bap/audio/data/CombiBAPCurrentStationInfo;)V
+        70: aload_0
+        71: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+        74: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+        77: invokestatic  #15                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition.builder:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        80: ldc           #16                 // int 65535
+        82: invokestatic  #17                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        85: invokevirtual #18                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTimePosition:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        88: ldc           #16                 // int 65535
+        90: invokestatic  #17                 // Method de/audi/atip/interapp/bap/data/TimeStamp.getInstanceFromSeconds:(I)Lde/audi/atip/interapp/bap/data/TimeStamp;
+        93: invokevirtual #19                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.setTotalPlayTime:(Lde/audi/atip/interapp/bap/data/TimeStamp;)Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder;
+        96: invokevirtual #20                 // Method de/audi/atip/interapp/combi/bap/audio/data/PlayPosition$Builder.build:()Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;
+        99: invokeinterface #21,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updatePlayPosition:(Lde/audi/atip/interapp/combi/bap/audio/data/PlayPosition;)V
+       104: aload_0
+       105: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+       108: invokestatic  #8                  // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$500:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode;
+       111: bipush        9
+       113: invokeinterface #9,  2            // InterfaceMethod de/audi/atip/interapp/combi/bap/audio/CombiBAPServiceTerminalMode.updateActiveInfoState:(I)V
+       118: aload_1
+       119: invokevirtual #22                 // Method de/audi/app/terminalmode/device/TMDevice.isAndroidAutoDevice:()Z
+       122: ifne          132
+       125: aload_1
+       126: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+       129: ifeq          160
+       132: aload_0
+       133: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+       136: invokestatic  #24                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$600:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/IContext;
+       139: aload_1
+       140: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+       143: ifeq          151
+       146: ldc           #25                 // String carplay
+       148: goto          153
+       151: ldc           #26                 // String aa
+       153: invokestatic  #27                 // Method com/mibsi/carplay/core/CarPlayApp.onActivate:(Ljava/lang/Object;Ljava/lang/String;)V
+       156: goto          160
+       159: astore_3
+       160: aload_1
+       161: invokevirtual #5                  // Method de/audi/app/terminalmode/device/TMDevice.connectionState:()Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+       164: getstatic     #29                 // Field de/audi/app/terminalmode/device/TMDevice$ConnectionState.ACTIVE:Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+       167: invokevirtual #7                  // Method de/audi/app/terminalmode/device/TMDevice$ConnectionState.is:(Ljava/lang/Object;)Z
+       170: ifeq          221
+       173: aload_1
+       174: invokevirtual #22                 // Method de/audi/app/terminalmode/device/TMDevice.isAndroidAutoDevice:()Z
+       177: ifne          187
+       180: aload_1
+       181: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+       184: ifeq          221
+       187: invokestatic  #30                 // Method com/mibsi/carplay/core/CarPlayApp.isActive:()Z
+       190: ifne          221
+       193: aload_0
+       194: getfield      #4                  // Field this$0:Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;
+       197: invokestatic  #24                 // Method de/audi/app/terminalmode/combi/TerminalModeBapCombi.access$600:(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)Lde/audi/app/terminalmode/IContext;
+       200: aload_1
+       201: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+       204: ifeq          212
+       207: ldc           #25                 // String carplay
+       209: goto          214
+       212: ldc           #26                 // String aa
+       214: invokestatic  #27                 // Method com/mibsi/carplay/core/CarPlayApp.onActivate:(Ljava/lang/Object;Ljava/lang/String;)V
+       217: goto          221
+       220: astore_2
+       221: aload_1
+       222: invokevirtual #22                 // Method de/audi/app/terminalmode/device/TMDevice.isAndroidAutoDevice:()Z
+       225: ifne          248
+       228: aload_1
+       229: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+       232: ifne          248
+       235: invokestatic  #30                 // Method com/mibsi/carplay/core/CarPlayApp.isActive:()Z
+       238: ifeq          248
+       241: invokestatic  #31                 // Method com/mibsi/carplay/core/CarPlayApp.onDeactivate:()V
+       244: goto          248
+       247: astore_2
+       248: return
+      Exception table:
+         from    to  target type
+           132   156   159   Class java/lang/Throwable
+           193   217   220   Class java/lang/Throwable
+           241   244   247   Class java/lang/Throwable
+
+  private int getBapSourceType(de.audi.app.terminalmode.device.TMDevice);
+    descriptor: (Lde/audi/app/terminalmode/device/TMDevice;)I
+    Code:
+         0: aload_1
+         1: invokevirtual #23                 // Method de/audi/app/terminalmode/device/TMDevice.isCarplayDevice:()Z
+         4: ifeq          10
+         7: bipush        37
+         9: ireturn
+        10: aload_1
+        11: invokevirtual #22                 // Method de/audi/app/terminalmode/device/TMDevice.isAndroidAutoDevice:()Z
+        14: ifeq          22
+        17: bipush        39
+        19: goto          24
+        22: bipush        40
+        24: ireturn
+
+  de.audi.app.terminalmode.combi.TerminalModeBapCombi$ActiveDeviceStateListener(de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi, de.audi.app.terminalmode.combi.TerminalModeBapCombi$1);
+    descriptor: (Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi$1;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokespecial #1                  // Method "<init>":(Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;Lde/audi/app/terminalmode/combi/TerminalModeBapCombi;)V
+         6: return
+}

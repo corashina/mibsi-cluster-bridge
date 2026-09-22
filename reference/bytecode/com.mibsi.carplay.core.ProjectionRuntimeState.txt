@@ -1,0 +1,233 @@
+final class com.mibsi.carplay.core.ProjectionRuntimeState {
+  private static java.lang.String checker;
+    descriptor: Ljava/lang/String;
+
+  private static volatile boolean ready;
+    descriptor: Z
+
+  private static java.lang.Thread worker;
+    descriptor: Ljava/lang/Thread;
+
+  private com.mibsi.carplay.core.ProjectionRuntimeState();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #3                  // Method java/lang/Object."<init>":()V
+         4: return
+
+  static synchronized void start();
+    descriptor: ()V
+    Code:
+         0: getstatic     #2                  // Field ready:Z
+         3: ifne          21
+         6: getstatic     #4                  // Field worker:Ljava/lang/Thread;
+         9: ifnull        22
+        12: getstatic     #4                  // Field worker:Ljava/lang/Thread;
+        15: invokevirtual #5                  // Method java/lang/Thread.isAlive:()Z
+        18: ifeq          22
+        21: return
+        22: new           #6                  // class java/lang/Thread
+        25: dup
+        26: new           #7                  // class com/mibsi/carplay/core/ProjectionRuntimeState$1
+        29: dup
+        30: invokespecial #8                  // Method com/mibsi/carplay/core/ProjectionRuntimeState$1."<init>":()V
+        33: ldc           #9                  // String MIBSI-VIN
+        35: invokespecial #10                 // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+        38: putstatic     #4                  // Field worker:Ljava/lang/Thread;
+        41: getstatic     #4                  // Field worker:Ljava/lang/Thread;
+        44: iconst_1
+        45: invokevirtual #11                 // Method java/lang/Thread.setDaemon:(Z)V
+        48: getstatic     #4                  // Field worker:Ljava/lang/Thread;
+        51: invokevirtual #12                 // Method java/lang/Thread.start:()V
+        54: goto          69
+        57: astore_0
+        58: aconst_null
+        59: putstatic     #4                  // Field worker:Ljava/lang/Thread;
+        62: ldc           #14                 // String VIN
+        64: ldc           #15                 // String authorization worker unavailable
+        66: invokestatic  #16                 // Method com/mibsi/carplay/framework/Log.w:(Ljava/lang/String;Ljava/lang/String;)V
+        69: return
+      Exception table:
+         from    to  target type
+            48    54    57   Class java/lang/Throwable
+
+  private static int check();
+    descriptor: ()I
+    Code:
+         0: aconst_null
+         1: astore_0
+         2: invokestatic  #17                 // Method java/lang/Runtime.getRuntime:()Ljava/lang/Runtime;
+         5: iconst_2
+         6: anewarray     #18                 // class java/lang/String
+         9: dup
+        10: iconst_0
+        11: getstatic     #19                 // Field checker:Ljava/lang/String;
+        14: aastore
+        15: dup
+        16: iconst_1
+        17: ldc           #20                 // String --check-vin
+        19: aastore
+        20: invokevirtual #21                 // Method java/lang/Runtime.exec:([Ljava/lang/String;)Ljava/lang/Process;
+        23: astore_0
+        24: invokestatic  #22                 // Method java/lang/System.currentTimeMillis:()J
+        27: ldc2_w        #23                 // long 5000l
+        30: ladd
+        31: lstore_1
+        32: invokestatic  #22                 // Method java/lang/System.currentTimeMillis:()J
+        35: lload_1
+        36: lcmp
+        37: ifge          101
+        40: aload_0
+        41: invokevirtual #25                 // Method java/lang/Process.exitValue:()I
+        44: istore_3
+        45: aload_0
+        46: ifnull        89
+        49: aload_0
+        50: invokevirtual #26                 // Method java/lang/Process.destroy:()V
+        53: aload_0
+        54: invokevirtual #27                 // Method java/lang/Process.getInputStream:()Ljava/io/InputStream;
+        57: invokevirtual #28                 // Method java/io/InputStream.close:()V
+        60: goto          65
+        63: astore        4
+        65: aload_0
+        66: invokevirtual #29                 // Method java/lang/Process.getErrorStream:()Ljava/io/InputStream;
+        69: invokevirtual #28                 // Method java/io/InputStream.close:()V
+        72: goto          77
+        75: astore        4
+        77: aload_0
+        78: invokevirtual #30                 // Method java/lang/Process.getOutputStream:()Ljava/io/OutputStream;
+        81: invokevirtual #31                 // Method java/io/OutputStream.close:()V
+        84: goto          89
+        87: astore        4
+        89: iload_3
+        90: ireturn
+        91: astore_3
+        92: ldc2_w        #33                 // long 50l
+        95: invokestatic  #35                 // Method java/lang/Thread.sleep:(J)V
+        98: goto          32
+       101: aload_0
+       102: ifnull        239
+       105: aload_0
+       106: invokevirtual #26                 // Method java/lang/Process.destroy:()V
+       109: aload_0
+       110: invokevirtual #27                 // Method java/lang/Process.getInputStream:()Ljava/io/InputStream;
+       113: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       116: goto          120
+       119: astore_1
+       120: aload_0
+       121: invokevirtual #29                 // Method java/lang/Process.getErrorStream:()Ljava/io/InputStream;
+       124: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       127: goto          131
+       130: astore_1
+       131: aload_0
+       132: invokevirtual #30                 // Method java/lang/Process.getOutputStream:()Ljava/io/OutputStream;
+       135: invokevirtual #31                 // Method java/io/OutputStream.close:()V
+       138: goto          239
+       141: astore_1
+       142: goto          239
+       145: astore_1
+       146: aload_0
+       147: ifnull        239
+       150: aload_0
+       151: invokevirtual #26                 // Method java/lang/Process.destroy:()V
+       154: aload_0
+       155: invokevirtual #27                 // Method java/lang/Process.getInputStream:()Ljava/io/InputStream;
+       158: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       161: goto          165
+       164: astore_1
+       165: aload_0
+       166: invokevirtual #29                 // Method java/lang/Process.getErrorStream:()Ljava/io/InputStream;
+       169: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       172: goto          176
+       175: astore_1
+       176: aload_0
+       177: invokevirtual #30                 // Method java/lang/Process.getOutputStream:()Ljava/io/OutputStream;
+       180: invokevirtual #31                 // Method java/io/OutputStream.close:()V
+       183: goto          239
+       186: astore_1
+       187: goto          239
+       190: astore        5
+       192: aload_0
+       193: ifnull        236
+       196: aload_0
+       197: invokevirtual #26                 // Method java/lang/Process.destroy:()V
+       200: aload_0
+       201: invokevirtual #27                 // Method java/lang/Process.getInputStream:()Ljava/io/InputStream;
+       204: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       207: goto          212
+       210: astore        6
+       212: aload_0
+       213: invokevirtual #29                 // Method java/lang/Process.getErrorStream:()Ljava/io/InputStream;
+       216: invokevirtual #28                 // Method java/io/InputStream.close:()V
+       219: goto          224
+       222: astore        6
+       224: aload_0
+       225: invokevirtual #30                 // Method java/lang/Process.getOutputStream:()Ljava/io/OutputStream;
+       228: invokevirtual #31                 // Method java/io/OutputStream.close:()V
+       231: goto          236
+       234: astore        6
+       236: aload         5
+       238: athrow
+       239: bipush        55
+       241: ireturn
+      Exception table:
+         from    to  target type
+            53    60    63   Class java/lang/Throwable
+            65    72    75   Class java/lang/Throwable
+            77    84    87   Class java/lang/Throwable
+            40    45    91   Class java/lang/IllegalThreadStateException
+           109   116   119   Class java/lang/Throwable
+           120   127   130   Class java/lang/Throwable
+           131   138   141   Class java/lang/Throwable
+             2    45   145   Class java/lang/Throwable
+            91   101   145   Class java/lang/Throwable
+           154   161   164   Class java/lang/Throwable
+           165   172   175   Class java/lang/Throwable
+           176   183   186   Class java/lang/Throwable
+             2    45   190   any
+            91   101   190   any
+           200   207   210   Class java/lang/Throwable
+           212   219   222   Class java/lang/Throwable
+           224   231   234   Class java/lang/Throwable
+           190   192   190   any
+
+  static boolean isReady();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #2                  // Field ready:Z
+         3: ireturn
+
+  static boolean access$000();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #2                  // Field ready:Z
+         3: ireturn
+
+  static int access$100();
+    descriptor: ()I
+    Code:
+         0: invokestatic  #1                  // Method check:()I
+         3: ireturn
+
+  static boolean access$002(boolean);
+    descriptor: (Z)Z
+    Code:
+         0: iload_0
+         1: dup
+         2: putstatic     #2                  // Field ready:Z
+         5: ireturn
+
+  static {};
+    descriptor: ()V
+    Code:
+         0: ldc           #37                 // String /eso/bin/apps/mhi2q-aa-cluster-display
+         2: putstatic     #19                 // Field checker:Ljava/lang/String;
+         5: getstatic     #19                 // Field checker:Ljava/lang/String;
+         8: invokevirtual #38                 // Method java/lang/String.length:()I
+        11: ifne          18
+        14: iconst_1
+        15: goto          19
+        18: iconst_0
+        19: putstatic     #2                  // Field ready:Z
+        22: return
+}

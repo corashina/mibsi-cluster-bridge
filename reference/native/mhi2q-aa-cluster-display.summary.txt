@@ -1,0 +1,5 @@
+Input: mhi2q-aa-cluster-display
+Language: ARM:LE:32:v8
+Functions decompiled: 115
+Functions failed: 0
+Skipped external/uninitialized functions: 64

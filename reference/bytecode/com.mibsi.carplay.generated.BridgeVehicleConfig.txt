@@ -1,0 +1,170 @@
+public final class com.mibsi.carplay.generated.BridgeVehicleConfig {
+  public static final boolean LOGGING_ENABLED;
+    descriptor: Z
+
+  public static final boolean DEV_TOOLS_ENABLED;
+    descriptor: Z
+
+  public static final java.lang.String VIN_CHECK_EXECUTABLE;
+    descriptor: Ljava/lang/String;
+
+  public static final java.lang.String TARGET_ID;
+    descriptor: Ljava/lang/String;
+
+  public static final int TERMINAL_CLUSTER;
+    descriptor: I
+
+  public static final int CONTEXT_AA;
+    descriptor: I
+
+  public static final int VIEW_SMALL;
+    descriptor: I
+
+  public static final int DISPLAYABLE_TURN;
+    descriptor: I
+
+  public static final int BACKING_IN_TUBE;
+    descriptor: I
+
+  public static final int BACKING_POPUP;
+    descriptor: I
+
+  public static final int PROJECTED_DISPLAYABLE;
+    descriptor: I
+
+  public static final java.lang.String NATIVE_REASSERT_REQUEST;
+    descriptor: Ljava/lang/String;
+
+  public static final java.lang.String UI_VIEW_STATE;
+    descriptor: Ljava/lang/String;
+
+  public static final int LC_IN_TUBE_X;
+    descriptor: I
+
+  public static final int LC_IN_TUBE_Y;
+    descriptor: I
+
+  public static final int LC_POPUP_X;
+    descriptor: I
+
+  public static final int LC_POPUP_Y;
+    descriptor: I
+
+  public static final int LC_POPUP_CROP_X;
+    descriptor: I
+
+  public static final int LC_POPUP_CROP_Y;
+    descriptor: I
+
+  public static final int LC_POPUP_CROP_WIDTH;
+    descriptor: I
+
+  public static final int LC_POPUP_CROP_HEIGHT;
+    descriptor: I
+
+  public static final int LC_IN_TUBE_CROP_X;
+    descriptor: I
+
+  public static final int LC_IN_TUBE_CROP_Y;
+    descriptor: I
+
+  public static final int LC_IN_TUBE_CROP_WIDTH;
+    descriptor: I
+
+  public static final int LC_IN_TUBE_CROP_HEIGHT;
+    descriptor: I
+
+  public static final int LARGE_SOURCE_X;
+    descriptor: I
+
+  public static final int LARGE_SOURCE_Y;
+    descriptor: I
+
+  public static final int LARGE_SOURCE_WIDTH;
+    descriptor: I
+
+  public static final int LARGE_SOURCE_HEIGHT;
+    descriptor: I
+
+  public static final int LARGE_DESTINATION_X;
+    descriptor: I
+
+  public static final int LARGE_DESTINATION_Y;
+    descriptor: I
+
+  public static final int LARGE_BACKING;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_SOURCE_X;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_SOURCE_Y;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_SOURCE_WIDTH;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_SOURCE_HEIGHT;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_DESTINATION_X;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_DESTINATION_Y;
+    descriptor: I
+
+  public static final int CLASSIC_SMALL_BACKING;
+    descriptor: I
+
+  public static final int SPORT_SMALL_SOURCE_X;
+    descriptor: I
+
+  public static final int SPORT_SMALL_SOURCE_Y;
+    descriptor: I
+
+  public static final int SPORT_SMALL_SOURCE_WIDTH;
+    descriptor: I
+
+  public static final int SPORT_SMALL_SOURCE_HEIGHT;
+    descriptor: I
+
+  public static final int SPORT_SMALL_DESTINATION_X;
+    descriptor: I
+
+  public static final int SPORT_SMALL_DESTINATION_Y;
+    descriptor: I
+
+  public static final int SPORT_SMALL_BACKING;
+    descriptor: I
+
+  public static final int VC_MENU_SOURCE_X;
+    descriptor: I
+
+  public static final int VC_MENU_SOURCE_Y;
+    descriptor: I
+
+  public static final int VC_MENU_SOURCE_WIDTH;
+    descriptor: I
+
+  public static final int VC_MENU_SOURCE_HEIGHT;
+    descriptor: I
+
+  public static final int VC_MENU_DESTINATION_X;
+    descriptor: I
+
+  public static final int VC_MENU_DESTINATION_Y;
+    descriptor: I
+
+  public static final int VC_MENU_DESTINATION_WIDTH;
+    descriptor: I
+
+  public static final int VC_MENU_DESTINATION_HEIGHT;
+    descriptor: I
+
+  private com.mibsi.carplay.generated.BridgeVehicleConfig();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+}

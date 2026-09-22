@@ -1,0 +1,3160 @@
+public final class com.mibsi.carplay.rgd.Mhi2qAaNavProxy implements java.lang.Runnable {
+  private static final long POLL_MS;
+    descriptor: J
+
+  public static final int VC_MODE_CLUSTER;
+    descriptor: I
+
+  public static final int VC_MODE_OEM_MAP;
+    descriptor: I
+
+  private static de.audi.tghu.navi.app.cluster.ClusterService cluster;
+    descriptor: Lde/audi/tghu/navi/app/cluster/ClusterService;
+
+  private static de.audi.app.terminalmode.osgi.IServiceManager serviceManager;
+    descriptor: Lde/audi/app/terminalmode/osgi/IServiceManager;
+
+  private static org.osgi.framework.ServiceReference serviceReference;
+    descriptor: Lorg/osgi/framework/ServiceReference;
+
+  private static de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi rawService;
+    descriptor: Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+
+  private static com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService gate;
+    descriptor: Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+
+  private static de.audi.tghu.navi.app.cluster.BAPDistanceFormatter distanceFormatter;
+    descriptor: Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+
+  private static boolean workerStarted;
+    descriptor: Z
+
+  private static java.lang.Thread workerThread;
+    descriptor: Ljava/lang/Thread;
+
+  private static boolean installScheduled;
+    descriptor: Z
+
+  private static boolean sessionStarted;
+    descriptor: Z
+
+  private static volatile boolean carPlayActive;
+    descriptor: Z
+
+  private static volatile boolean deactivationRequested;
+    descriptor: Z
+
+  private static int appliedMapScaleSuppression;
+    descriptor: I
+
+  private static boolean previousRgActive;
+    descriptor: Z
+
+  private static boolean oemResyncPending;
+    descriptor: Z
+
+  private static int exitViewSendCount;
+    descriptor: I
+
+  private static int publishedRgStatus;
+    descriptor: I
+
+  private static int publishedCardOpen;
+    descriptor: I
+
+  private static int publishedRouteDataAvailable;
+    descriptor: I
+
+  private static boolean navigationStateClaimed;
+    descriptor: Z
+
+  private static int lastPublishedSequence;
+    descriptor: I
+
+  private static int lastRenderedSequence;
+    descriptor: I
+
+  private static boolean rendererHadFrame;
+    descriptor: Z
+
+  private static volatile int rendererStateRevision;
+    descriptor: I
+
+  private static int lastRendererStateRevision;
+    descriptor: I
+
+  private static volatile int rendererConnectionRevision;
+    descriptor: I
+
+  private static int lastRendererConnectionRevision;
+    descriptor: I
+
+  private static boolean turnCardWindowOpen;
+    descriptor: Z
+
+  private static boolean clusterCardAvailable;
+    descriptor: Z
+
+  private static int presentationTokenCounter;
+    descriptor: I
+
+  private static int presentationToken;
+    descriptor: I
+
+  private static volatile boolean vcMenuRequested;
+    descriptor: Z
+
+  private static volatile boolean vcMenuClosing;
+    descriptor: Z
+
+  private static volatile int vcMenuSelection;
+    descriptor: I
+
+  private static volatile int vcActiveMode;
+    descriptor: I
+
+  private static volatile int vcMenuToken;
+    descriptor: I
+
+  private static final int VC_STORAGE_SCOPE;
+    descriptor: I
+
+  private static final int VC_STORAGE_KEY;
+    descriptor: I
+
+  private static final long VC_STORAGE_RETRY_MS;
+    descriptor: J
+
+  private static volatile de.audi.atip.base.IFrameworkAccess vcStorageFramework;
+    descriptor: Lde/audi/atip/base/IFrameworkAccess;
+
+  private static de.audi.atip.storage.IStorageAccess vcStorageForTest;
+    descriptor: Lde/audi/atip/storage/IStorageAccess;
+
+  private static boolean vcPreferenceLoaded;
+    descriptor: Z
+
+  private static int vcPreferenceRevision;
+    descriptor: I
+
+  private static int vcPersistedRevision;
+    descriptor: I
+
+  private static long vcStorageRetryAfter;
+    descriptor: J
+
+  private static final java.io.File VC_MENU_COMMAND;
+    descriptor: Ljava/io/File;
+
+  private static long vcMenuTestDeadline;
+    descriptor: J
+
+  private static final com.mibsi.carplay.rgd.RendererServer renderer;
+    descriptor: Lcom/mibsi/carplay/rgd/RendererServer;
+
+  private static final com.mibsi.carplay.aa.NavigationStateReader stateReader;
+    descriptor: Lcom/mibsi/carplay/aa/NavigationStateReader;
+
+  private static java.lang.String mode;
+    descriptor: Ljava/lang/String;
+
+  private static int sequence;
+    descriptor: I
+
+  private static long updated;
+    descriptor: J
+
+  private static boolean active;
+    descriptor: Z
+
+  private static int maneuver;
+    descriptor: I
+
+  private static int roundaboutExit;
+    descriptor: I
+
+  private static int roundaboutAngle;
+    descriptor: I
+
+  private static int distanceMeters;
+    descriptor: I
+
+  private static int timeToStepSeconds;
+    descriptor: I
+
+  private static int destinationDistanceMeters;
+    descriptor: I
+
+  private static int timeToDestinationSeconds;
+    descriptor: I
+
+  private static java.lang.String currentRoad;
+    descriptor: Ljava/lang/String;
+
+  private static java.lang.String nextRoad;
+    descriptor: Ljava/lang/String;
+
+  private static java.lang.String instruction;
+    descriptor: Ljava/lang/String;
+
+  private static byte[] laneGuidance;
+    descriptor: [B
+
+  static java.lang.Class class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy;
+    descriptor: Ljava/lang/Class;
+
+  static java.lang.Class class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi;
+    descriptor: Ljava/lang/Class;
+
+  private com.mibsi.carplay.rgd.Mhi2qAaNavProxy();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #16                 // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static synchronized boolean openVcSettingsMenu();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #17                 // Field carPlayActive:Z
+         3: ifeq          12
+         6: invokestatic  #18                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isLargeView:()Z
+         9: ifne          14
+        12: iconst_0
+        13: ireturn
+        14: getstatic     #6                  // Field vcMenuRequested:Z
+        17: ifeq          22
+        20: iconst_1
+        21: ireturn
+        22: iconst_1
+        23: putstatic     #6                  // Field vcMenuRequested:Z
+        26: iconst_0
+        27: putstatic     #5                  // Field vcMenuClosing:Z
+        30: getstatic     #3                  // Field vcActiveMode:I
+        33: putstatic     #4                  // Field vcMenuSelection:I
+        36: getstatic     #19                 // Field presentationTokenCounter:I
+        39: invokestatic  #20                 // Method nextPresentationTokenForTest:(I)I
+        42: putstatic     #19                 // Field presentationTokenCounter:I
+        45: getstatic     #19                 // Field presentationTokenCounter:I
+        48: putstatic     #21                 // Field vcMenuToken:I
+        51: iconst_m1
+        52: putstatic     #22                 // Field lastRenderedSequence:I
+        55: iconst_1
+        56: ireturn
+
+  public static synchronized void closeVcSettingsMenu();
+    descriptor: ()V
+    Code:
+         0: getstatic     #6                  // Field vcMenuRequested:Z
+         3: ifne          7
+         6: return
+         7: iconst_0
+         8: putstatic     #6                  // Field vcMenuRequested:Z
+        11: iconst_1
+        12: putstatic     #5                  // Field vcMenuClosing:Z
+        15: lconst_0
+        16: putstatic     #23                 // Field vcMenuTestDeadline:J
+        19: return
+
+  public static synchronized void toggleVcSettingsMenu();
+    descriptor: ()V
+    Code:
+         0: getstatic     #6                  // Field vcMenuRequested:Z
+         3: ifeq          12
+         6: invokestatic  #24                 // Method closeVcSettingsMenu:()V
+         9: goto          16
+        12: invokestatic  #25                 // Method openVcSettingsMenu:()Z
+        15: pop
+        16: return
+
+  public static boolean isVcSettingsMenuRequested();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #6                  // Field vcMenuRequested:Z
+         3: ireturn
+
+  public static synchronized boolean moveVcSettingsSelection(int);
+    descriptor: (I)Z
+    Code:
+         0: invokestatic  #26                 // Method enforceVcMenuView:()V
+         3: getstatic     #6                  // Field vcMenuRequested:Z
+         6: ifeq          13
+         9: iload_0
+        10: ifne          15
+        13: iconst_0
+        14: ireturn
+        15: getstatic     #4                  // Field vcMenuSelection:I
+        18: iload_0
+        19: invokestatic  #27                 // Method wrapMenuSelectionForTest:(II)I
+        22: putstatic     #4                  // Field vcMenuSelection:I
+        25: iconst_1
+        26: ireturn
+
+  public static synchronized boolean selectVcSettingsItem();
+    descriptor: ()Z
+    Code:
+         0: invokestatic  #26                 // Method enforceVcMenuView:()V
+         3: getstatic     #6                  // Field vcMenuRequested:Z
+         6: ifne          11
+         9: iconst_0
+        10: ireturn
+        11: getstatic     #28                 // Field vcPreferenceLoaded:Z
+        14: ifeq          26
+        17: getstatic     #3                  // Field vcActiveMode:I
+        20: getstatic     #4                  // Field vcMenuSelection:I
+        23: if_icmpeq     42
+        26: iconst_1
+        27: putstatic     #28                 // Field vcPreferenceLoaded:Z
+        30: getstatic     #29                 // Field vcPreferenceRevision:I
+        33: iconst_1
+        34: iadd
+        35: putstatic     #29                 // Field vcPreferenceRevision:I
+        38: lconst_0
+        39: putstatic     #30                 // Field vcStorageRetryAfter:J
+        42: getstatic     #4                  // Field vcMenuSelection:I
+        45: putstatic     #3                  // Field vcActiveMode:I
+        48: getstatic     #3                  // Field vcActiveMode:I
+        51: iconst_1
+        52: if_icmpeq     59
+        55: iconst_1
+        56: goto          60
+        59: iconst_0
+        60: invokestatic  #32                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setClusterProjectionEnabled:(Z)V
+        63: getstatic     #3                  // Field vcActiveMode:I
+        66: iconst_1
+        67: if_icmpne     75
+        70: iconst_0
+        71: iconst_0
+        72: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+        75: invokestatic  #24                 // Method closeVcSettingsMenu:()V
+        78: iconst_m1
+        79: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        82: invokestatic  #35                 // Method wakeWorker:()V
+        85: iconst_1
+        86: ireturn
+
+  static synchronized void pollVcMenuTestCommand(long);
+    descriptor: (J)V
+    Code:
+         0: return
+
+  static synchronized int[] vcMenuStateForTest();
+    descriptor: ()[I
+    Code:
+         0: iconst_4
+         1: newarray       int
+         3: dup
+         4: iconst_0
+         5: getstatic     #6                  // Field vcMenuRequested:Z
+         8: ifeq          15
+        11: iconst_1
+        12: goto          16
+        15: iconst_0
+        16: iastore
+        17: dup
+        18: iconst_1
+        19: getstatic     #5                  // Field vcMenuClosing:Z
+        22: ifeq          29
+        25: iconst_1
+        26: goto          30
+        29: iconst_0
+        30: iastore
+        31: dup
+        32: iconst_2
+        33: getstatic     #4                  // Field vcMenuSelection:I
+        36: iastore
+        37: dup
+        38: iconst_3
+        39: getstatic     #3                  // Field vcActiveMode:I
+        42: iastore
+        43: areturn
+
+  public static synchronized void onCarPlayActivate();
+    descriptor: ()V
+    Code:
+         0: iconst_1
+         1: putstatic     #17                 // Field carPlayActive:Z
+         4: getstatic     #3                  // Field vcActiveMode:I
+         7: iconst_1
+         8: if_icmpeq     15
+        11: iconst_1
+        12: goto          16
+        15: iconst_0
+        16: invokestatic  #32                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setClusterProjectionEnabled:(Z)V
+        19: iconst_0
+        20: putstatic     #36                 // Field deactivationRequested:Z
+        23: iconst_0
+        24: putstatic     #37                 // Field navigationStateClaimed:Z
+        27: iconst_m1
+        28: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        31: invokestatic  #35                 // Method wakeWorker:()V
+        34: return
+
+  public static synchronized void onCarPlayDeactivate();
+    descriptor: ()V
+    Code:
+         0: iconst_0
+         1: putstatic     #17                 // Field carPlayActive:Z
+         4: iconst_1
+         5: putstatic     #36                 // Field deactivationRequested:Z
+         8: lconst_0
+         9: putstatic     #23                 // Field vcMenuTestDeadline:J
+        12: iconst_0
+        13: putstatic     #37                 // Field navigationStateClaimed:Z
+        16: iconst_0
+        17: putstatic     #6                  // Field vcMenuRequested:Z
+        20: iconst_0
+        21: putstatic     #5                  // Field vcMenuClosing:Z
+        24: iconst_0
+        25: putstatic     #21                 // Field vcMenuToken:I
+        28: iconst_m1
+        29: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        32: iconst_0
+        33: iconst_0
+        34: invokestatic  #38                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setVcMenuVisible:(ZI)V
+        37: invokestatic  #35                 // Method wakeWorker:()V
+        40: return
+
+  public static void startTransport(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+    Code:
+         0: aload_0
+         1: instanceof    #39                 // class de/audi/app/terminalmode/IContext
+         4: ifne          8
+         7: return
+         8: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+        11: ifnonnull     26
+        14: ldc           #41                 // String com.mibsi.carplay.rgd.Mhi2qAaNavProxy
+        16: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+        19: dup
+        20: putstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+        23: goto          29
+        26: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+        29: dup
+        30: astore_1
+        31: monitorenter
+        32: aload_0
+        33: checkcast     #39                 // class de/audi/app/terminalmode/IContext
+        36: invokeinterface #43,  1           // InterfaceMethod de/audi/app/terminalmode/IContext.getServiceManager:()Lde/audi/app/terminalmode/osgi/IServiceManager;
+        41: putstatic     #44                 // Field serviceManager:Lde/audi/app/terminalmode/osgi/IServiceManager;
+        44: aload_0
+        45: checkcast     #39                 // class de/audi/app/terminalmode/IContext
+        48: invokeinterface #45,  1           // InterfaceMethod de/audi/app/terminalmode/IContext.getFramework:()Lde/audi/atip/base/IFrameworkAccess;
+        53: putstatic     #46                 // Field vcStorageFramework:Lde/audi/atip/base/IFrameworkAccess;
+        56: goto          60
+        59: astore_2
+        60: invokestatic  #48                 // Method startWorker:()V
+        63: aload_1
+        64: monitorexit
+        65: goto          73
+        68: astore_3
+        69: aload_1
+        70: monitorexit
+        71: aload_3
+        72: athrow
+        73: goto          77
+        76: astore_1
+        77: return
+      Exception table:
+         from    to  target type
+            44    56    59   Class java/lang/Throwable
+            32    65    68   any
+            68    71    68   any
+             0     7    76   Class java/lang/Throwable
+             8    73    76   Class java/lang/Throwable
+
+  public static synchronized de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi prepareCombiBAPService(de.audi.tghu.navi.app.cluster.ClusterService, de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi);
+    descriptor: (Lde/audi/tghu/navi/app/cluster/ClusterService;Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+    Code:
+         0: aload_1
+         1: astore_2
+         2: aload_1
+         3: instanceof    #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+         6: ifeq          17
+         9: aload_1
+        10: checkcast     #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        13: invokevirtual #50                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.getRealService:()Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        16: astore_2
+        17: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        20: ifnull        39
+        23: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        26: aload_2
+        27: if_acmpeq     39
+        30: getstatic     #52                 // Field sessionStarted:Z
+        33: ifeq          39
+        36: invokestatic  #53                 // Method stopSession:()V
+        39: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        42: aload_0
+        43: if_acmpeq     50
+        46: iconst_m1
+        47: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        50: aload_0
+        51: putstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        54: aload_2
+        55: putstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        58: aload_0
+        59: ifnonnull     66
+        62: aconst_null
+        63: goto          77
+        66: new           #55                 // class de/audi/tghu/navi/app/cluster/BAPDistanceFormatter
+        69: dup
+        70: aload_0
+        71: invokevirtual #56                 // Method de/audi/tghu/navi/app/cluster/ClusterService.getMhi2qAaLogChannel:()Lde/audi/atip/log/LogChannel;
+        74: invokespecial #57                 // Method de/audi/tghu/navi/app/cluster/BAPDistanceFormatter."<init>":(Lde/audi/atip/log/LogChannel;)V
+        77: putstatic     #58                 // Field distanceFormatter:Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+        80: iconst_m1
+        81: putstatic     #59                 // Field lastPublishedSequence:I
+        84: aload_2
+        85: ifnonnull     99
+        88: aconst_null
+        89: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        92: ldc           #61                 // String MHI2Q AA BAP service detached
+        94: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+        97: aconst_null
+        98: areturn
+        99: new           #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+       102: dup
+       103: aload_2
+       104: invokespecial #63                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService."<init>":(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+       107: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       110: iconst_m1
+       111: putstatic     #34                 // Field appliedMapScaleSuppression:I
+       114: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       117: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       120: ifne          129
+       123: getstatic     #52                 // Field sessionStarted:Z
+       126: ifeq          133
+       129: iconst_1
+       130: goto          134
+       133: iconst_0
+       134: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+       137: invokestatic  #48                 // Method startWorker:()V
+       140: ldc           #66                 // String MHI2Q AA BAP gate installed
+       142: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       145: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       148: areturn
+       149: astore_2
+       150: aconst_null
+       151: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       154: aload_1
+       155: putstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       158: aload_1
+       159: areturn
+      Exception table:
+         from    to  target type
+             0    98   149   Class java/lang/Throwable
+            99   148   149   Class java/lang/Throwable
+
+  private static void startWorker();
+    descriptor: ()V
+    Code:
+         0: getstatic     #67                 // Field workerStarted:Z
+         3: ifeq          7
+         6: return
+         7: new           #68                 // class java/lang/Thread
+        10: dup
+        11: new           #31                 // class com/mibsi/carplay/rgd/Mhi2qAaNavProxy
+        14: dup
+        15: invokespecial #69                 // Method "<init>":()V
+        18: ldc           #70                 // String MHI2Q-AA-BAP
+        20: invokespecial #71                 // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+        23: astore_0
+        24: aload_0
+        25: iconst_1
+        26: invokevirtual #72                 // Method java/lang/Thread.setDaemon:(Z)V
+        29: aload_0
+        30: putstatic     #73                 // Field workerThread:Ljava/lang/Thread;
+        33: aload_0
+        34: invokevirtual #74                 // Method java/lang/Thread.start:()V
+        37: iconst_1
+        38: putstatic     #67                 // Field workerStarted:Z
+        41: goto          53
+        44: astore_1
+        45: aconst_null
+        46: putstatic     #73                 // Field workerThread:Ljava/lang/Thread;
+        49: iconst_0
+        50: putstatic     #67                 // Field workerStarted:Z
+        53: return
+      Exception table:
+         from    to  target type
+            29    41    44   Class java/lang/Throwable
+
+  public void run();
+    descriptor: ()V
+    Code:
+         0: ldc2_w        #75                 // long 250l
+         3: invokestatic  #77                 // Method java/lang/Thread.sleep:(J)V
+         6: goto          10
+         9: astore_1
+        10: invokestatic  #79                 // Method syncVcPreference:()V
+        13: invokestatic  #80                 // Method tick:()V
+        16: goto          0
+        19: astore_1
+        20: invokestatic  #81                 // Method failOpen:()V
+        23: goto          0
+      Exception table:
+         from    to  target type
+             0     6     9   Class java/lang/InterruptedException
+            10    16    19   Class java/lang/Throwable
+
+  private static void wakeWorker();
+    descriptor: ()V
+    Code:
+         0: getstatic     #73                 // Field workerThread:Ljava/lang/Thread;
+         3: astore_0
+         4: aload_0
+         5: ifnull        12
+         8: aload_0
+         9: invokevirtual #82                 // Method java/lang/Thread.interrupt:()V
+        12: return
+
+  private static void syncVcPreference();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #83                 // Method java/lang/System.currentTimeMillis:()J
+         3: lstore        5
+         5: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+         8: ifnonnull     23
+        11: ldc           #41                 // String com.mibsi.carplay.rgd.Mhi2qAaNavProxy
+        13: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+        16: dup
+        17: putstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+        20: goto          26
+        23: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+        26: dup
+        27: astore        7
+        29: monitorenter
+        30: lload         5
+        32: getstatic     #30                 // Field vcStorageRetryAfter:J
+        35: lcmp
+        36: ifge          43
+        39: aload         7
+        41: monitorexit
+        42: return
+        43: getstatic     #46                 // Field vcStorageFramework:Lde/audi/atip/base/IFrameworkAccess;
+        46: astore_0
+        47: getstatic     #84                 // Field vcStorageForTest:Lde/audi/atip/storage/IStorageAccess;
+        50: astore_1
+        51: getstatic     #28                 // Field vcPreferenceLoaded:Z
+        54: istore_2
+        55: getstatic     #29                 // Field vcPreferenceRevision:I
+        58: istore_3
+        59: getstatic     #3                  // Field vcActiveMode:I
+        62: istore        4
+        64: iload_2
+        65: ifeq          79
+        68: iload_3
+        69: getstatic     #85                 // Field vcPersistedRevision:I
+        72: if_icmpne     79
+        75: aload         7
+        77: monitorexit
+        78: return
+        79: aload         7
+        81: monitorexit
+        82: goto          93
+        85: astore        8
+        87: aload         7
+        89: monitorexit
+        90: aload         8
+        92: athrow
+        93: aload_1
+        94: ifnull        101
+        97: aload_1
+        98: goto          115
+       101: aload_0
+       102: ifnonnull     109
+       105: aconst_null
+       106: goto          115
+       109: aload_0
+       110: invokeinterface #86,  1           // InterfaceMethod de/audi/atip/base/IFrameworkAccess.getStorageMgr:()Lde/audi/atip/storage/IStorageAccess;
+       115: astore        7
+       117: aload         7
+       119: ifnonnull     123
+       122: return
+       123: iload_2
+       124: ifne          273
+       127: aload         7
+       129: sipush        9000
+       132: iconst_1
+       133: iconst_0
+       134: invokeinterface #87,  4           // InterfaceMethod de/audi/atip/storage/IStorageAccess.getInt:(III)I
+       139: istore        8
+       141: iload         8
+       143: iconst_1
+       144: if_icmpne     151
+       147: iconst_1
+       148: goto          152
+       151: iconst_0
+       152: istore        9
+       154: iconst_0
+       155: istore        10
+       157: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       160: ifnonnull     175
+       163: ldc           #41                 // String com.mibsi.carplay.rgd.Mhi2qAaNavProxy
+       165: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+       168: dup
+       169: putstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       172: goto          178
+       175: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       178: dup
+       179: astore        11
+       181: monitorenter
+       182: getstatic     #28                 // Field vcPreferenceLoaded:Z
+       185: ifne          228
+       188: getstatic     #29                 // Field vcPreferenceRevision:I
+       191: iload_3
+       192: if_icmpne     228
+       195: iconst_1
+       196: putstatic     #28                 // Field vcPreferenceLoaded:Z
+       199: iload_3
+       200: putstatic     #85                 // Field vcPersistedRevision:I
+       203: iload         9
+       205: putstatic     #3                  // Field vcActiveMode:I
+       208: getstatic     #6                  // Field vcMenuRequested:Z
+       211: ifeq          219
+       214: iload         9
+       216: putstatic     #4                  // Field vcMenuSelection:I
+       219: iconst_m1
+       220: putstatic     #34                 // Field appliedMapScaleSuppression:I
+       223: getstatic     #17                 // Field carPlayActive:Z
+       226: istore        10
+       228: aload         11
+       230: monitorexit
+       231: goto          242
+       234: astore        12
+       236: aload         11
+       238: monitorexit
+       239: aload         12
+       241: athrow
+       242: iload         10
+       244: ifeq          272
+       247: iload         9
+       249: iconst_1
+       250: if_icmpeq     257
+       253: iconst_1
+       254: goto          258
+       257: iconst_0
+       258: invokestatic  #32                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setClusterProjectionEnabled:(Z)V
+       261: iload         9
+       263: iconst_1
+       264: if_icmpne     272
+       267: iconst_0
+       268: iconst_0
+       269: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       272: return
+       273: aload         7
+       275: sipush        9000
+       278: iconst_1
+       279: iload         4
+       281: invokeinterface #88,  4           // InterfaceMethod de/audi/atip/storage/IStorageAccess.setInt:(III)V
+       286: aload         7
+       288: sipush        9000
+       291: iconst_1
+       292: iconst_m1
+       293: invokeinterface #87,  4           // InterfaceMethod de/audi/atip/storage/IStorageAccess.getInt:(III)I
+       298: iload         4
+       300: if_icmpeq     313
+       303: new           #89                 // class java/lang/IllegalStateException
+       306: dup
+       307: ldc           #90                 // String VC preference write not visible
+       309: invokespecial #91                 // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+       312: athrow
+       313: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       316: ifnonnull     331
+       319: ldc           #41                 // String com.mibsi.carplay.rgd.Mhi2qAaNavProxy
+       321: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+       324: dup
+       325: putstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       328: goto          334
+       331: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       334: dup
+       335: astore        8
+       337: monitorenter
+       338: getstatic     #29                 // Field vcPreferenceRevision:I
+       341: iload_3
+       342: if_icmpne     349
+       345: iload_3
+       346: putstatic     #85                 // Field vcPersistedRevision:I
+       349: lconst_0
+       350: putstatic     #30                 // Field vcStorageRetryAfter:J
+       353: aload         8
+       355: monitorexit
+       356: goto          367
+       359: astore        13
+       361: aload         8
+       363: monitorexit
+       364: aload         13
+       366: athrow
+       367: goto          445
+       370: astore        7
+       372: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       375: ifnonnull     390
+       378: ldc           #41                 // String com.mibsi.carplay.rgd.Mhi2qAaNavProxy
+       380: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+       383: dup
+       384: putstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       387: goto          393
+       390: getstatic     #40                 // Field class$com$mibsi$carplay$rgd$Mhi2qAaNavProxy:Ljava/lang/Class;
+       393: dup
+       394: astore        8
+       396: monitorenter
+       397: lload         5
+       399: ldc2_w        #92                 // long 5000l
+       402: ladd
+       403: putstatic     #30                 // Field vcStorageRetryAfter:J
+       406: aload         8
+       408: monitorexit
+       409: goto          420
+       412: astore        14
+       414: aload         8
+       416: monitorexit
+       417: aload         14
+       419: athrow
+       420: ldc           #94                 // String VCMenu
+       422: new           #95                 // class java/lang/StringBuffer
+       425: dup
+       426: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+       429: ldc           #97                 // String preference storage unavailable:
+       431: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       434: aload         7
+       436: invokevirtual #99                 // Method java/lang/StringBuffer.append:(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+       439: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       442: invokestatic  #101                // Method com/mibsi/carplay/framework/Log.w:(Ljava/lang/String;Ljava/lang/String;)V
+       445: return
+      Exception table:
+         from    to  target type
+            30    42    85   any
+            43    78    85   any
+            79    82    85   any
+            85    90    85   any
+           182   231   234   any
+           234   239   234   any
+           338   356   359   any
+           359   364   359   any
+            93   122   370   Class java/lang/Throwable
+           123   272   370   Class java/lang/Throwable
+           273   367   370   Class java/lang/Throwable
+           397   409   412   any
+           412   417   412   any
+
+  private static synchronized void tick();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #83                 // Method java/lang/System.currentTimeMillis:()J
+         3: invokestatic  #102                // Method pollVcMenuTestCommand:(J)V
+         6: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+         9: invokevirtual #103                // Method com/mibsi/carplay/rgd/RendererServer.connect:()Z
+        12: pop
+        13: getstatic     #8                  // Field rendererConnectionRevision:I
+        16: istore_0
+        17: iload_0
+        18: getstatic     #104                // Field lastRendererConnectionRevision:I
+        21: if_icmpeq     36
+        24: iconst_0
+        25: putstatic     #105                // Field presentationToken:I
+        28: iconst_m1
+        29: putstatic     #22                 // Field lastRenderedSequence:I
+        32: iload_0
+        33: putstatic     #104                // Field lastRendererConnectionRevision:I
+        36: invokestatic  #26                 // Method enforceVcMenuView:()V
+        39: invokestatic  #106                // Method resolveInfrastructure:()V
+        42: getstatic     #17                 // Field carPlayActive:Z
+        45: ifne          119
+        48: getstatic     #52                 // Field sessionStarted:Z
+        51: ifeq          60
+        54: invokestatic  #53                 // Method stopSession:()V
+        57: goto          84
+        60: getstatic     #107                // Field oemResyncPending:Z
+        63: ifne          81
+        66: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        69: ifnull        84
+        72: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        75: invokevirtual #108                // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.isBlocked:()Z
+        78: ifeq          84
+        81: invokestatic  #109                // Method releaseBapToOem:()V
+        84: getstatic     #36                 // Field deactivationRequested:Z
+        87: ifeq          118
+        90: iconst_0
+        91: putstatic     #36                 // Field deactivationRequested:Z
+        94: invokestatic  #110                // Method prepareOemMapImage:()V
+        97: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       100: invokevirtual #111                // Method com/mibsi/carplay/rgd/RendererServer.sendClear:()Z
+       103: pop
+       104: goto          108
+       107: astore_1
+       108: iconst_0
+       109: iconst_0
+       110: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       113: ldc           #112                // String MHI2Q AA OEM state restored after disconnect
+       115: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       118: return
+       119: getstatic     #17                 // Field carPlayActive:Z
+       122: getstatic     #3                  // Field vcActiveMode:I
+       125: invokestatic  #113                // Method oemMapShouldBeVisible:(ZI)Z
+       128: invokestatic  #114                // Method setOemMapPresentation:(Z)V
+       131: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       134: ifne          166
+       137: getstatic     #52                 // Field sessionStarted:Z
+       140: ifeq          166
+       143: iconst_0
+       144: iconst_0
+       145: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       148: iconst_0
+       149: iconst_0
+       150: invokestatic  #38                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setVcMenuVisible:(ZI)V
+       153: invokestatic  #115                // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isProjectionReleased:()Z
+       156: ifne          160
+       159: return
+       160: invokestatic  #53                 // Method stopSession:()V
+       163: goto          196
+       166: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       169: ifne          196
+       172: getstatic     #107                // Field oemResyncPending:Z
+       175: ifne          193
+       178: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       181: ifnull        196
+       184: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       187: invokevirtual #108                // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.isBlocked:()Z
+       190: ifeq          196
+       193: invokestatic  #109                // Method releaseBapToOem:()V
+       196: invokestatic  #116                // Method refresh:()V
+       199: invokestatic  #117                // Method routeDataIsAvailable:()Z
+       202: istore_1
+       203: getstatic     #6                  // Field vcMenuRequested:Z
+       206: ifne          215
+       209: getstatic     #5                  // Field vcMenuClosing:Z
+       212: ifeq          219
+       215: iconst_1
+       216: goto          220
+       219: iconst_0
+       220: istore_2
+       221: getstatic     #6                  // Field vcMenuRequested:Z
+       224: ifeq          298
+       227: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       230: invokevirtual #118                // Method com/mibsi/carplay/rgd/RendererServer.isReady:()Z
+       233: ifeq          298
+       236: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       239: ifne          248
+       242: invokestatic  #115                // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isProjectionReleased:()Z
+       245: ifeq          298
+       248: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       251: iconst_1
+       252: getstatic     #4                  // Field vcMenuSelection:I
+       255: getstatic     #3                  // Field vcActiveMode:I
+       258: getstatic     #21                 // Field vcMenuToken:I
+       261: invokevirtual #119                // Method com/mibsi/carplay/rgd/RendererServer.sendVcMenu:(ZIII)Z
+       264: pop
+       265: iconst_0
+       266: iconst_0
+       267: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       270: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       273: invokevirtual #120                // Method com/mibsi/carplay/rgd/RendererServer.isFrameReady:()Z
+       276: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       279: invokevirtual #120                // Method com/mibsi/carplay/rgd/RendererServer.isFrameReady:()Z
+       282: ifeq          291
+       285: getstatic     #21                 // Field vcMenuToken:I
+       288: goto          292
+       291: iconst_0
+       292: invokestatic  #38                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setVcMenuVisible:(ZI)V
+       295: goto          348
+       298: getstatic     #5                  // Field vcMenuClosing:Z
+       301: ifeq          348
+       304: iconst_0
+       305: iconst_0
+       306: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       309: iconst_0
+       310: iconst_0
+       311: invokestatic  #38                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setVcMenuVisible:(ZI)V
+       314: iconst_0
+       315: invokestatic  #121                // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isVcMenuVisibilityApplied:(Z)Z
+       318: ifeq          348
+       321: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       324: iconst_0
+       325: getstatic     #4                  // Field vcMenuSelection:I
+       328: getstatic     #3                  // Field vcActiveMode:I
+       331: iconst_0
+       332: invokevirtual #119                // Method com/mibsi/carplay/rgd/RendererServer.sendVcMenu:(ZIII)Z
+       335: pop
+       336: iconst_0
+       337: putstatic     #5                  // Field vcMenuClosing:Z
+       340: iconst_0
+       341: putstatic     #21                 // Field vcMenuToken:I
+       344: iconst_m1
+       345: putstatic     #22                 // Field lastRenderedSequence:I
+       348: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       351: ifne          355
+       354: return
+       355: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       358: ifnull        513
+       361: getstatic     #52                 // Field sessionStarted:Z
+       364: ifne          375
+       367: iload_1
+       368: invokestatic  #122                // Method startSession:(Z)Z
+       371: ifne          375
+       374: return
+       375: iload_1
+       376: ifeq          395
+       379: invokestatic  #123                // Method projectedCardsEnabled:()Z
+       382: ifeq          395
+       385: invokestatic  #124                // Method shouldOpenTurnCard:()Z
+       388: ifeq          395
+       391: iconst_1
+       392: goto          396
+       395: iconst_0
+       396: istore_3
+       397: iload_3
+       398: getstatic     #125                // Field turnCardWindowOpen:Z
+       401: if_icmpeq     479
+       404: iload_3
+       405: putstatic     #125                // Field turnCardWindowOpen:Z
+       408: iconst_m1
+       409: putstatic     #59                 // Field lastPublishedSequence:I
+       412: iconst_m1
+       413: putstatic     #22                 // Field lastRenderedSequence:I
+       416: iconst_0
+       417: putstatic     #105                // Field presentationToken:I
+       420: new           #95                 // class java/lang/StringBuffer
+       423: dup
+       424: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+       427: ldc           #126                // String MHI2Q AA turn card window
+       429: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       432: iload_3
+       433: ifeq          441
+       436: ldc           #127                // String opened
+       438: goto          443
+       441: ldc           #128                // String closed
+       443: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       446: ldc           #129                // String  eta=
+       448: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       451: getstatic     #130                // Field timeToStepSeconds:I
+       454: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       457: ldc           #132                // String s distance=
+       459: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       462: getstatic     #133                // Field distanceMeters:I
+       465: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       468: ldc           #134                // String m
+       470: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       473: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       476: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       479: getstatic     #125                // Field turnCardWindowOpen:Z
+       482: ifeq          510
+       485: iload_2
+       486: ifne          510
+       489: getstatic     #135                // Field sequence:I
+       492: getstatic     #22                 // Field lastRenderedSequence:I
+       495: if_icmpeq     510
+       498: invokestatic  #136                // Method publishRendererSnapshot:()Z
+       501: ifeq          510
+       504: getstatic     #135                // Field sequence:I
+       507: putstatic     #22                 // Field lastRenderedSequence:I
+       510: goto          522
+       513: getstatic     #52                 // Field sessionStarted:Z
+       516: ifeq          522
+       519: invokestatic  #53                 // Method stopSession:()V
+       522: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       525: invokevirtual #120                // Method com/mibsi/carplay/rgd/RendererServer.isFrameReady:()Z
+       528: istore_3
+       529: getstatic     #10                 // Field rendererStateRevision:I
+       532: istore        4
+       534: iconst_0
+       535: istore        5
+       537: getstatic     #8                  // Field rendererConnectionRevision:I
+       540: istore_0
+       541: iload_0
+       542: getstatic     #104                // Field lastRendererConnectionRevision:I
+       545: if_icmpeq     563
+       548: iconst_0
+       549: putstatic     #105                // Field presentationToken:I
+       552: iconst_m1
+       553: putstatic     #22                 // Field lastRenderedSequence:I
+       556: iload_0
+       557: putstatic     #104                // Field lastRendererConnectionRevision:I
+       560: iconst_1
+       561: istore        5
+       563: iload         4
+       565: getstatic     #137                // Field lastRendererStateRevision:I
+       568: if_icmpeq     575
+       571: iconst_1
+       572: goto          576
+       575: iconst_0
+       576: istore        6
+       578: iload         6
+       580: ifne          590
+       583: iload_3
+       584: getstatic     #138                // Field rendererHadFrame:Z
+       587: if_icmpeq     602
+       590: iconst_m1
+       591: putstatic     #59                 // Field lastPublishedSequence:I
+       594: iload_3
+       595: ifne          602
+       598: iconst_m1
+       599: putstatic     #22                 // Field lastRenderedSequence:I
+       602: iload_1
+       603: ifeq          635
+       606: iload         5
+       608: ifne          635
+       611: getstatic     #52                 // Field sessionStarted:Z
+       614: getstatic     #125                // Field turnCardWindowOpen:Z
+       617: iload_3
+       618: getstatic     #139                // Field maneuver:I
+       621: invokestatic  #140                // Method isCardPresented:(ZZZI)Z
+       624: ifeq          635
+       627: iload_2
+       628: ifne          635
+       631: iconst_1
+       632: goto          636
+       635: iconst_0
+       636: istore        7
+       638: getstatic     #141                // Field clusterCardAvailable:Z
+       641: ifeq          653
+       644: iload         7
+       646: ifne          653
+       649: iconst_1
+       650: goto          654
+       653: iconst_0
+       654: istore        8
+       656: getstatic     #142                // Field publishedRgStatus:I
+       659: iload         7
+       661: iconst_1
+       662: invokestatic  #143                // Method rgStatusPublicationRequired:(IZZ)Z
+       665: istore        9
+       667: getstatic     #144                // Field publishedCardOpen:I
+       670: iload         7
+       672: invokestatic  #145                // Method cardPublicationRequired:(IZ)Z
+       675: istore        10
+       677: getstatic     #146                // Field publishedRouteDataAvailable:I
+       680: iload_1
+       681: invokestatic  #147                // Method routePublicationRequired:(IZ)Z
+       684: istore        11
+       686: getstatic     #52                 // Field sessionStarted:Z
+       689: ifeq          735
+       692: iload         8
+       694: ifeq          735
+       697: iload         9
+       699: ifne          712
+       702: iload         10
+       704: ifne          712
+       707: iload         11
+       709: ifeq          735
+       712: iconst_0
+       713: iload_1
+       714: iconst_1
+       715: invokestatic  #148                // Method publishSnapshot:(ZZZ)V
+       718: getstatic     #135                // Field sequence:I
+       721: putstatic     #59                 // Field lastPublishedSequence:I
+       724: goto          735
+       727: astore        12
+       729: invokestatic  #81                 // Method failOpen:()V
+       732: iconst_0
+       733: istore        7
+       735: iload         8
+       737: ifeq          745
+       740: iconst_0
+       741: iconst_0
+       742: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       745: iload         8
+       747: iconst_0
+       748: invokestatic  #149                // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isTurnCardVisibilityApplied:(Z)Z
+       751: invokestatic  #150                // Method closeCanCommit:(ZZ)Z
+       754: istore        12
+       756: iload         7
+       758: getstatic     #138                // Field rendererHadFrame:Z
+       761: iload         6
+       763: invokestatic  #151                // Method shouldForcePresentationEdge:(ZZZ)Z
+       766: istore        13
+       768: getstatic     #52                 // Field sessionStarted:Z
+       771: ifeq          827
+       774: iload         8
+       776: ifne          827
+       779: getstatic     #135                // Field sequence:I
+       782: getstatic     #59                 // Field lastPublishedSequence:I
+       785: if_icmpne     803
+       788: iload         9
+       790: ifne          803
+       793: iload         10
+       795: ifne          803
+       798: iload         11
+       800: ifeq          827
+       803: iload         7
+       805: iload_1
+       806: iconst_1
+       807: invokestatic  #148                // Method publishSnapshot:(ZZZ)V
+       810: getstatic     #135                // Field sequence:I
+       813: putstatic     #59                 // Field lastPublishedSequence:I
+       816: goto          827
+       819: astore        14
+       821: invokestatic  #81                 // Method failOpen:()V
+       824: iconst_0
+       825: istore        7
+       827: iload_3
+       828: putstatic     #138                // Field rendererHadFrame:Z
+       831: iload         4
+       833: putstatic     #137                // Field lastRendererStateRevision:I
+       836: getstatic     #52                 // Field sessionStarted:Z
+       839: ifeq          852
+       842: iload         12
+       844: ifeq          852
+       847: iload         7
+       849: invokestatic  #152                // Method setClusterCardAvailable:(Z)V
+       852: iload         13
+       854: ifeq          862
+       857: iconst_0
+       858: iconst_0
+       859: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       862: iload_2
+       863: ifeq          874
+       866: iconst_0
+       867: iconst_0
+       868: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       871: goto          896
+       874: iload         8
+       876: ifne          896
+       879: iload         7
+       881: iload         7
+       883: ifeq          892
+       886: getstatic     #105                // Field presentationToken:I
+       889: goto          893
+       892: iconst_0
+       893: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       896: return
+      Exception table:
+         from    to  target type
+            97   104   107   Class java/lang/Throwable
+           712   724   727   Class java/lang/Throwable
+           803   816   819   Class java/lang/Throwable
+
+  private static boolean isCardPresented(boolean, boolean, boolean, int);
+    descriptor: (ZZZI)Z
+    Code:
+         0: iload_0
+         1: ifeq          20
+         4: iload_1
+         5: ifeq          20
+         8: iload_2
+         9: ifeq          20
+        12: iload_3
+        13: ifeq          20
+        16: iconst_1
+        17: goto          21
+        20: iconst_0
+        21: ireturn
+
+  private static boolean shouldForcePresentationEdge(boolean, boolean, boolean);
+    descriptor: (ZZZ)Z
+    Code:
+         0: iload_0
+         1: ifeq          16
+         4: iload_1
+         5: ifeq          16
+         8: iload_2
+         9: ifeq          16
+        12: iconst_1
+        13: goto          17
+        16: iconst_0
+        17: ireturn
+
+  private static boolean closeCanCommit(boolean, boolean);
+    descriptor: (ZZ)Z
+    Code:
+         0: iload_0
+         1: ifeq          8
+         4: iload_1
+         5: ifeq          12
+         8: iconst_1
+         9: goto          13
+        12: iconst_0
+        13: ireturn
+
+  private static boolean isRendererConnectionBoundary(java.lang.String);
+    descriptor: (Ljava/lang/String;)Z
+    Code:
+         0: ldc           #153                // String connected
+         2: aload_0
+         3: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+         6: ifne          45
+         9: ldc           #155                // String disconnected
+        11: aload_0
+        12: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        15: ifne          45
+        18: ldc           #156                // String send-failed
+        20: aload_0
+        21: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        24: ifne          45
+        27: ldc           #157                // String disconnect-request
+        29: aload_0
+        30: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        33: ifne          45
+        36: ldc           #158                // String disposed
+        38: aload_0
+        39: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        42: ifeq          49
+        45: iconst_1
+        46: goto          50
+        49: iconst_0
+        50: ireturn
+
+  private static boolean shouldOpenTurnCard();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #130                // Field timeToStepSeconds:I
+         3: getstatic     #133                // Field distanceMeters:I
+         6: getstatic     #139                // Field maneuver:I
+         9: getstatic     #125                // Field turnCardWindowOpen:Z
+        12: invokestatic  #159                // Method com/mibsi/carplay/rgd/TurnCardPolicy.shouldOpen:(IIIZ)Z
+        15: ireturn
+
+  private static void resolveInfrastructure();
+    descriptor: ()V
+    Code:
+         0: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         3: ifnonnull     148
+         6: getstatic     #44                 // Field serviceManager:Lde/audi/app/terminalmode/osgi/IServiceManager;
+         9: ifnull        148
+        12: getstatic     #44                 // Field serviceManager:Lde/audi/app/terminalmode/osgi/IServiceManager;
+        15: getstatic     #160                // Field class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi:Ljava/lang/Class;
+        18: ifnonnull     33
+        21: ldc           #161                // String de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi
+        23: invokestatic  #42                 // Method class$:(Ljava/lang/String;)Ljava/lang/Class;
+        26: dup
+        27: putstatic     #160                // Field class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi:Ljava/lang/Class;
+        30: goto          36
+        33: getstatic     #160                // Field class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi:Ljava/lang/Class;
+        36: invokeinterface #162,  2          // InterfaceMethod de/audi/app/terminalmode/osgi/IServiceManager.getServiceReferences:(Ljava/lang/Class;)[Lorg/osgi/framework/ServiceReference;
+        41: astore_0
+        42: aload_0
+        43: ifnull        144
+        46: iconst_0
+        47: istore_1
+        48: iload_1
+        49: aload_0
+        50: arraylength
+        51: if_icmpge     144
+        54: getstatic     #44                 // Field serviceManager:Lde/audi/app/terminalmode/osgi/IServiceManager;
+        57: aload_0
+        58: iload_1
+        59: aaload
+        60: invokeinterface #163,  2          // InterfaceMethod de/audi/app/terminalmode/osgi/IServiceManager.getService:(Lorg/osgi/framework/ServiceReference;)Ljava/lang/Object;
+        65: astore_2
+        66: aload_2
+        67: instanceof    #164                // class de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi
+        70: ifeq          138
+        73: aload_0
+        74: iload_1
+        75: aaload
+        76: putstatic     #165                // Field serviceReference:Lorg/osgi/framework/ServiceReference;
+        79: aload_2
+        80: checkcast     #164                // class de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi
+        83: putstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        86: new           #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        89: dup
+        90: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        93: invokespecial #63                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService."<init>":(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+        96: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        99: iconst_m1
+       100: putstatic     #34                 // Field appliedMapScaleSuppression:I
+       103: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       106: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       109: ifne          118
+       112: getstatic     #52                 // Field sessionStarted:Z
+       115: ifeq          122
+       118: iconst_1
+       119: goto          123
+       122: iconst_0
+       123: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+       126: iconst_m1
+       127: putstatic     #59                 // Field lastPublishedSequence:I
+       130: ldc           #166                // String MHI2Q AA BAP OSGi service acquired
+       132: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       135: goto          144
+       138: iinc          1, 1
+       141: goto          48
+       144: goto          148
+       147: astore_0
+       148: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       151: ifnull        166
+       154: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       157: ifnull        166
+       160: getstatic     #167                // Field installScheduled:Z
+       163: ifeq          167
+       166: return
+       167: invokestatic  #168                // Method de/audi/tghu/navi/app/Navigation.getInstance:()Lde/audi/tghu/navi/app/Navigation;
+       170: astore_0
+       171: aload_0
+       172: ifnonnull     176
+       175: return
+       176: aload_0
+       177: invokevirtual #169                // Method de/audi/tghu/navi/app/Navigation.getDispatcher:()Lde/esolutions/fw/util/commons/job/DispatcherBase;
+       180: astore_1
+       181: aload_1
+       182: ifnonnull     186
+       185: return
+       186: iconst_1
+       187: putstatic     #167                // Field installScheduled:Z
+       190: aload_1
+       191: new           #170                // class com/mibsi/carplay/rgd/Mhi2qAaNavProxy$3
+       194: dup
+       195: invokespecial #171                // Method com/mibsi/carplay/rgd/Mhi2qAaNavProxy$3."<init>":()V
+       198: invokevirtual #172                // Method de/esolutions/fw/util/commons/job/DispatcherBase.execute:(Ljava/lang/Object;)Lde/esolutions/fw/util/commons/job/Job;
+       201: pop
+       202: goto          210
+       205: astore_0
+       206: iconst_0
+       207: putstatic     #167                // Field installScheduled:Z
+       210: return
+      Exception table:
+         from    to  target type
+            12   144   147   Class java/lang/Throwable
+           167   175   205   Class java/lang/Throwable
+           176   185   205   Class java/lang/Throwable
+           186   202   205   Class java/lang/Throwable
+
+  private static synchronized void installGateOnNavigationJobs();
+    descriptor: ()V
+    Code:
+         0: iconst_0
+         1: putstatic     #167                // Field installScheduled:Z
+         4: invokestatic  #168                // Method de/audi/tghu/navi/app/Navigation.getInstance:()Lde/audi/tghu/navi/app/Navigation;
+         7: astore_0
+         8: aload_0
+         9: ifnonnull     13
+        12: return
+        13: aload_0
+        14: invokevirtual #173                // Method de/audi/tghu/navi/app/Navigation.getClusterService:()Lde/audi/tghu/navi/app/cluster/ClusterService;
+        17: astore_1
+        18: aload_1
+        19: ifnull        28
+        22: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        25: ifnonnull     29
+        28: return
+        29: aload_1
+        30: invokevirtual #174                // Method de/audi/tghu/navi/app/cluster/ClusterService.getCombiBAPListenerCombiService:()Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        33: astore_2
+        34: aload_2
+        35: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        38: if_acmpne     57
+        41: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        44: aload_1
+        45: if_acmpeq     52
+        48: iconst_m1
+        49: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        52: aload_1
+        53: putstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        56: return
+        57: aload_2
+        58: instanceof    #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        61: ifeq          87
+        64: aload_2
+        65: checkcast     #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        68: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        71: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        74: invokevirtual #50                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.getRealService:()Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        77: putstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        80: iconst_m1
+        81: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        84: goto          112
+        87: aload_2
+        88: ifnull        112
+        91: aload_2
+        92: putstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        95: new           #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        98: dup
+        99: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       102: invokespecial #63                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService."<init>":(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+       105: putstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       108: iconst_m1
+       109: putstatic     #34                 // Field appliedMapScaleSuppression:I
+       112: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       115: ifnonnull     119
+       118: return
+       119: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+       122: aload_1
+       123: if_acmpeq     130
+       126: iconst_m1
+       127: putstatic     #34                 // Field appliedMapScaleSuppression:I
+       130: aload_1
+       131: putstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+       134: new           #55                 // class de/audi/tghu/navi/app/cluster/BAPDistanceFormatter
+       137: dup
+       138: aload_1
+       139: invokevirtual #56                 // Method de/audi/tghu/navi/app/cluster/ClusterService.getMhi2qAaLogChannel:()Lde/audi/atip/log/LogChannel;
+       142: invokespecial #57                 // Method de/audi/tghu/navi/app/cluster/BAPDistanceFormatter."<init>":(Lde/audi/atip/log/LogChannel;)V
+       145: putstatic     #58                 // Field distanceFormatter:Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+       148: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       151: invokestatic  #64                 // Method wantsProjectedBap:()Z
+       154: ifne          163
+       157: getstatic     #52                 // Field sessionStarted:Z
+       160: ifeq          167
+       163: iconst_1
+       164: goto          168
+       167: iconst_0
+       168: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+       171: aload_1
+       172: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+       175: invokevirtual #175                // Method de/audi/tghu/navi/app/cluster/ClusterService.setCombiBAPListenerCombiService:(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+       178: ldc           #176                // String MHI2Q AA BAP gate installed on NavigationJobs
+       180: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       183: goto          187
+       186: astore_0
+       187: return
+      Exception table:
+         from    to  target type
+             4    12   186   Class java/lang/Throwable
+            13    28   186   Class java/lang/Throwable
+            29    56   186   Class java/lang/Throwable
+            57   118   186   Class java/lang/Throwable
+           119   183   186   Class java/lang/Throwable
+
+  public static synchronized void onOemRgActive(boolean);
+    descriptor: (Z)V
+    Code:
+         0: getstatic     #52                 // Field sessionStarted:Z
+         3: ifeq          10
+         6: iload_0
+         7: putstatic     #177                // Field previousRgActive:Z
+        10: return
+
+  private static boolean wantsProjectedBap();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #17                 // Field carPlayActive:Z
+         3: ifeq          16
+         6: invokestatic  #123                // Method projectedCardsEnabled:()Z
+         9: ifeq          16
+        12: iconst_1
+        13: goto          17
+        16: iconst_0
+        17: ireturn
+
+  static synchronized void enforceVcMenuView();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #18                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.isLargeView:()Z
+         3: ifne          9
+         6: invokestatic  #24                 // Method closeVcSettingsMenu:()V
+         9: return
+
+  private static boolean startSession(boolean);
+    descriptor: (Z)Z
+    Code:
+         0: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+         3: ifnull        18
+         6: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         9: ifnull        18
+        12: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        15: ifnonnull     20
+        18: iconst_0
+        19: ireturn
+        20: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        23: invokevirtual #178                // Method de/audi/tghu/navi/app/cluster/ClusterService.getDSIResponseContainer:()Lde/audi/tghu/navi/app/command/DSIResponseContainer;
+        26: invokevirtual #179                // Method de/audi/tghu/navi/app/command/DSIResponseContainer.isRgActive:()Z
+        29: putstatic     #177                // Field previousRgActive:Z
+        32: iconst_m1
+        33: putstatic     #142                // Field publishedRgStatus:I
+        36: iconst_m1
+        37: putstatic     #144                // Field publishedCardOpen:I
+        40: iconst_m1
+        41: putstatic     #146                // Field publishedRouteDataAvailable:I
+        44: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        47: iconst_1
+        48: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+        51: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        54: invokevirtual #178                // Method de/audi/tghu/navi/app/cluster/ClusterService.getDSIResponseContainer:()Lde/audi/tghu/navi/app/command/DSIResponseContainer;
+        57: iconst_1
+        58: invokevirtual #180                // Method de/audi/tghu/navi/app/command/DSIResponseContainer.setRgActive:(Z)V
+        61: iconst_1
+        62: invokestatic  #181                // Method forceClusterCardUnavailable:(Z)V
+        65: iconst_0
+        66: iload_0
+        67: iconst_1
+        68: invokestatic  #148                // Method publishSnapshot:(ZZZ)V
+        71: iconst_1
+        72: putstatic     #52                 // Field sessionStarted:Z
+        75: getstatic     #135                // Field sequence:I
+        78: putstatic     #59                 // Field lastPublishedSequence:I
+        81: iconst_m1
+        82: putstatic     #22                 // Field lastRenderedSequence:I
+        85: iconst_0
+        86: putstatic     #125                // Field turnCardWindowOpen:Z
+        89: new           #95                 // class java/lang/StringBuffer
+        92: dup
+        93: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+        96: ldc           #182                // String MHI2Q AA BAP ownership started route=
+        98: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       101: iload_0
+       102: invokevirtual #183                // Method java/lang/StringBuffer.append:(Z)Ljava/lang/StringBuffer;
+       105: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       108: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       111: iconst_1
+       112: ireturn
+       113: astore_1
+       114: invokestatic  #184                // Method rollbackStart:()V
+       117: iconst_0
+       118: ireturn
+      Exception table:
+         from    to  target type
+            20   112   113   Class java/lang/Throwable
+
+  private static void publishSnapshot(boolean, boolean, boolean) throws java.lang.Exception;
+    descriptor: (ZZZ)V
+    Code:
+         0: iload_0
+         1: iload_2
+         2: invokestatic  #185                // Method rgStatusForPresentation:(ZZ)I
+         5: istore_3
+         6: getstatic     #142                // Field publishedRgStatus:I
+         9: iload_0
+        10: iload_2
+        11: invokestatic  #143                // Method rgStatusPublicationRequired:(IZZ)Z
+        14: istore        4
+        16: getstatic     #144                // Field publishedCardOpen:I
+        19: iload_0
+        20: invokestatic  #145                // Method cardPublicationRequired:(IZ)Z
+        23: istore        5
+        25: getstatic     #146                // Field publishedRouteDataAvailable:I
+        28: iload_1
+        29: invokestatic  #147                // Method routePublicationRequired:(IZ)Z
+        32: istore        6
+        34: iload         4
+        36: ifne          49
+        39: iload         5
+        41: ifne          49
+        44: iload         6
+        46: ifeq          53
+        49: iconst_1
+        50: goto          54
+        53: iconst_0
+        54: istore        7
+        56: iload         7
+        58: ifeq          79
+        61: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        64: iload_3
+        65: invokeinterface #186,  2          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateRGStatus:(I)V
+        70: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        73: iconst_0
+        74: invokeinterface #187,  2          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateActiveRGType:(I)V
+        79: iload_0
+        80: ifeq          108
+        83: getstatic     #139                // Field maneuver:I
+        86: getstatic     #188                // Field roundaboutAngle:I
+        89: invokestatic  #189                // Method com/mibsi/carplay/aa/ManeuverMapper.bapDescriptor:(II)[I
+        92: astore        8
+        94: aload         8
+        96: iconst_0
+        97: iaload
+        98: aload         8
+       100: iconst_1
+       101: iaload
+       102: invokestatic  #190                // Method sendDescriptor:(II)V
+       105: goto          113
+       108: iconst_0
+       109: iconst_0
+       110: invokestatic  #190                // Method sendDescriptor:(II)V
+       113: getstatic     #139                // Field maneuver:I
+       116: invokestatic  #191                // Method com/mibsi/carplay/rgd/TurnCardPolicy.actionThreshold:(I)I
+       119: istore        8
+       121: getstatic     #133                // Field distanceMeters:I
+       124: iflt          139
+       127: getstatic     #133                // Field distanceMeters:I
+       130: iload         8
+       132: if_icmpgt     139
+       135: iconst_1
+       136: goto          140
+       139: iconst_0
+       140: istore        9
+       142: iconst_0
+       143: istore        10
+       145: iload         9
+       147: ifeq          185
+       150: iload         8
+       152: ifle          185
+       155: getstatic     #133                // Field distanceMeters:I
+       158: bipush        100
+       160: imul
+       161: iload         8
+       163: idiv
+       164: istore        10
+       166: iload         10
+       168: ifge          174
+       171: iconst_0
+       172: istore        10
+       174: iload         10
+       176: bipush        100
+       178: if_icmple     185
+       181: bipush        100
+       183: istore        10
+       185: iload_0
+       186: ifeq          220
+       189: getstatic     #133                // Field distanceMeters:I
+       192: invokestatic  #192                // Method formatDistance:(I)[I
+       195: astore        11
+       197: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       200: aload         11
+       202: iconst_0
+       203: iaload
+       204: aload         11
+       206: iconst_1
+       207: iaload
+       208: iload         9
+       210: iload         10
+       212: invokeinterface #193,  5          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDistanceToNextManeuver:(IIZI)V
+       217: goto          232
+       220: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       223: iconst_m1
+       224: iconst_0
+       225: iconst_0
+       226: iconst_0
+       227: invokeinterface #193,  5          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDistanceToNextManeuver:(IIZI)V
+       232: iload_1
+       233: ifeq          245
+       236: getstatic     #194                // Field destinationDistanceMeters:I
+       239: invokestatic  #195                // Method formatDestinationDistance:(I)[I
+       242: goto          256
+       245: iconst_2
+       246: newarray       int
+       248: dup
+       249: iconst_0
+       250: iconst_m1
+       251: iastore
+       252: dup
+       253: iconst_1
+       254: iconst_0
+       255: iastore
+       256: astore        11
+       258: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       261: aload         11
+       263: iconst_0
+       264: iaload
+       265: aload         11
+       267: iconst_1
+       268: iaload
+       269: iconst_0
+       270: invokeinterface #196,  4          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDistanceToDestination:(IIZ)V
+       275: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       278: iconst_0
+       279: iconst_0
+       280: iload_1
+       281: ifeq          291
+       284: getstatic     #197                // Field timeToDestinationSeconds:I
+       287: i2l
+       288: goto          294
+       291: ldc2_w        #198                // long -1l
+       294: invokeinterface #200,  5          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTimeToDestination:(IIJ)V
+       299: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       302: iload_1
+       303: ifeq          312
+       306: invokestatic  #201                // Method choosePositionText:()Ljava/lang/String;
+       309: goto          314
+       312: ldc           #202                // String
+       314: invokeinterface #203,  2          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateCurrentPositionInfo:(Ljava/lang/String;)V
+       319: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       322: iload_0
+       323: invokestatic  #204                // Method turnToTextForCard:(Z)Ljava/lang/String;
+       326: ldc           #202                // String
+       328: invokeinterface #205,  3          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTurnToInfo:(Ljava/lang/String;Ljava/lang/String;)V
+       333: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+       336: iload_0
+       337: iload         9
+       339: invokestatic  #206                // Method maneuverStateForCard:(ZZ)I
+       342: invokeinterface #207,  2          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateManeuverState:(I)V
+       347: invokestatic  #208                // Method sendExitView:()V
+       350: iload         7
+       352: ifeq          383
+       355: iload_3
+       356: putstatic     #142                // Field publishedRgStatus:I
+       359: iload_0
+       360: ifeq          367
+       363: iconst_1
+       364: goto          368
+       367: iconst_0
+       368: putstatic     #144                // Field publishedCardOpen:I
+       371: iload_1
+       372: ifeq          379
+       375: iconst_1
+       376: goto          380
+       379: iconst_0
+       380: putstatic     #146                // Field publishedRouteDataAvailable:I
+       383: return
+
+  private static int rgStatusForPresentation(boolean, boolean);
+    descriptor: (ZZ)I
+    Code:
+         0: iload_1
+         1: ifeq          12
+         4: iload_0
+         5: ifeq          12
+         8: iconst_1
+         9: goto          13
+        12: iconst_0
+        13: ireturn
+
+  private static boolean rgStatusPublicationRequired(int, boolean, boolean);
+    descriptor: (IZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: invokestatic  #185                // Method rgStatusForPresentation:(ZZ)I
+         6: if_icmpeq     13
+         9: iconst_1
+        10: goto          14
+        13: iconst_0
+        14: ireturn
+
+  private static boolean cardPublicationRequired(int, boolean);
+    descriptor: (IZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: ifeq          9
+         5: iconst_1
+         6: goto          10
+         9: iconst_0
+        10: if_icmpeq     17
+        13: iconst_1
+        14: goto          18
+        17: iconst_0
+        18: ireturn
+
+  private static boolean routePublicationRequired(int, boolean);
+    descriptor: (IZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: ifeq          9
+         5: iconst_1
+         6: goto          10
+         9: iconst_0
+        10: if_icmpeq     17
+        13: iconst_1
+        14: goto          18
+        17: iconst_0
+        18: ireturn
+
+  private static int maneuverStateForCard(boolean, boolean);
+    descriptor: (ZZ)I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #209                // Method com/mibsi/carplay/rgd/TurnCardPolicy.bapManeuverState:(ZZ)I
+         5: ireturn
+
+  private static boolean publishRendererSnapshot();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+         3: invokevirtual #118                // Method com/mibsi/carplay/rgd/RendererServer.isReady:()Z
+         6: ifne          11
+         9: iconst_0
+        10: ireturn
+        11: getstatic     #139                // Field maneuver:I
+        14: getstatic     #188                // Field roundaboutAngle:I
+        17: getstatic     #210                // Field roundaboutExit:I
+        20: invokestatic  #211                // Method com/mibsi/carplay/aa/ManeuverMapper.rendererManeuver:(III)[I
+        23: astore_0
+        24: aload_0
+        25: invokestatic  #212                // Method rendererManeuverHasContent:([I)Z
+        28: ifne          42
+        31: iconst_0
+        32: putstatic     #105                // Field presentationToken:I
+        35: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+        38: invokevirtual #111                // Method com/mibsi/carplay/rgd/RendererServer.sendClear:()Z
+        41: ireturn
+        42: getstatic     #105                // Field presentationToken:I
+        45: ifne          54
+        48: invokestatic  #213                // Method allocatePresentationToken:()I
+        51: putstatic     #105                // Field presentationToken:I
+        54: getstatic     #139                // Field maneuver:I
+        57: invokestatic  #191                // Method com/mibsi/carplay/rgd/TurnCardPolicy.actionThreshold:(I)I
+        60: istore_1
+        61: getstatic     #133                // Field distanceMeters:I
+        64: iflt          82
+        67: getstatic     #133                // Field distanceMeters:I
+        70: iload_1
+        71: if_icmpgt     82
+        74: iload_1
+        75: ifle          82
+        78: iconst_1
+        79: goto          83
+        82: iconst_0
+        83: istore_2
+        84: iconst_0
+        85: istore_3
+        86: iload_2
+        87: ifeq          114
+        90: getstatic     #133                // Field distanceMeters:I
+        93: bipush        16
+        95: imul
+        96: iload_1
+        97: idiv
+        98: istore_3
+        99: iload_3
+       100: ifge          105
+       103: iconst_0
+       104: istore_3
+       105: iload_3
+       106: bipush        16
+       108: if_icmple     114
+       111: bipush        16
+       113: istore_3
+       114: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       117: aload_0
+       118: iconst_0
+       119: iaload
+       120: aload_0
+       121: iconst_1
+       122: iaload
+       123: aload_0
+       124: iconst_2
+       125: iaload
+       126: aload_0
+       127: iconst_3
+       128: iaload
+       129: aconst_null
+       130: getstatic     #214                // Field laneGuidance:[B
+       133: getstatic     #210                // Field roundaboutExit:I
+       136: aload_0
+       137: iconst_4
+       138: iaload
+       139: ifeq          146
+       142: iconst_1
+       143: goto          147
+       146: iconst_0
+       147: iload_3
+       148: iload_2
+       149: ifeq          156
+       152: iconst_1
+       153: goto          157
+       156: iconst_0
+       157: iconst_1
+       158: getstatic     #105                // Field presentationToken:I
+       161: invokevirtual #215                // Method com/mibsi/carplay/rgd/RendererServer.sendManeuver:(IIII[I[BIZIIII)Z
+       164: istore        4
+       166: iload         4
+       168: ifeq          228
+       171: new           #95                 // class java/lang/StringBuffer
+       174: dup
+       175: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+       178: ldc           #216                // String MHI2Q AA turn card type=
+       180: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       183: getstatic     #139                // Field maneuver:I
+       186: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       189: ldc           #217                // String  icon=
+       191: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       194: aload_0
+       195: iconst_0
+       196: iaload
+       197: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       200: ldc           #218                // String  direction=
+       202: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       205: aload_0
+       206: iconst_1
+       207: iaload
+       208: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       211: ldc           #219                // String  angle=
+       213: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       216: aload_0
+       217: iconst_2
+       218: iaload
+       219: invokevirtual #131                // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       222: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       225: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       228: iload         4
+       230: ireturn
+
+  private static boolean rendererManeuverHasContent(int[]);
+    descriptor: ([I)Z
+    Code:
+         0: aload_0
+         1: ifnull        19
+         4: aload_0
+         5: arraylength
+         6: ifle          19
+         9: aload_0
+        10: iconst_0
+        11: iaload
+        12: ifeq          19
+        15: iconst_1
+        16: goto          20
+        19: iconst_0
+        20: ireturn
+
+  private static int allocatePresentationToken();
+    descriptor: ()I
+    Code:
+         0: getstatic     #19                 // Field presentationTokenCounter:I
+         3: invokestatic  #20                 // Method nextPresentationTokenForTest:(I)I
+         6: putstatic     #19                 // Field presentationTokenCounter:I
+         9: getstatic     #19                 // Field presentationTokenCounter:I
+        12: ireturn
+
+  private static void stopSession();
+    descriptor: ()V
+    Code:
+         0: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+         3: ifnull        13
+         6: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+         9: iconst_1
+        10: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+        13: goto          17
+        16: astore_0
+        17: iconst_m1
+        18: putstatic     #142                // Field publishedRgStatus:I
+        21: iconst_m1
+        22: putstatic     #144                // Field publishedCardOpen:I
+        25: iconst_m1
+        26: putstatic     #146                // Field publishedRouteDataAvailable:I
+        29: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        32: ifnull        41
+        35: iconst_0
+        36: iconst_0
+        37: iconst_0
+        38: invokestatic  #148                // Method publishSnapshot:(ZZZ)V
+        41: goto          45
+        44: astore_0
+        45: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        48: ifnull        55
+        51: iconst_0
+        52: invokestatic  #181                // Method forceClusterCardUnavailable:(Z)V
+        55: goto          59
+        58: astore_0
+        59: invokestatic  #220                // Method restoreClusterState:()V
+        62: iconst_0
+        63: putstatic     #52                 // Field sessionStarted:Z
+        66: iconst_m1
+        67: putstatic     #142                // Field publishedRgStatus:I
+        70: iconst_m1
+        71: putstatic     #144                // Field publishedCardOpen:I
+        74: iconst_m1
+        75: putstatic     #146                // Field publishedRouteDataAvailable:I
+        78: iconst_m1
+        79: putstatic     #59                 // Field lastPublishedSequence:I
+        82: iconst_m1
+        83: putstatic     #22                 // Field lastRenderedSequence:I
+        86: iconst_0
+        87: putstatic     #125                // Field turnCardWindowOpen:Z
+        90: iconst_0
+        91: putstatic     #141                // Field clusterCardAvailable:Z
+        94: iconst_0
+        95: putstatic     #105                // Field presentationToken:I
+        98: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+       101: invokevirtual #111                // Method com/mibsi/carplay/rgd/RendererServer.sendClear:()Z
+       104: pop
+       105: goto          109
+       108: astore_0
+       109: iconst_0
+       110: iconst_0
+       111: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+       114: invokestatic  #109                // Method releaseBapToOem:()V
+       117: ldc           #221                // String MHI2Q AA BAP session stopped
+       119: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       122: return
+      Exception table:
+         from    to  target type
+             0    13    16   Class java/lang/Throwable
+            29    41    44   Class java/lang/Throwable
+            45    55    58   Class java/lang/Throwable
+            98   105   108   Class java/lang/Throwable
+
+  private static void rollbackStart();
+    descriptor: ()V
+    Code:
+         0: iconst_m1
+         1: putstatic     #142                // Field publishedRgStatus:I
+         4: iconst_m1
+         5: putstatic     #144                // Field publishedCardOpen:I
+         8: iconst_m1
+         9: putstatic     #146                // Field publishedRouteDataAvailable:I
+        12: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        15: ifnull        24
+        18: iconst_0
+        19: iconst_0
+        20: iconst_0
+        21: invokestatic  #148                // Method publishSnapshot:(ZZZ)V
+        24: goto          28
+        27: astore_0
+        28: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        31: ifnull        38
+        34: iconst_0
+        35: invokestatic  #181                // Method forceClusterCardUnavailable:(Z)V
+        38: goto          42
+        41: astore_0
+        42: invokestatic  #220                // Method restoreClusterState:()V
+        45: iconst_0
+        46: putstatic     #52                 // Field sessionStarted:Z
+        49: iconst_m1
+        50: putstatic     #142                // Field publishedRgStatus:I
+        53: iconst_m1
+        54: putstatic     #144                // Field publishedCardOpen:I
+        57: iconst_m1
+        58: putstatic     #146                // Field publishedRouteDataAvailable:I
+        61: iconst_m1
+        62: putstatic     #59                 // Field lastPublishedSequence:I
+        65: iconst_m1
+        66: putstatic     #22                 // Field lastRenderedSequence:I
+        69: iconst_0
+        70: putstatic     #125                // Field turnCardWindowOpen:Z
+        73: iconst_0
+        74: putstatic     #141                // Field clusterCardAvailable:Z
+        77: iconst_0
+        78: putstatic     #105                // Field presentationToken:I
+        81: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+        84: invokevirtual #111                // Method com/mibsi/carplay/rgd/RendererServer.sendClear:()Z
+        87: pop
+        88: goto          92
+        91: astore_0
+        92: iconst_0
+        93: iconst_0
+        94: invokestatic  #33                 // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setTurnCardVisible:(ZI)V
+        97: invokestatic  #109                // Method releaseBapToOem:()V
+       100: ldc           #222                // String MHI2Q AA BAP start rolled back
+       102: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+       105: return
+      Exception table:
+         from    to  target type
+            12    24    27   Class java/lang/Throwable
+            28    38    41   Class java/lang/Throwable
+            81    88    91   Class java/lang/Throwable
+
+  private static synchronized void failOpen();
+    descriptor: ()V
+    Code:
+         0: getstatic     #52                 // Field sessionStarted:Z
+         3: ifeq          12
+         6: invokestatic  #53                 // Method stopSession:()V
+         9: goto          29
+        12: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        15: ifnull        25
+        18: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        21: iconst_0
+        22: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+        25: goto          29
+        28: astore_0
+        29: return
+      Exception table:
+         from    to  target type
+            12    25    28   Class java/lang/Throwable
+
+  private static void restoreClusterState();
+    descriptor: ()V
+    Code:
+         0: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+         3: ifnull        42
+         6: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+         9: invokevirtual #178                // Method de/audi/tghu/navi/app/cluster/ClusterService.getDSIResponseContainer:()Lde/audi/tghu/navi/app/command/DSIResponseContainer;
+        12: getstatic     #177                // Field previousRgActive:Z
+        15: invokevirtual #180                // Method de/audi/tghu/navi/app/command/DSIResponseContainer.setRgActive:(Z)V
+        18: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        21: getstatic     #177                // Field previousRgActive:Z
+        24: invokevirtual #223                // Method de/audi/tghu/navi/app/cluster/ClusterService.updateRgActive:(Z)V
+        27: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        30: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        33: invokevirtual #178                // Method de/audi/tghu/navi/app/cluster/ClusterService.getDSIResponseContainer:()Lde/audi/tghu/navi/app/command/DSIResponseContainer;
+        36: invokevirtual #224                // Method de/audi/tghu/navi/app/command/DSIResponseContainer.getRGIString:()[S
+        39: invokevirtual #225                // Method de/audi/tghu/navi/app/cluster/ClusterService.updateRGIString:([S)V
+        42: goto          46
+        45: astore_0
+        46: return
+      Exception table:
+         from    to  target type
+             0    42    45   Class java/lang/Throwable
+
+  private static void releaseBapToOem();
+    descriptor: ()V
+    Code:
+         0: getstatic     #107                // Field oemResyncPending:Z
+         3: istore_0
+         4: iconst_1
+         5: putstatic     #107                // Field oemResyncPending:Z
+         8: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        11: ifnull        21
+        14: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        17: iconst_0
+        18: invokevirtual #65                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setBlocked:(Z)V
+        21: goto          25
+        24: astore_1
+        25: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        28: ifnull        41
+        31: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        34: invokevirtual #226                // Method de/audi/tghu/navi/app/cluster/ClusterService.resyncMhi2qAaCombiBAP:()V
+        37: iconst_0
+        38: putstatic     #107                // Field oemResyncPending:Z
+        41: goto          71
+        44: astore_1
+        45: iload_0
+        46: ifne          71
+        49: new           #95                 // class java/lang/StringBuffer
+        52: dup
+        53: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+        56: ldc           #227                // String MHI2Q OEM BAP replay pending:
+        58: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        61: aload_1
+        62: invokevirtual #99                 // Method java/lang/StringBuffer.append:(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+        65: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        68: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+        71: return
+      Exception table:
+         from    to  target type
+             8    21    24   Class java/lang/Throwable
+            25    41    44   Class java/lang/Throwable
+
+  private static void prepareOemMapImage();
+    descriptor: ()V
+    Code:
+         0: iconst_1
+         1: invokestatic  #114                // Method setOemMapPresentation:(Z)V
+         4: return
+
+  private static void setOemMapPresentation(boolean);
+    descriptor: (Z)V
+    Code:
+         0: iload_0
+         1: ifeq          16
+         4: getstatic     #6                  // Field vcMenuRequested:Z
+         7: ifne          16
+        10: getstatic     #5                  // Field vcMenuClosing:Z
+        13: ifeq          20
+        16: iconst_1
+        17: goto          21
+        20: iconst_0
+        21: invokestatic  #228                // Method setMapScaleSuppressed:(Z)V
+        24: return
+
+  private static void setMapScaleSuppressed(boolean);
+    descriptor: (Z)V
+    Code:
+         0: iload_0
+         1: ifeq          8
+         4: iconst_1
+         5: goto          9
+         8: iconst_0
+         9: istore_1
+        10: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        13: ifnull        23
+        16: getstatic     #34                 // Field appliedMapScaleSuppression:I
+        19: iload_1
+        20: if_icmpne     24
+        23: return
+        24: getstatic     #60                 // Field gate:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService;
+        27: iload_0
+        28: invokevirtual #229                // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.setMapScaleBlocked:(Z)V
+        31: iload_0
+        32: ifne          47
+        35: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        38: ifnull        47
+        41: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        44: invokevirtual #226                // Method de/audi/tghu/navi/app/cluster/ClusterService.resyncMhi2qAaCombiBAP:()V
+        47: iload_1
+        48: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        51: new           #95                 // class java/lang/StringBuffer
+        54: dup
+        55: invokespecial #96                 // Method java/lang/StringBuffer."<init>":()V
+        58: ldc           #230                // String MHI2Q AA OEM map scale
+        60: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        63: iload_0
+        64: ifeq          72
+        67: ldc           #231                // String neutralized
+        69: goto          74
+        72: ldc           #232                // String restored
+        74: invokevirtual #98                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        77: invokevirtual #100                // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        80: invokestatic  #62                 // Method log:(Ljava/lang/String;)V
+        83: goto          87
+        86: astore_2
+        87: return
+      Exception table:
+         from    to  target type
+            24    83    86   Class java/lang/Throwable
+
+  public static void acknowledgeProjectedMapScaleInput(de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+    Code:
+         0: aload_0
+         1: instanceof    #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+         4: ifeq          15
+         7: aload_0
+         8: checkcast     #49                 // class com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService
+        11: invokevirtual #50                 // Method com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService.getRealService:()Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        14: astore_0
+        15: aload_0
+        16: ifnull        30
+        19: aload_0
+        20: iconst_0
+        21: iconst_0
+        22: iconst_0
+        23: iconst_0
+        24: iconst_0
+        25: invokeinterface #233,  6          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapScale:(IZIIZ)V
+        30: goto          34
+        33: astore_1
+        34: return
+      Exception table:
+         from    to  target type
+             0    30    33   Class java/lang/Throwable
+
+  private static boolean oemMapShouldBeVisible(boolean, int);
+    descriptor: (ZI)Z
+    Code:
+         0: iload_0
+         1: ifeq          9
+         4: iload_1
+         5: iconst_1
+         6: if_icmpne     13
+         9: iconst_1
+        10: goto          14
+        13: iconst_0
+        14: ireturn
+
+  private static boolean projectedCardsEnabled();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #3                  // Field vcActiveMode:I
+         3: ifne          10
+         6: iconst_1
+         7: goto          11
+        10: iconst_0
+        11: ireturn
+
+  private static void setClusterCardAvailable(boolean);
+    descriptor: (Z)V
+    Code:
+         0: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+         3: ifnull        16
+         6: getstatic     #141                // Field clusterCardAvailable:Z
+         9: iload_0
+        10: invokestatic  #234                // Method clusterCardTransitionRequired:(ZZ)Z
+        13: ifne          17
+        16: return
+        17: iload_0
+        18: ifeq          37
+        21: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        24: iconst_1
+        25: newarray       short
+        27: dup
+        28: iconst_0
+        29: iconst_1
+        30: sastore
+        31: invokevirtual #225                // Method de/audi/tghu/navi/app/cluster/ClusterService.updateRGIString:([S)V
+        34: goto          44
+        37: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        40: iconst_0
+        41: invokevirtual #235                // Method de/audi/tghu/navi/app/cluster/ClusterService.setKDKVisibility:(Z)V
+        44: iload_0
+        45: putstatic     #141                // Field clusterCardAvailable:Z
+        48: goto          52
+        51: astore_1
+        52: return
+      Exception table:
+         from    to  target type
+            17    48    51   Class java/lang/Throwable
+
+  private static void forceClusterCardUnavailable(boolean);
+    descriptor: (Z)V
+    Code:
+         0: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+         3: iconst_0
+         4: invokevirtual #235                // Method de/audi/tghu/navi/app/cluster/ClusterService.setKDKVisibility:(Z)V
+         7: getstatic     #54                 // Field cluster:Lde/audi/tghu/navi/app/cluster/ClusterService;
+        10: iload_0
+        11: ifeq          24
+        14: iconst_1
+        15: newarray       short
+        17: dup
+        18: iconst_0
+        19: iconst_1
+        20: sastore
+        21: goto          25
+        24: aconst_null
+        25: invokevirtual #225                // Method de/audi/tghu/navi/app/cluster/ClusterService.updateRGIString:([S)V
+        28: iconst_0
+        29: putstatic     #141                // Field clusterCardAvailable:Z
+        32: return
+
+  private static boolean clusterCardTransitionRequired(boolean, boolean);
+    descriptor: (ZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: if_icmpeq     9
+         5: iconst_1
+         6: goto          10
+         9: iconst_0
+        10: ireturn
+
+  private static void sendDescriptor(int, int);
+    descriptor: (II)V
+    Code:
+         0: iconst_1
+         1: anewarray     #236                // class de/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor
+         4: astore_2
+         5: aload_2
+         6: iconst_0
+         7: new           #236                // class de/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor
+        10: dup
+        11: iload_0
+        12: iload_1
+        13: iconst_0
+        14: iconst_0
+        15: newarray       byte
+        17: invokespecial #237                // Method de/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor."<init>":(III[B)V
+        20: aastore
+        21: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        24: aload_2
+        25: invokeinterface #238,  2          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateManeuverDescriptor:([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;)V
+        30: return
+
+  private static void sendExitView();
+    descriptor: ()V
+    Code:
+         0: getstatic     #239                // Field exitViewSendCount:I
+         3: iconst_1
+         4: iadd
+         5: putstatic     #239                // Field exitViewSendCount:I
+         8: getstatic     #51                 // Field rawService:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: getstatic     #239                // Field exitViewSendCount:I
+        14: iconst_1
+        15: iand
+        16: ifne          23
+        19: iconst_0
+        20: goto          24
+        23: iconst_1
+        24: iconst_0
+        25: invokeinterface #240,  3          // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateExitView:(II)V
+        30: return
+
+  private static int[] formatDistance(int);
+    descriptor: (I)[I
+    Code:
+         0: iload_0
+         1: iconst_0
+         2: invokestatic  #241                // Method formatDistance:(IZ)[I
+         5: areturn
+
+  private static int[] formatDestinationDistance(int);
+    descriptor: (I)[I
+    Code:
+         0: iload_0
+         1: iconst_1
+         2: invokestatic  #241                // Method formatDistance:(IZ)[I
+         5: areturn
+
+  private static int[] formatDistance(int, boolean);
+    descriptor: (IZ)[I
+    Code:
+         0: iconst_2
+         1: newarray       int
+         3: dup
+         4: iconst_0
+         5: iconst_m1
+         6: iastore
+         7: dup
+         8: iconst_1
+         9: iconst_0
+        10: iastore
+        11: astore_2
+        12: iload_0
+        13: iflt          22
+        16: getstatic     #58                 // Field distanceFormatter:Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+        19: ifnonnull     24
+        22: aload_2
+        23: areturn
+        24: invokestatic  #242                // Method de/audi/atip/metrics/Distance.getSystemUnit:()I
+        27: istore_3
+        28: iload_3
+        29: iconst_1
+        30: if_icmpeq     44
+        33: iload_3
+        34: iconst_5
+        35: if_icmpeq     44
+        38: iload_3
+        39: bipush        6
+        41: if_icmpne     48
+        44: iconst_1
+        45: goto          49
+        48: iconst_0
+        49: istore        4
+        51: iload_1
+        52: ifeq          67
+        55: getstatic     #58                 // Field distanceFormatter:Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+        58: iload_0
+        59: iload         4
+        61: invokevirtual #244                // Method de/audi/tghu/navi/app/cluster/BAPDistanceFormatter.formatDistanceToDestination:(IZ)Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter$BAPDistance;
+        64: goto          76
+        67: getstatic     #58                 // Field distanceFormatter:Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter;
+        70: iload_0
+        71: iload         4
+        73: invokevirtual #245                // Method de/audi/tghu/navi/app/cluster/BAPDistanceFormatter.formatDistanceToTurn:(IZ)Lde/audi/tghu/navi/app/cluster/BAPDistanceFormatter$BAPDistance;
+        76: astore        5
+        78: aload         5
+        80: invokevirtual #246                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        83: astore        6
+        85: aload_2
+        86: iconst_0
+        87: aload         6
+        89: ldc           #247                // String getValue
+        91: iconst_0
+        92: anewarray     #248                // class java/lang/Class
+        95: invokevirtual #249                // Method java/lang/Class.getMethod:(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+        98: aload         5
+       100: iconst_0
+       101: anewarray     #250                // class java/lang/Object
+       104: invokevirtual #251                // Method java/lang/reflect/Method.invoke:(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+       107: checkcast     #252                // class java/lang/Integer
+       110: invokevirtual #253                // Method java/lang/Integer.intValue:()I
+       113: iastore
+       114: aload_2
+       115: iconst_1
+       116: aload         6
+       118: ldc           #254                // String getUnit
+       120: iconst_0
+       121: anewarray     #248                // class java/lang/Class
+       124: invokevirtual #249                // Method java/lang/Class.getMethod:(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+       127: aload         5
+       129: iconst_0
+       130: anewarray     #250                // class java/lang/Object
+       133: invokevirtual #251                // Method java/lang/reflect/Method.invoke:(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+       136: checkcast     #252                // class java/lang/Integer
+       139: invokevirtual #253                // Method java/lang/Integer.intValue:()I
+       142: iastore
+       143: goto          155
+       146: astore_3
+       147: aload_2
+       148: iconst_0
+       149: iconst_m1
+       150: iastore
+       151: aload_2
+       152: iconst_1
+       153: iconst_0
+       154: iastore
+       155: aload_2
+       156: areturn
+      Exception table:
+         from    to  target type
+            24   143   146   Class java/lang/Throwable
+
+  private static java.lang.String choosePositionText();
+    descriptor: ()Ljava/lang/String;
+    Code:
+         0: getstatic     #255                // Field currentRoad:Ljava/lang/String;
+         3: ifnull        19
+         6: getstatic     #255                // Field currentRoad:Ljava/lang/String;
+         9: invokevirtual #256                // Method java/lang/String.length:()I
+        12: ifle          19
+        15: getstatic     #255                // Field currentRoad:Ljava/lang/String;
+        18: areturn
+        19: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+        22: ifnull        38
+        25: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+        28: invokevirtual #256                // Method java/lang/String.length:()I
+        31: ifle          38
+        34: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+        37: areturn
+        38: getstatic     #258                // Field instruction:Ljava/lang/String;
+        41: ifnull        57
+        44: getstatic     #258                // Field instruction:Ljava/lang/String;
+        47: invokevirtual #256                // Method java/lang/String.length:()I
+        50: ifle          57
+        53: getstatic     #258                // Field instruction:Ljava/lang/String;
+        56: areturn
+        57: ldc_w         #259                // String ?
+        60: areturn
+
+  private static java.lang.String chooseTurnToText();
+    descriptor: ()Ljava/lang/String;
+    Code:
+         0: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+         3: ifnull        19
+         6: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+         9: invokevirtual #256                // Method java/lang/String.length:()I
+        12: ifle          19
+        15: getstatic     #257                // Field nextRoad:Ljava/lang/String;
+        18: areturn
+        19: getstatic     #258                // Field instruction:Ljava/lang/String;
+        22: ifnull        38
+        25: getstatic     #258                // Field instruction:Ljava/lang/String;
+        28: invokevirtual #256                // Method java/lang/String.length:()I
+        31: ifle          38
+        34: getstatic     #258                // Field instruction:Ljava/lang/String;
+        37: areturn
+        38: ldc           #202                // String
+        40: areturn
+
+  private static java.lang.String turnToTextForCard(boolean);
+    descriptor: (Z)Ljava/lang/String;
+    Code:
+         0: iload_0
+         1: ifeq          10
+         4: invokestatic  #260                // Method chooseTurnToText:()Ljava/lang/String;
+         7: goto          12
+        10: ldc           #202                // String
+        12: areturn
+
+  private static boolean routeDataIsAvailable();
+    descriptor: ()Z
+    Code:
+         0: ldc_w         #261                // String aa
+         3: getstatic     #262                // Field mode:Ljava/lang/String;
+         6: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+         9: ifne          24
+        12: ldc_w         #263                // String carplay
+        15: getstatic     #262                // Field mode:Ljava/lang/String;
+        18: invokevirtual #154                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        21: ifeq          28
+        24: iconst_1
+        25: goto          29
+        28: iconst_0
+        29: istore_0
+        30: iload_0
+        31: ifeq          42
+        34: getstatic     #264                // Field updated:J
+        37: lconst_0
+        38: lcmp
+        39: ifgt          44
+        42: iconst_0
+        43: ireturn
+        44: getstatic     #37                 // Field navigationStateClaimed:Z
+        47: ifne          74
+        50: getstatic     #262                // Field mode:Ljava/lang/String;
+        53: getstatic     #265                // Field active:Z
+        56: getstatic     #264                // Field updated:J
+        59: invokestatic  #83                 // Method java/lang/System.currentTimeMillis:()J
+        62: invokestatic  #266                // Method com/mibsi/carplay/aa/NavigationStateReader.isFresh:(Ljava/lang/String;ZJJ)Z
+        65: ifne          70
+        68: iconst_0
+        69: ireturn
+        70: iconst_1
+        71: putstatic     #37                 // Field navigationStateClaimed:Z
+        74: getstatic     #265                // Field active:Z
+        77: ireturn
+
+  private static void refresh();
+    descriptor: ()V
+    Code:
+         0: getstatic     #267                // Field stateReader:Lcom/mibsi/carplay/aa/NavigationStateReader;
+         3: iconst_0
+         4: invokevirtual #268                // Method com/mibsi/carplay/aa/NavigationStateReader.refresh:(Z)Lcom/mibsi/carplay/aa/NavigationSnapshot;
+         7: astore_0
+         8: aload_0
+         9: getfield      #269                // Field com/mibsi/carplay/aa/NavigationSnapshot.mode:Ljava/lang/String;
+        12: putstatic     #262                // Field mode:Ljava/lang/String;
+        15: aload_0
+        16: getfield      #270                // Field com/mibsi/carplay/aa/NavigationSnapshot.sequence:I
+        19: putstatic     #135                // Field sequence:I
+        22: aload_0
+        23: getfield      #271                // Field com/mibsi/carplay/aa/NavigationSnapshot.updated:J
+        26: putstatic     #264                // Field updated:J
+        29: aload_0
+        30: getfield      #272                // Field com/mibsi/carplay/aa/NavigationSnapshot.active:Z
+        33: putstatic     #265                // Field active:Z
+        36: aload_0
+        37: getfield      #273                // Field com/mibsi/carplay/aa/NavigationSnapshot.maneuver:I
+        40: putstatic     #139                // Field maneuver:I
+        43: aload_0
+        44: getfield      #274                // Field com/mibsi/carplay/aa/NavigationSnapshot.roundaboutExit:I
+        47: putstatic     #210                // Field roundaboutExit:I
+        50: aload_0
+        51: getfield      #275                // Field com/mibsi/carplay/aa/NavigationSnapshot.roundaboutAngle:I
+        54: putstatic     #188                // Field roundaboutAngle:I
+        57: aload_0
+        58: getfield      #276                // Field com/mibsi/carplay/aa/NavigationSnapshot.distanceMeters:I
+        61: putstatic     #133                // Field distanceMeters:I
+        64: aload_0
+        65: getfield      #277                // Field com/mibsi/carplay/aa/NavigationSnapshot.timeToStepSeconds:I
+        68: putstatic     #130                // Field timeToStepSeconds:I
+        71: aload_0
+        72: getfield      #278                // Field com/mibsi/carplay/aa/NavigationSnapshot.destinationDistanceMeters:I
+        75: putstatic     #194                // Field destinationDistanceMeters:I
+        78: aload_0
+        79: getfield      #279                // Field com/mibsi/carplay/aa/NavigationSnapshot.timeToDestinationSeconds:I
+        82: putstatic     #197                // Field timeToDestinationSeconds:I
+        85: aload_0
+        86: getfield      #280                // Field com/mibsi/carplay/aa/NavigationSnapshot.currentRoad:Ljava/lang/String;
+        89: putstatic     #255                // Field currentRoad:Ljava/lang/String;
+        92: aload_0
+        93: getfield      #281                // Field com/mibsi/carplay/aa/NavigationSnapshot.nextRoad:Ljava/lang/String;
+        96: putstatic     #257                // Field nextRoad:Ljava/lang/String;
+        99: aload_0
+       100: getfield      #282                // Field com/mibsi/carplay/aa/NavigationSnapshot.instruction:Ljava/lang/String;
+       103: putstatic     #258                // Field instruction:Ljava/lang/String;
+       106: aload_0
+       107: getfield      #283                // Field com/mibsi/carplay/aa/NavigationSnapshot.laneGuidance:[B
+       110: putstatic     #214                // Field laneGuidance:[B
+       113: return
+
+  private static void log(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+         0: return
+
+  public static synchronized void resetForTest();
+    descriptor: ()V
+    Code:
+         0: ldc_w         #284                // String shadow
+         3: putstatic     #262                // Field mode:Ljava/lang/String;
+         6: iconst_m1
+         7: putstatic     #135                // Field sequence:I
+        10: lconst_0
+        11: putstatic     #264                // Field updated:J
+        14: iconst_0
+        15: putstatic     #265                // Field active:Z
+        18: iconst_m1
+        19: putstatic     #194                // Field destinationDistanceMeters:I
+        22: iconst_0
+        23: newarray       byte
+        25: putstatic     #214                // Field laneGuidance:[B
+        28: iconst_m1
+        29: putstatic     #197                // Field timeToDestinationSeconds:I
+        32: iconst_0
+        33: putstatic     #52                 // Field sessionStarted:Z
+        36: iconst_0
+        37: putstatic     #107                // Field oemResyncPending:Z
+        40: iconst_1
+        41: putstatic     #17                 // Field carPlayActive:Z
+        44: iconst_0
+        45: putstatic     #36                 // Field deactivationRequested:Z
+        48: iconst_m1
+        49: putstatic     #34                 // Field appliedMapScaleSuppression:I
+        52: iconst_m1
+        53: putstatic     #142                // Field publishedRgStatus:I
+        56: iconst_m1
+        57: putstatic     #144                // Field publishedCardOpen:I
+        60: iconst_m1
+        61: putstatic     #146                // Field publishedRouteDataAvailable:I
+        64: iconst_0
+        65: putstatic     #37                 // Field navigationStateClaimed:Z
+        68: iconst_m1
+        69: putstatic     #59                 // Field lastPublishedSequence:I
+        72: iconst_m1
+        73: putstatic     #22                 // Field lastRenderedSequence:I
+        76: iconst_0
+        77: putstatic     #138                // Field rendererHadFrame:Z
+        80: iconst_0
+        81: putstatic     #10                 // Field rendererStateRevision:I
+        84: iconst_0
+        85: putstatic     #137                // Field lastRendererStateRevision:I
+        88: iconst_0
+        89: putstatic     #8                  // Field rendererConnectionRevision:I
+        92: iconst_0
+        93: putstatic     #104                // Field lastRendererConnectionRevision:I
+        96: iconst_0
+        97: putstatic     #125                // Field turnCardWindowOpen:Z
+       100: iconst_0
+       101: putstatic     #141                // Field clusterCardAvailable:Z
+       104: iconst_0
+       105: putstatic     #19                 // Field presentationTokenCounter:I
+       108: iconst_0
+       109: putstatic     #105                // Field presentationToken:I
+       112: iconst_0
+       113: putstatic     #6                  // Field vcMenuRequested:Z
+       116: iconst_0
+       117: putstatic     #5                  // Field vcMenuClosing:Z
+       120: iconst_0
+       121: putstatic     #4                  // Field vcMenuSelection:I
+       124: iconst_0
+       125: putstatic     #3                  // Field vcActiveMode:I
+       128: iconst_0
+       129: putstatic     #21                 // Field vcMenuToken:I
+       132: lconst_0
+       133: putstatic     #23                 // Field vcMenuTestDeadline:J
+       136: aconst_null
+       137: putstatic     #46                 // Field vcStorageFramework:Lde/audi/atip/base/IFrameworkAccess;
+       140: aconst_null
+       141: putstatic     #84                 // Field vcStorageForTest:Lde/audi/atip/storage/IStorageAccess;
+       144: iconst_0
+       145: putstatic     #28                 // Field vcPreferenceLoaded:Z
+       148: iconst_0
+       149: putstatic     #29                 // Field vcPreferenceRevision:I
+       152: iconst_0
+       153: putstatic     #85                 // Field vcPersistedRevision:I
+       156: lconst_0
+       157: putstatic     #30                 // Field vcStorageRetryAfter:J
+       160: getstatic     #267                // Field stateReader:Lcom/mibsi/carplay/aa/NavigationStateReader;
+       163: ldc_w         #284                // String shadow
+       166: invokevirtual #285                // Method com/mibsi/carplay/aa/NavigationStateReader.resetForTest:(Ljava/lang/String;)V
+       169: return
+
+  static synchronized void setVcStorageForTest(de.audi.atip.storage.IStorageAccess);
+    descriptor: (Lde/audi/atip/storage/IStorageAccess;)V
+    Code:
+         0: aload_0
+         1: putstatic     #84                 // Field vcStorageForTest:Lde/audi/atip/storage/IStorageAccess;
+         4: return
+
+  static void syncVcPreferenceForTest();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #79                 // Method syncVcPreference:()V
+         3: return
+
+  public static synchronized boolean overrideIsFreshForTest();
+    descriptor: ()Z
+    Code:
+         0: invokestatic  #116                // Method refresh:()V
+         3: invokestatic  #117                // Method routeDataIsAvailable:()Z
+         6: ireturn
+
+  public static synchronized int[] destinationStateForTest();
+    descriptor: ()[I
+    Code:
+         0: iconst_2
+         1: newarray       int
+         3: dup
+         4: iconst_0
+         5: getstatic     #194                // Field destinationDistanceMeters:I
+         8: iastore
+         9: dup
+        10: iconst_1
+        11: getstatic     #197                // Field timeToDestinationSeconds:I
+        14: iastore
+        15: areturn
+
+  public static int[] maneuverDescriptorForTest(int, int);
+    descriptor: (II)[I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #189                // Method com/mibsi/carplay/aa/ManeuverMapper.bapDescriptor:(II)[I
+         5: areturn
+
+  public static int[] rendererManeuverForTest(int, int, int);
+    descriptor: (III)[I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: invokestatic  #211                // Method com/mibsi/carplay/aa/ManeuverMapper.rendererManeuver:(III)[I
+         6: areturn
+
+  public static synchronized boolean turnCardWindowForTest(int, int, int, boolean);
+    descriptor: (IIIZ)Z
+    Code:
+         0: getstatic     #130                // Field timeToStepSeconds:I
+         3: istore        4
+         5: getstatic     #133                // Field distanceMeters:I
+         8: istore        5
+        10: getstatic     #139                // Field maneuver:I
+        13: istore        6
+        15: getstatic     #125                // Field turnCardWindowOpen:Z
+        18: istore        7
+        20: iload_0
+        21: putstatic     #130                // Field timeToStepSeconds:I
+        24: iload_1
+        25: putstatic     #133                // Field distanceMeters:I
+        28: iload_2
+        29: putstatic     #139                // Field maneuver:I
+        32: iload_3
+        33: putstatic     #125                // Field turnCardWindowOpen:Z
+        36: invokestatic  #124                // Method shouldOpenTurnCard:()Z
+        39: istore        8
+        41: iload         4
+        43: putstatic     #130                // Field timeToStepSeconds:I
+        46: iload         5
+        48: putstatic     #133                // Field distanceMeters:I
+        51: iload         6
+        53: putstatic     #139                // Field maneuver:I
+        56: iload         7
+        58: putstatic     #125                // Field turnCardWindowOpen:Z
+        61: iload         8
+        63: ireturn
+
+  public static int maneuverStateForCardForTest(boolean, boolean);
+    descriptor: (ZZ)I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #206                // Method maneuverStateForCard:(ZZ)I
+         5: ireturn
+
+  public static boolean rendererManeuverHasContentForTest(int, int, int);
+    descriptor: (III)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: invokestatic  #211                // Method com/mibsi/carplay/aa/ManeuverMapper.rendererManeuver:(III)[I
+         6: invokestatic  #212                // Method rendererManeuverHasContent:([I)Z
+         9: ireturn
+
+  public static boolean cardPresentedForTest(boolean, boolean, boolean, int);
+    descriptor: (ZZZI)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: iload_3
+         4: invokestatic  #140                // Method isCardPresented:(ZZZI)Z
+         7: ireturn
+
+  public static boolean forcePresentationEdgeForTest(boolean, boolean, boolean);
+    descriptor: (ZZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: invokestatic  #151                // Method shouldForcePresentationEdge:(ZZZ)Z
+         6: ireturn
+
+  public static boolean closeCanCommitForTest(boolean, boolean);
+    descriptor: (ZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #150                // Method closeCanCommit:(ZZ)Z
+         5: ireturn
+
+  public static int nextPresentationTokenForTest(int);
+    descriptor: (I)I
+    Code:
+         0: iload_0
+         1: iconst_1
+         2: iadd
+         3: istore_1
+         4: iload_1
+         5: ifne          12
+         8: iconst_1
+         9: goto          13
+        12: iload_1
+        13: ireturn
+
+  public static int wrapMenuSelectionForTest(int, int);
+    descriptor: (II)I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iadd
+         3: iconst_2
+         4: irem
+         5: istore_2
+         6: iload_2
+         7: ifge          16
+        10: iload_2
+        11: iconst_2
+        12: iadd
+        13: goto          17
+        16: iload_2
+        17: ireturn
+
+  public static boolean oemMapShouldBeVisibleForTest(boolean, int);
+    descriptor: (ZI)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #113                // Method oemMapShouldBeVisible:(ZI)Z
+         5: ireturn
+
+  public static boolean projectedCardsEnabledForTest();
+    descriptor: ()Z
+    Code:
+         0: invokestatic  #123                // Method projectedCardsEnabled:()Z
+         3: ireturn
+
+  public static int retainPresentationTokenForTest(int, int);
+    descriptor: (II)I
+    Code:
+         0: iload_0
+         1: ifne          8
+         4: iload_1
+         5: goto          9
+         8: iload_0
+         9: ireturn
+
+  public static boolean presentationTokenMatchesForTest(int, int);
+    descriptor: (II)Z
+    Code:
+         0: iload_0
+         1: ifeq          17
+         4: iload_1
+         5: ifeq          17
+         8: iload_0
+         9: iload_1
+        10: if_icmpne     17
+        13: iconst_1
+        14: goto          18
+        17: iconst_0
+        18: ireturn
+
+  public static boolean clusterCardTransitionRequiredForTest(boolean, boolean);
+    descriptor: (ZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #234                // Method clusterCardTransitionRequired:(ZZ)Z
+         5: ireturn
+
+  public static synchronized java.lang.String turnToTextForCardForTest(boolean);
+    descriptor: (Z)Ljava/lang/String;
+    Code:
+         0: iload_0
+         1: invokestatic  #204                // Method turnToTextForCard:(Z)Ljava/lang/String;
+         4: areturn
+
+  public static int rgStatusForPresentationForTest(boolean, boolean);
+    descriptor: (ZZ)I
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #185                // Method rgStatusForPresentation:(ZZ)I
+         5: ireturn
+
+  public static boolean rgStatusPublicationRequiredForTest(int, boolean, boolean);
+    descriptor: (IZZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: iload_2
+         3: invokestatic  #143                // Method rgStatusPublicationRequired:(IZZ)Z
+         6: ireturn
+
+  public static boolean cardPublicationRequiredForTest(int, boolean);
+    descriptor: (IZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #145                // Method cardPublicationRequired:(IZ)Z
+         5: ireturn
+
+  public static boolean routePublicationRequiredForTest(int, boolean);
+    descriptor: (IZ)Z
+    Code:
+         0: iload_0
+         1: iload_1
+         2: invokestatic  #147                // Method routePublicationRequired:(IZ)Z
+         5: ireturn
+
+  static int access$008();
+    descriptor: ()I
+    Code:
+         0: getstatic     #10                 // Field rendererStateRevision:I
+         3: dup
+         4: iconst_1
+         5: iadd
+         6: putstatic     #10                 // Field rendererStateRevision:I
+         9: ireturn
+
+  static boolean access$100(java.lang.String);
+    descriptor: (Ljava/lang/String;)Z
+    Code:
+         0: aload_0
+         1: invokestatic  #9                  // Method isRendererConnectionBoundary:(Ljava/lang/String;)Z
+         4: ireturn
+
+  static int access$208();
+    descriptor: ()I
+    Code:
+         0: getstatic     #8                  // Field rendererConnectionRevision:I
+         3: dup
+         4: iconst_1
+         5: iadd
+         6: putstatic     #8                  // Field rendererConnectionRevision:I
+         9: ireturn
+
+  static com.mibsi.carplay.rgd.RendererServer access$300();
+    descriptor: ()Lcom/mibsi/carplay/rgd/RendererServer;
+    Code:
+         0: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+         3: areturn
+
+  static boolean access$400();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #6                  // Field vcMenuRequested:Z
+         3: ireturn
+
+  static boolean access$500();
+    descriptor: ()Z
+    Code:
+         0: getstatic     #5                  // Field vcMenuClosing:Z
+         3: ireturn
+
+  static int access$600();
+    descriptor: ()I
+    Code:
+         0: getstatic     #4                  // Field vcMenuSelection:I
+         3: ireturn
+
+  static int access$700();
+    descriptor: ()I
+    Code:
+         0: getstatic     #3                  // Field vcActiveMode:I
+         3: ireturn
+
+  static java.lang.Class class$(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/Class;
+    Code:
+         0: aload_0
+         1: invokestatic  #11                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+         4: areturn
+         5: astore_1
+         6: new           #13                 // class java/lang/NoClassDefFoundError
+         9: dup
+        10: invokespecial #14                 // Method java/lang/NoClassDefFoundError."<init>":()V
+        13: aload_1
+        14: invokevirtual #15                 // Method java/lang/NoClassDefFoundError.initCause:(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+        17: athrow
+      Exception table:
+         from    to  target type
+             0     4     5   Class java/lang/ClassNotFoundException
+
+  static void access$800();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #2                  // Method installGateOnNavigationJobs:()V
+         3: return
+
+  static {};
+    descriptor: ()V
+    Code:
+         0: iconst_m1
+         1: putstatic     #34                 // Field appliedMapScaleSuppression:I
+         4: iconst_m1
+         5: putstatic     #142                // Field publishedRgStatus:I
+         8: iconst_m1
+         9: putstatic     #144                // Field publishedCardOpen:I
+        12: iconst_m1
+        13: putstatic     #146                // Field publishedRouteDataAvailable:I
+        16: iconst_m1
+        17: putstatic     #59                 // Field lastPublishedSequence:I
+        20: iconst_m1
+        21: putstatic     #22                 // Field lastRenderedSequence:I
+        24: iconst_0
+        25: putstatic     #3                  // Field vcActiveMode:I
+        28: new           #286                // class java/io/File
+        31: dup
+        32: ldc_w         #287                // String /tmp/mhi2q_vc_menu_test.command
+        35: invokespecial #288                // Method java/io/File."<init>":(Ljava/lang/String;)V
+        38: putstatic     #289                // Field VC_MENU_COMMAND:Ljava/io/File;
+        41: new           #290                // class com/mibsi/carplay/rgd/RendererServer
+        44: dup
+        45: invokespecial #291                // Method com/mibsi/carplay/rgd/RendererServer."<init>":()V
+        48: putstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+        51: new           #292                // class com/mibsi/carplay/aa/NavigationStateReader
+        54: dup
+        55: invokespecial #293                // Method com/mibsi/carplay/aa/NavigationStateReader."<init>":()V
+        58: putstatic     #267                // Field stateReader:Lcom/mibsi/carplay/aa/NavigationStateReader;
+        61: getstatic     #7                  // Field renderer:Lcom/mibsi/carplay/rgd/RendererServer;
+        64: new           #294                // class com/mibsi/carplay/rgd/Mhi2qAaNavProxy$1
+        67: dup
+        68: invokespecial #295                // Method com/mibsi/carplay/rgd/Mhi2qAaNavProxy$1."<init>":()V
+        71: invokevirtual #296                // Method com/mibsi/carplay/rgd/RendererServer.setStateListener:(Lcom/mibsi/carplay/rgd/RendererServer$StateListener;)V
+        74: new           #297                // class com/mibsi/carplay/rgd/Mhi2qAaNavProxy$2
+        77: dup
+        78: invokespecial #298                // Method com/mibsi/carplay/rgd/Mhi2qAaNavProxy$2."<init>":()V
+        81: invokestatic  #299                // Method com/mibsi/carplay/core/Mhi2qAaClusterComposition.setPresentationListener:(Lcom/mibsi/carplay/core/Mhi2qAaClusterComposition$PresentationListener;)V
+        84: ldc_w         #261                // String aa
+        87: putstatic     #262                // Field mode:Ljava/lang/String;
+        90: iconst_m1
+        91: putstatic     #135                // Field sequence:I
+        94: iconst_m1
+        95: putstatic     #194                // Field destinationDistanceMeters:I
+        98: iconst_m1
+        99: putstatic     #197                // Field timeToDestinationSeconds:I
+       102: ldc           #202                // String
+       104: putstatic     #255                // Field currentRoad:Ljava/lang/String;
+       107: ldc           #202                // String
+       109: putstatic     #257                // Field nextRoad:Ljava/lang/String;
+       112: ldc           #202                // String
+       114: putstatic     #258                // Field instruction:Ljava/lang/String;
+       117: iconst_0
+       118: newarray       byte
+       120: putstatic     #214                // Field laneGuidance:[B
+       123: return
+}

@@ -1,0 +1,5 @@
+Input: dio_manager.mhi2q_carplay_loader
+Language: ARM:LE:32:v8
+Functions decompiled: 1958
+Functions failed: 0
+Skipped external/uninitialized functions: 348

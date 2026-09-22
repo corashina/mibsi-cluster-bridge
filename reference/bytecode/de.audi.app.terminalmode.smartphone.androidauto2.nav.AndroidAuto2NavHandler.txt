@@ -1,0 +1,210 @@
+public class de.audi.app.terminalmode.smartphone.androidauto2.nav.AndroidAuto2NavHandler extends de.audi.app.terminalmode.smartphone.androidauto2.AbstractAndroidAuto2Handler implements de.audi.app.terminalmode.smartphone.androidauto2.nav.IAndroidAuto2NavHandler {
+  private static final java.lang.String LOGCLASS;
+    descriptor: Ljava/lang/String;
+
+  private volatile de.audi.app.terminalmode.statemachine.ApplicationOwner appNaviOwnerCurrent;
+    descriptor: Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+
+  private volatile boolean hasNavFocusRequested;
+    descriptor: Z
+
+  private volatile de.audi.app.terminalmode.statemachine.ApplicationOwner expectedAppNavOwner;
+    descriptor: Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+
+  public de.audi.app.terminalmode.smartphone.androidauto2.nav.AndroidAuto2NavHandler(de.audi.atip.log.LogChannel, org.dsi.ifc.androidauto2.DSIAndroidAuto2, de.audi.app.terminalmode.statemachine.IStateHandler, de.audi.app.terminalmode.IContext);
+    descriptor: (Lde/audi/atip/log/LogChannel;Lorg/dsi/ifc/androidauto2/DSIAndroidAuto2;Lde/audi/app/terminalmode/statemachine/IStateHandler;Lde/audi/app/terminalmode/IContext;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: aload_3
+         4: aload         4
+         6: invokespecial #37                 // Method de/audi/app/terminalmode/smartphone/androidauto2/AbstractAndroidAuto2Handler."<init>":(Lde/audi/atip/log/LogChannel;Lorg/dsi/ifc/androidauto2/DSIAndroidAuto2;Lde/audi/app/terminalmode/statemachine/IStateHandler;Lde/audi/app/terminalmode/IContext;)V
+         9: aload_0
+        10: getstatic     #2                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.NOBODY:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        13: putfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        16: aload_0
+        17: getstatic     #2                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.NOBODY:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        20: putfield      #41                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.expectedAppNavOwner:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        23: return
+
+  public void updateNavFocus(de.audi.app.terminalmode.statemachine.ApplicationOwner);
+    descriptor: (Lde/audi/app/terminalmode/statemachine/ApplicationOwner;)V
+    Code:
+         0: aload_0
+         1: getfield      #42                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.hasNavFocusRequested:Z
+         4: ifeq          88
+         7: aload_0
+         8: getfield      #41                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.expectedAppNavOwner:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        11: aload_1
+        12: invokevirtual #27                 // Method de/audi/app/terminalmode/statemachine/ApplicationOwner.equals:(Ljava/lang/Object;)Z
+        15: ifeq          186
+        18: aload_0
+        19: getfield      #28                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.logger:Lde/audi/atip/log/LogChannel;
+        22: ldc           #3                  // int 1000000
+        24: ldc           #4                  // String [%1.updateNavFocus] responding to requested navFocusNotification: %2
+        26: ldc           #187                // String AndroidAuto2NavHandler
+        28: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        31: aload_1
+        32: invokevirtual #27                 // Method de/audi/app/terminalmode/statemachine/ApplicationOwner.equals:(Ljava/lang/Object;)Z
+        35: ifeq          43
+        38: ldc           #7                  // String PROJECTED
+        40: goto          45
+        43: ldc           #8                  // String NATIVE
+        45: invokevirtual #29                 // Method de/audi/atip/log/LogChannel.log:(ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        48: aload_0
+        49: getfield      #30                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.dsi:Lorg/dsi/ifc/androidauto2/DSIAndroidAuto2;
+        52: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        55: aload_1
+        56: invokevirtual #27                 // Method de/audi/app/terminalmode/statemachine/ApplicationOwner.equals:(Ljava/lang/Object;)Z
+        59: ifeq          66
+        62: iconst_2
+        63: goto          67
+        66: iconst_1
+        67: iconst_0
+        68: invokeinterface #43,  3           // InterfaceMethod org/dsi/ifc/androidauto2/DSIAndroidAuto2.navFocusNotification:(IZ)V
+        73: aload_0
+        74: iconst_0
+        75: putfield      #42                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.hasNavFocusRequested:Z
+        78: aload_0
+        79: getstatic     #2                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.NOBODY:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        82: putfield      #41                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.expectedAppNavOwner:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        85: goto          186
+        88: aload_0
+        89: getfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        92: aload_1
+        93: invokevirtual #27                 // Method de/audi/app/terminalmode/statemachine/ApplicationOwner.equals:(Ljava/lang/Object;)Z
+        96: ifeq          118
+        99: aload_0
+       100: getfield      #28                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.logger:Lde/audi/atip/log/LogChannel;
+       103: ldc           #3                  // int 1000000
+       105: ldc           #9                  // String [%1.updateNavFocus] %2 -> %3, do nothing
+       107: ldc           #187                // String AndroidAuto2NavHandler
+       109: aload_0
+       110: getfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+       113: aload_1
+       114: invokevirtual #31                 // Method de/audi/atip/log/LogChannel.log:(ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+       117: return
+       118: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+       121: aload_1
+       122: invokevirtual #27                 // Method de/audi/app/terminalmode/statemachine/ApplicationOwner.equals:(Ljava/lang/Object;)Z
+       125: ifeq          160
+       128: aload_0
+       129: getfield      #28                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.logger:Lde/audi/atip/log/LogChannel;
+       132: ldc           #3                  // int 1000000
+       134: ldc           #10                 // String [%1.updateNavFocus] %2 -> %3, navFocusNotification: PROJECTED
+       136: ldc           #187                // String AndroidAuto2NavHandler
+       138: aload_0
+       139: getfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+       142: aload_1
+       143: invokevirtual #31                 // Method de/audi/atip/log/LogChannel.log:(ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+       146: aload_0
+       147: getfield      #30                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.dsi:Lorg/dsi/ifc/androidauto2/DSIAndroidAuto2;
+       150: iconst_2
+       151: iconst_1
+       152: invokeinterface #43,  3           // InterfaceMethod org/dsi/ifc/androidauto2/DSIAndroidAuto2.navFocusNotification:(IZ)V
+       157: goto          186
+       160: aload_0
+       161: getfield      #28                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.logger:Lde/audi/atip/log/LogChannel;
+       164: ldc           #3                  // int 1000000
+       166: ldc           #11                 // String [%1.updateNavFocus] %2 -> %3, navFocusNotification: NATIVE
+       168: ldc           #187                // String AndroidAuto2NavHandler
+       170: aload_0
+       171: getfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+       174: aload_1
+       175: invokevirtual #31                 // Method de/audi/atip/log/LogChannel.log:(ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+       178: aload_0
+       179: getfield      #30                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.dsi:Lorg/dsi/ifc/androidauto2/DSIAndroidAuto2;
+       182: iconst_1
+       183: iconst_1
+       184: pop2
+       185: pop
+       186: aload_0
+       187: aload_1
+       188: putfield      #40                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.appNaviOwnerCurrent:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+       191: return
+       192: nop
+
+  public void navFocusRequestNotification(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: iload_2
+         2: invokevirtual #32                 // Method de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.isValid:(I)Z
+         5: ifeq          89
+         8: aload_0
+         9: getfield      #28                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.logger:Lde/audi/atip/log/LogChannel;
+        12: ldc           #3                  // int 1000000
+        14: ldc           #12                 // String <- [%1.navFocusRequestNotification] %2
+        16: ldc           #187                // String AndroidAuto2NavHandler
+        18: aload_0
+        19: iload_1
+        20: invokespecial #38                 // Method de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.getNavState:(I)Ljava/lang/String;
+        23: invokevirtual #29                 // Method de/audi/atip/log/LogChannel.log:(ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        26: iconst_1
+        27: iload_1
+        28: if_icmpne     56
+        31: aload_0
+        32: getstatic     #13                 // Field de/audi/app/terminalmode/statemachine/Application.NAVI:Lde/audi/app/terminalmode/statemachine/Application;
+        35: getstatic     #2                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.NOBODY:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        38: invokevirtual #33                 // Method de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.requestDSIUpdate:(Lde/audi/app/terminalmode/statemachine/Application;Lde/audi/app/terminalmode/statemachine/ApplicationOwner;)V
+        41: aload_0
+        42: iconst_1
+        43: putfield      #42                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.hasNavFocusRequested:Z
+        46: aload_0
+        47: getstatic     #2                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.NOBODY:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        50: putfield      #41                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.expectedAppNavOwner:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        53: goto          89
+        56: iconst_2
+        57: iload_1
+        58: if_icmpne     89
+        61: aload_0
+        62: getstatic     #13                 // Field de/audi/app/terminalmode/statemachine/Application.NAVI:Lde/audi/app/terminalmode/statemachine/Application;
+        65: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        68: pop2
+        69: pop
+        70: aload_0
+        71: iconst_1
+        72: putfield      #42                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.hasNavFocusRequested:Z
+        75: aload_0
+        76: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        79: putfield      #41                 // Field de/audi/app/terminalmode/smartphone/androidauto2/nav/AndroidAuto2NavHandler.expectedAppNavOwner:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        82: aload_0
+        83: getstatic     #6                  // Field de/audi/app/terminalmode/statemachine/ApplicationOwner.DEVICE:Lde/audi/app/terminalmode/statemachine/ApplicationOwner;
+        86: invokevirtual #208                // Method updateNavFocus:(Lde/audi/app/terminalmode/statemachine/ApplicationOwner;)V
+        89: return
+
+  private java.lang.String getNavState(int);
+    descriptor: (I)Ljava/lang/String;
+    Code:
+         0: iload_1
+         1: lookupswitch  { // 2
+
+                       1: 28
+
+                       2: 31
+                 default: 34
+            }
+        28: ldc           #14                 // String NAV_NATIVE
+        30: areturn
+        31: ldc           #15                 // String NAV_PROJECTED
+        33: areturn
+        34: new           #44                 // class java/lang/StringBuffer
+        37: dup
+        38: invokespecial #39                 // Method java/lang/StringBuffer."<init>":()V
+        41: ldc           #17                 // String NAV_UNKNOWN
+        43: invokevirtual #34                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        46: iload_1
+        47: invokevirtual #35                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+        50: invokevirtual #36                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        53: areturn
+        54: nop
+        55: nop
+
+  protected java.lang.String getLogClass();
+    descriptor: ()Ljava/lang/String;
+    Code:
+         0: ldc           #5                  // String AndroidAuto2NavHandler
+         2: areturn
+         3: nop
+}

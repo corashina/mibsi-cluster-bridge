@@ -1,0 +1,6 @@
+MIBSI P5092 7e792409480209467f17fb27
+Operation: install
+Extraire tout le contenu de l'archive a la racine d'une carte SD FAT32 vide.
+Lancer ensuite la mise a jour logicielle OEM.
+L'installateur refuse tout firmware autre que MHI2Q_ER_AUG22_P5092_MU1329.
+Ce package est utilisable sur les unites du firmware indique.

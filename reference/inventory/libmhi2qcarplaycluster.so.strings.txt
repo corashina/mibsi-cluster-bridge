@@ -1,0 +1,232 @@
+000007cd	_init
+000007d3	_fini
+000007d9	_ITM_deregisterTMCloneTable
+000007f5	_ITM_registerTMCloneTable
+0000080f	__cxa_finalize
+0000081e	__deregister_frame_info
+00000836	__register_frame_info
+0000084c	_Jv_RegisterClasses
+00000860	pthread_mutex_lock
+00000873	pthread_mutex_unlock
+00000888	pthread_cond_broadcast
+000008a4	close
+000008aa	clock_gettime
+000008b8	select
+000008bf	__get_errno_ptr
+000008cf	recvfrom
+000008d8	pthread_mutex_trylock
+000008ee	waitpid
+000008f6	spawnl
+000008fd	shutdown
+00000906	pthread_self
+00000913	pthread_equal
+00000921	pthread_join
+0000092e	usleep
+0000093a	pthread_cond_timedwait
+00000951	memcpy
+00000958	pthread_create
+00000967	access
+0000096e	sysconf
+00000976	mprotect
+0000097f	socket
+0000098b	getpid
+00000992	dlopen
+00000999	dlsym
+0000099f	memset
+000009a6	write
+000009ac	strlen
+000009b3	pthread_cond_signal
+000009c7	memmove
+000009cf	realloc
+000009d7	rename
+000009de	unlink
+000009e5	pthread_cond_wait
+000009f7	CinemoCreateIAP
+00000a07	_ZN14NmeIAP2Message6DecodeEPKhi
+00000a27	_ZNK14NmeIAP2Message6EncodeER8NmeArrayIhE
+00000a51	_ZN12NmeTransport4SendEPKhjPj
+00000a6f	vsnprintf
+00000a79	accept
+00000a80	fcntl
+00000a8b	sigemptyset
+00000a97	sigaddset
+00000aa1	pthread_sigmask
+00000ab1	setsockopt
+00000abc	listen
+00000ac3	libsocket.so.3
+00000ad2	_btext
+00000ad9	__exidx_start
+00000ae7	__exidx_end
+00000af3	__data_start
+00000b00	_edata
+00000b07	__bss_start
+00000b13	__bss_start__
+00000b21	__bss_end__
+00000b2d	__end__
+00000b35	_stack
+00000b3c	libmhi2qcarplaycluster.so
+00000b56	libsocket.so.2
+0000bb80	widthPixels
+0000bb8c	heightPixels
+0000bb9c	originXPixels
+0000bbac	originYPixels
+0000bbbc	drawUIOutsideSafeArea
+0000bbd4	viewAreaTransitionControl
+0000bbf0	safeArea
+0000bc0c	b7e6c5a0-2222-4000-8000-000000000002
+0000bc38	maps:/car/instrumentcluster
+0000bc54	params
+0000bc5c	streams
+0000bc64	/tmp/mhi2q_aa_ui_view.state
+0000bc80	showUI
+0000bc88	stopUI
+0000bc90	/eso/bin/apps/mhi2q-aa-cluster-display
+0000bcb8	--live-carplay
+0000bcc8	forceKeyFrame
+0000bcd8	updateViewArea
+0000bce8	viewAreaIndex
+0000bcf8	animationDurationMillis
+0000bd10	adjacentViewAreas
+0000bd24	changeMapZoomLevel
+0000bd38	zoomDirection
+0000bd48	enabledFeatures
+0000bd58	viewAreas
+0000bd64	altScreen
+0000bd70	streamConnectionID
+0000bd84	dataPort
+0000bd90	features
+0000bd9c	displays
+0000bda8	maxFPS
+0000bdb0	widthPhysical
+0000bdc0	heightPhysical
+0000bdd0	primaryInputDevice
+0000bde4	initialURL
+0000bdf0	initialViewArea
+0000be00	hidDevices
+0000be0c	displayUUID
+0000be20	Eso_Knob
+0000be2c	hidDescriptor
+0000be3c	MHI2Q_ClusterKnob
+0000be50	libairplay.so
+0000be60	AirPlayReceiverSessionSetup
+0000be7c	AirPlayReceiverSessionTearDown
+0000be9c	AirPlayCopyServerInfo
+0000beb4	AirPlayReceiverSessionSendCommand
+0000bed8	AirPlayReceiverSessionForceKeyFrame
+0000befc	ScreenStreamCreate
+0000bf10	_ZN3dio12OmxVideoImpl10initializeERPFvvE
+0000bf3c	_ZN3dio12OmxVideoImpl6decodeEPhjyb
+0000bf60	_ZN3dio12OmxVideoImpl9configureEjjjjjjj
+0000bf88	_ZN3dio12OmxVideoImpl5startEv
+0000bfa8	_ZN3dio12OmxVideoImpl4stopEv
+0000bfc8	_ZN3dio12OmxVideoImpl13setVisibilityEh
+0000bff0	CFStringCreateWithCString
+0000c00c	CFPropertyListCreateDeepCopy
+0000c02c	CFRelease
+0000c038	CFDictionaryGetValue
+0000c050	CFDictionarySetValue
+0000c068	CFDictionaryGetInt64
+0000c080	CFDictionarySetInt64
+0000c098	CFDictionarySetCString
+0000c0b0	CFDictionaryCreateMutable
+0000c0cc	CFArrayCreateMutable
+0000c0e4	CFArrayCreateMutableCopy
+0000c100	CFArrayGetCount
+0000c110	CFArrayGetValueAtIndex
+0000c128	CFArrayAppendValue
+0000c13c	CFArrayAppendCString
+0000c154	CFPropertyListCreateData
+0000c170	CFDataGetLength
+0000c180	CFDataGetBytePtr
+0000c194	AirPlayReceiverSessionScreen_Create
+0000c1b8	AirPlayReceiverSessionScreen_Delete
+0000c1dc	AirPlayReceiverSessionScreen_Setup
+0000c200	AirPlayReceiverSessionScreen_SetTimeSynchronizer
+0000c234	AirPlayReceiverSessionScreen_SetSecurityInfo
+0000c264	AirPlayReceiverSessionScreen_UpdateState
+0000c290	AirPlayReceiverSessionScreen_StartSession
+0000c2bc	AirPlayReceiverSessionScreen_ProcessFrames
+0000c2e8	AirPlayReceiverSessionScreen_StopSession
+0000c314	AirPlay_DeriveAESKeySHA512ForScreen
+0000c338	ServerSocketOpen
+0000c34c	SocketAccept
+0000c35c	NetSocket_CreateWithNative
+0000c378	NetSocket_Delete
+0000c38c	HIDDeviceCreateVirtual
+0000c3a4	HIDRegisterDevice
+0000c3b8	HIDDeregisterDevice
+0000c3cc	HIDKnobFillReport
+0000c3e0	HIDDevicePostReport
+0000c3f4	HIDDeviceCopyProperty
+0000c40c	CFRetain
+0000c418	CFEqual
+0000c420	kCFLDictionaryKeyCallBacksCFLTypes
+0000c444	kCFLDictionaryValueCallBacksCFLTypes
+0000c46c	kCFLArrayCallBacksCFLTypes
+0000c488	kCFLBooleanFalse
+0000c49c	_ZN3dio11CDIOManager28s_serverCopyPropertyCallbackEP28AirPlayReceiverServerPrivateP9CFLStringPKvPiPv
+0000c504	_ZN14NmeIAP2Message6DecodeEPKhi
+0000c524	_ZNK14NmeIAP2Message6EncodeER8NmeArrayIhE
+0000c550	_ZN12NmeTransport4SendEPKhjPj
+0000c570	CinemoCreateIAP
+0000c580	ICinemoIAP_AddRef
+0000c594	ICinemoIAP_Release
+0000c5a8	ICinemoIAP_SendIAP2
+0000c5bc	/tmp/mhi2q_carplay_nav_proxy.state.new
+0000c5e4	/tmp/mhi2q_carplay_nav_proxy.state
+0000c608	MHI2Q_AA_NAV_V2
+0000c63c	0123456789abcdef
+0000c650	RouteGuidanceDisplayComponent
+0000c670	/eso/bin/apps/mhi2q-aa-turn-card-renderer
+0000c69c	turn-card: cannot spawn renderer errno=%d
+0000c6c8	turn-card: renderer started pid=%d
+0000c6ec	turn-card: singleton owned by an earlier GAL renderer; retrying in 10s
+0000c734	turn-card: renderer exited result=%d status=0x%x stop=%d
+0000c770	turn-card: executable unavailable at %s errno=%d
+0000c7a4	turn-card: cannot start supervisor rc=%d
+0000c7d4	stream: viewer connected, waiting for complete IDR access unit
+0000c814	stream: non-IDR received while unsynchronized; requesting focus bounce
+0000c85c	stream: cannot prime viewer without codec configuration
+0000c894	stream: viewer synchronized at complete IDR access unit
+0000c8cc	stream: viewer disconnected after %llu bytes
+0000c8fc	annex-b
+0000c904	timed-access-units
+0000c918	framed-access-units
+0000c92c	stream: socket creation failed errno=%d
+0000c954	stream: cannot listen on TCP port %u errno=%d
+0000c984	stream: writer thread creation failed (%d)
+0000c9b0	stream: loopback ready port=%u mode=%s queue=%u bytes packets=%u max=%u
+0000c9f8	stream: oversized access unit length=%u max=%u
+0000ca28	stream: queue saturated after %u ms; marking discontinuity packets=%u bytes=%u length=%u
+0000f1b1	GCC: (GNU) 4.9.4
+0000f1c3	GCC: (GNU) 4.9.4
+0000f1d5	GCC: (GNU) 4.9.4
+0000f1e7	GCC: (GNU) 4.9.4
+0000f1f9	GCC: (GNU) 4.9.4
+0000f20b	GCC: (GNU) 4.9.4
+0000f21d	GCC: (GNU) 4.9.4
+0000f22f	GCC: (GNU) 4.9.4
+0000f241	GCC: (GNU) 4.9.4
+0000f253	GCC: (GNU) 4.9.4
+0000f265	GCC: (GNU) 4.9.4
+0000f27b	aeabi
+0000f2a2	.shstrtab
+0000f2ac	.hash
+0000f2b2	.dynsym
+0000f2ba	.dynstr
+0000f2c2	.gnu.version
+0000f2cf	.gnu.version_r
+0000f2de	.rel.dyn
+0000f2e7	.rel.plt
+0000f2f0	.init
+0000f2f6	.text
+0000f2fc	.fini
+0000f302	.rodata
+0000f30a	.ARM.exidx
+0000f315	.eh_frame
+0000f31f	.init_array
+0000f32b	.fini_array
+0000f33c	.dynamic
+0000f34a	.data
+0000f355	.comment
+0000f35e	.ARM.attributes

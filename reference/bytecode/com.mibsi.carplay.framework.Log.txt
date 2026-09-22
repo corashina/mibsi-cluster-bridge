@@ -1,0 +1,464 @@
+public final class com.mibsi.carplay.framework.Log {
+  public static final int E;
+    descriptor: I
+
+  public static final int W;
+    descriptor: I
+
+  public static final int I;
+    descriptor: I
+
+  public static final int D;
+    descriptor: I
+
+  private static final java.lang.String VERBOSE_MARKERS;
+    descriptor: Ljava/lang/String;
+
+  private static int level;
+    descriptor: I
+
+  private static final java.lang.String FILE;
+    descriptor: Ljava/lang/String;
+
+  private static final java.lang.String FILE_OLD;
+    descriptor: Ljava/lang/String;
+
+  private static final long MAX_FILE_BYTES;
+    descriptor: J
+
+  private static java.io.PrintStream file;
+    descriptor: Ljava/io/PrintStream;
+
+  private static boolean fileTried;
+    descriptor: Z
+
+  private static long fileBytes;
+    descriptor: J
+
+  private static final java.lang.Object LOCK;
+    descriptor: Ljava/lang/Object;
+
+  private static final int QUEUE_CAPACITY;
+    descriptor: I
+
+  private static final java.lang.String[] queue;
+    descriptor: [Ljava/lang/String;
+
+  private static int queueHead;
+    descriptor: I
+
+  private static int queueTail;
+    descriptor: I
+
+  private static int queueCount;
+    descriptor: I
+
+  private static java.lang.Thread writerThread;
+    descriptor: Ljava/lang/Thread;
+
+  private static int resolveInitialLevel();
+    descriptor: ()I
+    Code:
+         0: iconst_0
+         1: istore_0
+         2: iload_0
+         3: ldc           #4                  // String /mnt/app/carplay_verbose:/tmp/carplay_verbose
+         5: invokevirtual #5                  // Method java/lang/String.length:()I
+         8: if_icmpge     71
+        11: ldc           #4                  // String /mnt/app/carplay_verbose:/tmp/carplay_verbose
+        13: bipush        58
+        15: iload_0
+        16: invokevirtual #6                  // Method java/lang/String.indexOf:(II)I
+        19: istore_1
+        20: iload_1
+        21: ifge          33
+        24: ldc           #4                  // String /mnt/app/carplay_verbose:/tmp/carplay_verbose
+        26: iload_0
+        27: invokevirtual #7                  // Method java/lang/String.substring:(I)Ljava/lang/String;
+        30: goto          40
+        33: ldc           #4                  // String /mnt/app/carplay_verbose:/tmp/carplay_verbose
+        35: iload_0
+        36: iload_1
+        37: invokevirtual #8                  // Method java/lang/String.substring:(II)Ljava/lang/String;
+        40: astore_2
+        41: new           #9                  // class java/io/File
+        44: dup
+        45: aload_2
+        46: invokespecial #10                 // Method java/io/File."<init>":(Ljava/lang/String;)V
+        49: invokevirtual #11                 // Method java/io/File.exists:()Z
+        52: ifeq          57
+        55: iconst_2
+        56: ireturn
+        57: iload_1
+        58: ifge          64
+        61: goto          71
+        64: iload_1
+        65: iconst_1
+        66: iadd
+        67: istore_0
+        68: goto          2
+        71: goto          75
+        74: astore_0
+        75: iconst_1
+        76: ireturn
+      Exception table:
+         from    to  target type
+             0    56    74   Class java/lang/Throwable
+            57    71    74   Class java/lang/Throwable
+
+  private com.mibsi.carplay.framework.Log();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: invokespecial #13                 // Method java/lang/Object."<init>":()V
+         4: return
+
+  public static void setLevel(int);
+    descriptor: (I)V
+    Code:
+         0: iload_0
+         1: putstatic     #14                 // Field level:I
+         4: return
+
+  public static void e(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: iconst_0
+         1: ldc           #15                 // String E
+         3: aload_0
+         4: aload_1
+         5: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+         8: return
+
+  public static void w(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: iconst_1
+         1: ldc           #17                 // String W
+         3: aload_0
+         4: aload_1
+         5: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+         8: return
+
+  public static void i(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: iconst_2
+         1: ldc           #18                 // String I
+         3: aload_0
+         4: aload_1
+         5: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+         8: return
+
+  public static void d(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: iconst_3
+         1: ldc           #19                 // String D
+         3: aload_0
+         4: aload_1
+         5: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+         8: return
+
+  public static void e(java.lang.String, java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+    Code:
+         0: iconst_0
+         1: ldc           #15                 // String E
+         3: aload_0
+         4: new           #20                 // class java/lang/StringBuffer
+         7: dup
+         8: invokespecial #21                 // Method java/lang/StringBuffer."<init>":()V
+        11: aload_1
+        12: invokevirtual #22                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        15: ldc           #23                 // String  ::
+        17: invokevirtual #22                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        20: aload_2
+        21: invokevirtual #24                 // Method java/lang/StringBuffer.append:(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+        24: invokevirtual #25                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        27: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+        30: return
+
+  public static void w(java.lang.String, java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+    Code:
+         0: iconst_1
+         1: ldc           #17                 // String W
+         3: aload_0
+         4: new           #20                 // class java/lang/StringBuffer
+         7: dup
+         8: invokespecial #21                 // Method java/lang/StringBuffer."<init>":()V
+        11: aload_1
+        12: invokevirtual #22                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        15: ldc           #23                 // String  ::
+        17: invokevirtual #22                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        20: aload_2
+        21: invokevirtual #24                 // Method java/lang/StringBuffer.append:(Ljava/lang/Object;)Ljava/lang/StringBuffer;
+        24: invokevirtual #25                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        27: invokestatic  #16                 // Method out:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+        30: return
+
+  private static void out(int, java.lang.String, java.lang.String, java.lang.String);
+    descriptor: (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: return
+
+  private static void ensureWriterLocked();
+    descriptor: ()V
+    Code:
+         0: getstatic     #26                 // Field writerThread:Ljava/lang/Thread;
+         3: ifnull        7
+         6: return
+         7: new           #27                 // class java/lang/Thread
+        10: dup
+        11: new           #28                 // class com/mibsi/carplay/framework/Log$1
+        14: dup
+        15: invokespecial #29                 // Method com/mibsi/carplay/framework/Log$1."<init>":()V
+        18: ldc           #30                 // String carplay-log-writer
+        20: invokespecial #31                 // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+        23: astore_0
+        24: aload_0
+        25: iconst_1
+        26: invokevirtual #32                 // Method java/lang/Thread.setDaemon:(Z)V
+        29: aload_0
+        30: invokevirtual #33                 // Method java/lang/Thread.start:()V
+        33: aload_0
+        34: putstatic     #26                 // Field writerThread:Ljava/lang/Thread;
+        37: goto          45
+        40: astore_1
+        41: aconst_null
+        42: putstatic     #26                 // Field writerThread:Ljava/lang/Thread;
+        45: return
+      Exception table:
+         from    to  target type
+            29    37    40   Class java/lang/Throwable
+
+  private static void writerLoop();
+    descriptor: ()V
+    Code:
+         0: getstatic     #34                 // Field LOCK:Ljava/lang/Object;
+         3: dup
+         4: astore_1
+         5: monitorenter
+         6: getstatic     #35                 // Field queueCount:I
+         9: ifne          25
+        12: getstatic     #34                 // Field LOCK:Ljava/lang/Object;
+        15: invokevirtual #36                 // Method java/lang/Object.wait:()V
+        18: goto          6
+        21: astore_2
+        22: goto          6
+        25: getstatic     #38                 // Field queue:[Ljava/lang/String;
+        28: getstatic     #39                 // Field queueHead:I
+        31: aaload
+        32: astore_0
+        33: getstatic     #38                 // Field queue:[Ljava/lang/String;
+        36: getstatic     #39                 // Field queueHead:I
+        39: aconst_null
+        40: aastore
+        41: getstatic     #39                 // Field queueHead:I
+        44: iconst_1
+        45: iadd
+        46: sipush        256
+        49: irem
+        50: putstatic     #39                 // Field queueHead:I
+        53: getstatic     #35                 // Field queueCount:I
+        56: iconst_1
+        57: isub
+        58: putstatic     #35                 // Field queueCount:I
+        61: aload_1
+        62: monitorexit
+        63: goto          71
+        66: astore_3
+        67: aload_1
+        68: monitorexit
+        69: aload_3
+        70: athrow
+        71: aload_0
+        72: invokestatic  #40                 // Method writeLine:(Ljava/lang/String;)V
+        75: goto          82
+        78: astore_1
+        79: invokestatic  #41                 // Method resetFileAfterFailure:()V
+        82: goto          0
+      Exception table:
+         from    to  target type
+            12    18    21   Class java/lang/InterruptedException
+             6    63    66   any
+            66    69    66   any
+            71    75    78   Class java/lang/Throwable
+
+  private static void writeLine(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+         0: aload_0
+         1: ifnonnull     5
+         4: return
+         5: invokestatic  #42                 // Method logFile:()Ljava/io/PrintStream;
+         8: astore_1
+         9: aload_1
+        10: ifnull        59
+        13: aload_0
+        14: invokevirtual #43                 // Method java/lang/String.getBytes:()[B
+        17: arraylength
+        18: iconst_1
+        19: iadd
+        20: istore_2
+        21: getstatic     #44                 // Field fileBytes:J
+        24: iload_2
+        25: i2l
+        26: ladd
+        27: ldc2_w        #45                 // long 524288l
+        30: lcmp
+        31: ifle          41
+        34: invokestatic  #47                 // Method rotateFile:()V
+        37: invokestatic  #42                 // Method logFile:()Ljava/io/PrintStream;
+        40: astore_1
+        41: aload_1
+        42: ifnull        59
+        45: aload_1
+        46: aload_0
+        47: invokevirtual #48                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        50: getstatic     #44                 // Field fileBytes:J
+        53: iload_2
+        54: i2l
+        55: ladd
+        56: putstatic     #44                 // Field fileBytes:J
+        59: return
+
+  private static java.io.PrintStream logFile();
+    descriptor: ()Ljava/io/PrintStream;
+    Code:
+         0: getstatic     #49                 // Field fileTried:Z
+         3: ifne          82
+         6: iconst_1
+         7: putstatic     #49                 // Field fileTried:Z
+        10: new           #9                  // class java/io/File
+        13: dup
+        14: ldc           #50                 // String /tmp/carplay_java.log
+        16: invokespecial #10                 // Method java/io/File."<init>":(Ljava/lang/String;)V
+        19: astore_0
+        20: aload_0
+        21: invokevirtual #51                 // Method java/io/File.length:()J
+        24: ldc2_w        #45                 // long 524288l
+        27: lcmp
+        28: iflt          35
+        31: aload_0
+        32: invokestatic  #52                 // Method rotateFiles:(Ljava/io/File;)V
+        35: aload_0
+        36: invokevirtual #11                 // Method java/io/File.exists:()Z
+        39: ifeq          49
+        42: aload_0
+        43: invokevirtual #51                 // Method java/io/File.length:()J
+        46: goto          50
+        49: lconst_0
+        50: putstatic     #44                 // Field fileBytes:J
+        53: new           #53                 // class java/io/PrintStream
+        56: dup
+        57: new           #54                 // class java/io/FileOutputStream
+        60: dup
+        61: ldc           #50                 // String /tmp/carplay_java.log
+        63: iconst_1
+        64: invokespecial #55                 // Method java/io/FileOutputStream."<init>":(Ljava/lang/String;Z)V
+        67: iconst_1
+        68: invokespecial #56                 // Method java/io/PrintStream."<init>":(Ljava/io/OutputStream;Z)V
+        71: putstatic     #57                 // Field file:Ljava/io/PrintStream;
+        74: goto          82
+        77: astore_0
+        78: aconst_null
+        79: putstatic     #57                 // Field file:Ljava/io/PrintStream;
+        82: getstatic     #57                 // Field file:Ljava/io/PrintStream;
+        85: areturn
+      Exception table:
+         from    to  target type
+            10    74    77   Class java/lang/Throwable
+
+  private static void rotateFile();
+    descriptor: ()V
+    Code:
+         0: getstatic     #57                 // Field file:Ljava/io/PrintStream;
+         3: ifnull        20
+         6: getstatic     #57                 // Field file:Ljava/io/PrintStream;
+         9: invokevirtual #58                 // Method java/io/PrintStream.close:()V
+        12: goto          16
+        15: astore_0
+        16: aconst_null
+        17: putstatic     #57                 // Field file:Ljava/io/PrintStream;
+        20: new           #9                  // class java/io/File
+        23: dup
+        24: ldc           #50                 // String /tmp/carplay_java.log
+        26: invokespecial #10                 // Method java/io/File."<init>":(Ljava/lang/String;)V
+        29: invokestatic  #52                 // Method rotateFiles:(Ljava/io/File;)V
+        32: goto          36
+        35: astore_0
+        36: iconst_0
+        37: putstatic     #49                 // Field fileTried:Z
+        40: lconst_0
+        41: putstatic     #44                 // Field fileBytes:J
+        44: return
+      Exception table:
+         from    to  target type
+             6    12    15   Class java/lang/Throwable
+            20    32    35   Class java/lang/Throwable
+
+  private static void resetFileAfterFailure();
+    descriptor: ()V
+    Code:
+         0: getstatic     #57                 // Field file:Ljava/io/PrintStream;
+         3: ifnull        20
+         6: getstatic     #57                 // Field file:Ljava/io/PrintStream;
+         9: invokevirtual #58                 // Method java/io/PrintStream.close:()V
+        12: goto          16
+        15: astore_0
+        16: aconst_null
+        17: putstatic     #57                 // Field file:Ljava/io/PrintStream;
+        20: iconst_0
+        21: putstatic     #49                 // Field fileTried:Z
+        24: lconst_0
+        25: putstatic     #44                 // Field fileBytes:J
+        28: return
+      Exception table:
+         from    to  target type
+             6    12    15   Class java/lang/Throwable
+
+  private static void rotateFiles(java.io.File);
+    descriptor: (Ljava/io/File;)V
+    Code:
+         0: new           #9                  // class java/io/File
+         3: dup
+         4: ldc           #59                 // String /tmp/carplay_java.log.1
+         6: invokespecial #10                 // Method java/io/File."<init>":(Ljava/lang/String;)V
+         9: astore_1
+        10: aload_1
+        11: invokevirtual #11                 // Method java/io/File.exists:()Z
+        14: ifeq          22
+        17: aload_1
+        18: invokevirtual #60                 // Method java/io/File.delete:()Z
+        21: pop
+        22: aload_0
+        23: invokevirtual #11                 // Method java/io/File.exists:()Z
+        26: ifeq          35
+        29: aload_0
+        30: aload_1
+        31: invokevirtual #61                 // Method java/io/File.renameTo:(Ljava/io/File;)Z
+        34: pop
+        35: return
+
+  static void access$000();
+    descriptor: ()V
+    Code:
+         0: invokestatic  #2                  // Method writerLoop:()V
+         3: return
+
+  static {};
+    descriptor: ()V
+    Code:
+         0: invokestatic  #62                 // Method resolveInitialLevel:()I
+         3: putstatic     #14                 // Field level:I
+         6: new           #63                 // class java/lang/Object
+         9: dup
+        10: invokespecial #13                 // Method java/lang/Object."<init>":()V
+        13: putstatic     #34                 // Field LOCK:Ljava/lang/Object;
+        16: sipush        256
+        19: anewarray     #64                 // class java/lang/String
+        22: putstatic     #38                 // Field queue:[Ljava/lang/String;
+        25: return
+}

@@ -1,0 +1,221 @@
+000000d4	/usr/lib/ldqnx.so.2
+000008dd	libc.so.3
+000008e7	strcpy
+000008ee	utime
+000008f4	_init_array
+00000900	sigemptyset
+0000090c	snprintf
+00000915	_Stdout
+0000091d	errno
+00000923	getpid
+0000092a	_preinit_array
+00000939	fgets
+0000093f	memcpy
+00000946	readlink
+00000954	malloc
+0000095b	lchown
+00000962	fflush
+00000969	chmod
+0000096f	rename
+00000976	strrchr
+0000097e	fprintf
+00000986	fseek
+0000098c	memchr
+00000993	__get_errno_ptr
+000009a3	lstat
+000009a9	ferror
+000009b0	strstr
+000009b7	unlink
+000009be	memcmp
+000009c5	sscanf
+000009cc	sigaction
+000009d6	fread
+000009dc	symlink
+000009e4	_init_libc
+000009ef	fopen
+000009f5	memset
+00000a01	ftell
+00000a07	fclose
+00000a0e	_fini_array
+00000a1a	strcmp
+00000a21	fgetc
+00000a27	atexit
+00000a2e	_Stderr
+00000a36	fsync
+00000a3c	fwrite
+00000a43	access
+00000a4f	fileno
+00000a56	strlen
+00000a5d	strchr
+00000a64	fcntl
+00000a6a	mkdir
+00000a75	pthread_mutex_lock
+00000a88	pthread_mutex_unlock
+00000a9d	pthread_once
+00000aaa	waitpid
+00000ab2	pthread_atfork
+00000ac1	pthread_mutex_init
+00000ad9	fdopen
+00000ae0	fwide
+00000ae6	confstr
+00000aee	spawn
+00000af4	pathfind_r
+00000aff	_btext
+00000b06	__exidx_start
+00000b14	__exidx_end
+00000b20	__data_start
+00000b2d	_edata
+00000b34	__bss_start
+00000b40	__bss_start__
+00000b4e	__bss_end__
+00000b5a	__end__
+00000b62	_stack
+00000b69	__deregister_frame_info
+00000b81	__register_frame_info
+00004a54	MIBSI_JAR_BOOTSTRAP_V1
+00004a6c	8a188ae556890051b623b18ab82f8a32f3dfdade4fd69240bf2b17b3f9ea5d4d
+00004bb0	"MessagesSentByAccessory":["0x5000", "0x5002", "0xAE00", "0xAE02", "0xAE03", "0x4154", "0x4156", "0x4157", "0x4159", "0xFFFB", "0x4C00", "0x4C02", "0x4C03", "0x4C05", "0x5200", "0x5203"]
+00004c6c	"MessagesReceivedFromDevice":["0x4E09", "0x4E0A", "0x4E0C", "0x5001", "0xAE01", "0x4155", "0x4158", "0xFFFA", "0xFFFC", "0x4C01", "0x4C04"]
+00004cf8	MIBSI: %s: %s (errno=%d)
+00004d14	mkdir
+00004d34	002_mhi2q_aa_navigation_proxy.jar
+00004d58	Find and append jar files
+00004d74	lsd/jars
+00004d80	for jar in $JARS
+00004d94	BOOTCLASSPATH="$BOOTCLASSPATH:$jar"
+00004dbc	BOOTCLASSPATH
+00004dcc	BASE_DIR=
+00004dd8	MIBSI: VIN check failed stage=%s code=%d reader_status=%d bytes=%lu errno=%d
+00004e28	child_setup
+00004e34	IPL_CONFIG_DIR=/etc/eso/production /eso/bin/apps/pc s:1501:30 2>/dev/null
+00004e80	reader_start
+00004e90	child_restore
+00004ea0	output_limit
+00004eb0	reader_read
+00004ebc	reader_exit
+00004ec8	binary_output
+00004ed8	ambiguous
+00004ee4	no_candidate
+00004ef4	mismatch
+00004f00	%s/%s
+00004f08	path too long
+00004f18	manifest
+00004f24	manifest.sha256
+00004f34	backup checksum missing
+00004f4c	backup manifest corrupt
+00004f64	MIBSI_BACKUP_V2 %u
+00004f78	%u %c %o %lu %lu %64s %lld %lld %c
+00004fa0	backup corrupt
+00004fb0	install.sha256
+00004fc0	%64s %127s %c
+00004fd0	SD payload corrupt
+00004fe4	write
+00004ff4	refusing non-file destination
+00005014	backup readback
+00005024	MIBSI_BACKUP_V2 %u
+00005038	%u %c %o %lu %lu %s %lld %lld
+00005058	%s.mibsi-stage
+00005068	non-file destination
+00005080	staging readback
+00005094	publish
+0000509c	final readback
+000050ac	history
+000050b4	before
+000050bc	check-vin
+000050c8	lifecycle
+000050d4	install
+000050dc	uninstall
+000050e8	/mnt/app/root/mibsi
+000050fc	MIBSI: VIN non autorise ou lecture VIN impossible
+00005130	installer.lock
+00005140	pending
+00005148	invalid pending journal
+00005160	MIBSI: recovering interrupted operation before new work
+00005198	recovery incomplete; keep SD and retry
+000051c0	invalid original backup pointer
+000051e0	MIBSI: no V2 installation to uninstall; existing files kept
+0000521c	%lu-%lu-%u
+00005228	%s.new
+00005230	after
+0000523c	release_id=%s
+0000524c	format=MIBSI_INSTALLED_V2
+00005266	state=installed
+00005276	release_id=%s
+00005284	firmware=MHI2Q_ER_AUG22_P5092_MU1329
+000052ac	MIBSI: operation failed; restoring previous files
+000052e0	rollback incomplete; pending journal retained
+00005310	MIBSI: %s verified; backup history=%s
+00005338	check-payload
+00005348	verify
+00005350	patch-dio
+0000535c	lsd-state
+00005368	patch-lsd
+00005374	lsd-mode
+00005380	MIBSI_JAR_BOOTSTRAP_V1
+00005398	identify-release
+000053ac	%64s %64s %64s %64s %64s %64s %64s %64s %1s
+000053d8	known-component
+000053e8	usage: mibsi-install-tool {sha256 FILE|verify SHA256 FILE|patch-dio SOURCE DEST|lsd-state FILE|lsd-mode FILE|patch-lsd SOURCE DEST|identify-release MANIFEST GAL DIO NAV AA CARPLAY TURN DISPLAY|known-component MANIFEST COLUMN FILE}
+000054d0	/mnt/system/etc/eso/production/dio_manager.json
+00005500	dio_manager.json
+00005514	/mnt/app/eso/hmi/lsd/lsd.sh
+00005530	lsd.sh
+00005538	/eso/lib/libmhi2qaacluster.so
+00005558	libmhi2qaacluster.so
+00005570	/eso/lib/libmhi2qcarplaycluster.so
+00005594	libmhi2qcarplaycluster.so
+000055b0	/eso/bin/apps/mhi2q-aa-turn-card-renderer
+000055dc	mhi2q-aa-turn-card-renderer
+000055f8	/eso/bin/apps/mhi2q-aa-cluster-display
+00005620	mhi2q-aa-cluster-display
+0000563c	/mnt/app/eso/hmi/lsd/jars/001_mhi2q_aa_observer.jar
+00005670	mhi2q-aa-hmi-safe-boot.jar
+0000568c	/mnt/app/eso/hmi/lsd/jars/002_mhi2q_aa_navigation_proxy.jar
+000056c8	mhi2q-aa-navigation-proxy.jar
+000056e8	/eso/bin/apps/gal
+000056fc	gal.mhi2q_aa_cluster_loader
+00005718	/eso/bin/apps/dio_manager
+00005734	dio_manager.mhi2q_carplay_loader
+00005758	/mnt/app/eso/hmi/engdefs/mibsi-main.esd
+00005780	mibsi-main.esd
+00005790	/mnt/app/eso/hmi/engdefs/scripts/mibsi/v1/status.sh
+000057c4	status.sh
+000057d0	/mnt/app/eso/hmi/engdefs/scripts/mibsi/v1/activate.sh
+00005808	activate.sh
+00005814	/mnt/app/eso/hmi/engdefs/scripts/mibsi/v1/disable_menu.sh
+00005850	disable_menu.sh
+00005860	/mnt/app/root/mibsi/origin
+0000587c	/mnt/app/root/mibsi/installed.release
+000058a4	/mnt/app/root/mibsi/version
+000058c0	0123456789abcdef
+000058d4	# MIBSI_JAR_BOOTSTRAP_V1
+000058ed	BOOTCLASSPATH="$BOOTCLASSPATH -Xbootclasspath/p:$BASE_DIR/lsd/jars/002_mhi2q_aa_navigation_proxy.jar"
+00005a20	0123456789abcdef
+00005a34	"MessagesSentByAccessory":["0x5000", "0x5002", "0xAE00", "0xAE02", "0xAE03", "0x4154", "0x4156", "0x4157", "0x4159", "0xFFFB", "0x4C00", "0x4C02", "0x4C03", "0x4C05"]
+00005afb	["MessagesReceivedFromDevice":["0x4E09", "0x4E0A", "0x4E0C", "0x5001", "0xAE01", "0x4155", "0x4158", "0xFFFA", "0xFFFC", "0x4C01", "0x4C04", "0x5201", "0x5202", "0x5204"]
+00005bac	/bin/sh
+00005dc0	MIBSI_VIN_NATIVE_V1
+00005df8	VIN_END
+00005e15	GCC: (GNU) 4.9.4
+00005e27	GCC: (GNU) 4.9.4
+00005e39	GCC: (GNU) 4.4.2
+00005e4b	GCC: (GNU) 4.9.4
+00005e61	aeabi
+00005e8a	.shstrtab
+00005e94	.interp
+00005e9c	.hash
+00005ea2	.dynsym
+00005eaa	.dynstr
+00005eb2	.rel.dyn
+00005ebb	.rel.plt
+00005ec4	.init
+00005eca	.text
+00005ed0	.fini
+00005ed6	.rodata
+00005ede	.eh_frame
+00005ee8	.init_array
+00005ef4	.fini_array
+00005f05	.dynamic
+00005f13	.data
+00005f1e	.comment
+00005f27	.ARM.attributes

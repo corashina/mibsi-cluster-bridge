@@ -1,0 +1,5 @@
+format=MIBSI_PACKAGE_V3
+release_id=7e792409480209467f17fb27
+firmware=MHI2Q_ER_AUG22_P5092_MU1329
+operation=install
+known_releases=53

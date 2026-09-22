@@ -1,0 +1,564 @@
+public final class com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService implements de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi {
+  private final de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi real;
+    descriptor: Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+
+  private final com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService$CombinedManeuverPublisher combinedManeuverPublisher;
+    descriptor: Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;
+
+  private volatile boolean blockRouteGuidance;
+    descriptor: Z
+
+  private volatile boolean blockCurrentPosition;
+    descriptor: Z
+
+  private volatile boolean blockMapScale;
+    descriptor: Z
+
+  public com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService(de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;)V
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aconst_null
+         3: invokespecial #1                  // Method "<init>":(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;)V
+         6: return
+
+  public com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService(de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi, com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService$CombinedManeuverPublisher);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;)V
+    Code:
+         0: aload_0
+         1: invokespecial #2                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: putfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         9: aload_0
+        10: aload_2
+        11: putfield      #4                  // Field combinedManeuverPublisher:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;
+        14: return
+
+  public de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi getRealService();
+    descriptor: ()Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: areturn
+
+  public boolean isBlocked();
+    descriptor: ()Z
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ireturn
+
+  public void setBlocked(boolean);
+    descriptor: (Z)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: istore_2
+         5: aload_0
+         6: iload_1
+         7: putfield      #5                  // Field blockRouteGuidance:Z
+        10: aload_0
+        11: iload_1
+        12: putfield      #6                  // Field blockCurrentPosition:Z
+        15: iload_1
+        16: ifeq          32
+        19: iload_2
+        20: ifne          32
+        23: aload_0
+        24: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        27: invokeinterface #7,  1            // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.hideInitializingScreen:()V
+        32: return
+
+  public void setMapScaleBlocked(boolean);
+    descriptor: (Z)V
+    Code:
+         0: aload_0
+         1: getfield      #8                  // Field blockMapScale:Z
+         4: iload_1
+         5: if_icmpne     9
+         8: return
+         9: aload_0
+        10: iload_1
+        11: putfield      #8                  // Field blockMapScale:Z
+        14: iload_1
+        15: ifeq          32
+        18: aload_0
+        19: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        22: iconst_0
+        23: iconst_0
+        24: iconst_0
+        25: iconst_0
+        26: iconst_0
+        27: invokeinterface #9,  6            // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapScale:(IZIIZ)V
+        32: return
+
+  public void acknowledgeBlockedMapScale();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: getfield      #8                  // Field blockMapScale:Z
+         4: ifeq          21
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iconst_0
+        12: iconst_0
+        13: iconst_0
+        14: iconst_0
+        15: iconst_0
+        16: invokeinterface #9,  6            // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapScale:(IZIIZ)V
+        21: return
+
+  public void updateRGStatus(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: invokeinterface #10,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateRGStatus:(I)V
+        17: return
+
+  public void updateActiveRGType(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: invokeinterface #11,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateActiveRGType:(I)V
+        17: return
+
+  public void updateDistanceToNextManeuver(int, int, boolean, int);
+    descriptor: (IIZI)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          21
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: iload_2
+        13: iload_3
+        14: iload         4
+        16: invokeinterface #12,  5           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDistanceToNextManeuver:(IIZI)V
+        21: return
+
+  public void updateCurrentPositionInfo(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+         0: aload_0
+         1: getfield      #6                  // Field blockCurrentPosition:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: aload_1
+        12: invokeinterface #13,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateCurrentPositionInfo:(Ljava/lang/String;)V
+        17: return
+
+  public void updateTurnToInfo(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+    Code:
+         0: aload_0
+         1: getfield      #6                  // Field blockCurrentPosition:Z
+         4: ifne          18
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: aload_1
+        12: aload_2
+        13: invokeinterface #14,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTurnToInfo:(Ljava/lang/String;Ljava/lang/String;)V
+        18: return
+
+  public void updateDistanceToDestination(int, int, boolean);
+    descriptor: (IIZ)V
+    Code:
+         0: aload_0
+         1: getfield      #6                  // Field blockCurrentPosition:Z
+         4: ifne          19
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: iload_2
+        13: iload_3
+        14: invokeinterface #15,  4           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDistanceToDestination:(IIZ)V
+        19: return
+
+  public void updateTimeToDestination(int, int, long);
+    descriptor: (IIJ)V
+    Code:
+         0: aload_0
+         1: getfield      #6                  // Field blockCurrentPosition:Z
+         4: ifne          19
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: iload_2
+        13: lload_3
+        14: invokeinterface #16,  5           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTimeToDestination:(IIJ)V
+        19: return
+
+  public void updateManeuverDescriptor(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviManeuverDescriptor[]);
+    descriptor: ([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: aload_1
+        12: invokeinterface #17,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateManeuverDescriptor:([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;)V
+        17: return
+
+  public void updateManeuverDescriptorAndExitView(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviManeuverDescriptor[], int, int);
+    descriptor: ([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;II)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifeq          8
+         7: return
+         8: aload_0
+         9: getfield      #4                  // Field combinedManeuverPublisher:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;
+        12: ifnonnull     25
+        15: new           #18                 // class java/lang/IllegalStateException
+        18: dup
+        19: ldc           #19                 // String combined maneuver call requires the OEM adapter
+        21: invokespecial #20                 // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+        24: athrow
+        25: aload_0
+        26: getfield      #4                  // Field combinedManeuverPublisher:Lcom/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher;
+        29: aload_0
+        30: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        33: aload_1
+        34: iload_2
+        35: iload_3
+        36: invokeinterface #21,  5           // InterfaceMethod com/mibsi/carplay/rgd/Mhi2qAaGatedCombiService$CombinedManeuverPublisher.publish:(Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;[Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;II)V
+        41: return
+
+  public void updateLaneGuidance(boolean, de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviLaneGuidanceData[]);
+    descriptor: (Z[Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviLaneGuidanceData;)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          18
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: aload_2
+        13: invokeinterface #22,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateLaneGuidance:(Z[Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviLaneGuidanceData;)V
+        18: return
+
+  public void updateDestinationInfo(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPDestinationInfo);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationInfo;)V
+    Code:
+         0: aload_0
+         1: getfield      #6                  // Field blockCurrentPosition:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: aload_1
+        12: invokeinterface #23,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateDestinationInfo:(Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationInfo;)V
+        17: return
+
+  public void updateExitView(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          18
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: iload_2
+        13: invokeinterface #24,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateExitView:(II)V
+        18: return
+
+  public void updateManeuverState(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          17
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: invokeinterface #25,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateManeuverState:(I)V
+        17: return
+
+  public void showInitializingScreen();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: getfield      #5                  // Field blockRouteGuidance:Z
+         4: ifne          16
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: invokeinterface #26,  1           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.showInitializingScreen:()V
+        16: return
+
+  public void hideInitializingScreen();
+    descriptor: ()V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: invokeinterface #7,  1            // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.hideInitializingScreen:()V
+         9: return
+
+  public void updateCompassInfo(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #27,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateCompassInfo:(II)V
+        11: return
+
+  public void updateTMCInfoMessages(de.audi.atip.interapp.combi.bap.audio.data.CombiBAPTMCInfoMessage[]);
+    descriptor: ([Lde/audi/atip/interapp/combi/bap/audio/data/CombiBAPTMCInfoMessage;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #28,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTMCInfoMessages:([Lde/audi/atip/interapp/combi/bap/audio/data/CombiBAPTMCInfoMessage;)V
+        10: return
+
+  public void updateLastDestinationsList(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPDestinationListEntry[]);
+    descriptor: ([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationListEntry;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #29,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateLastDestinationsList:([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationListEntry;)V
+        10: return
+
+  public void updateFavoriteDestinationsList(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPDestinationListEntry[]);
+    descriptor: ([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationListEntry;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #30,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateFavoriteDestinationsList:([Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPDestinationListEntry;)V
+        10: return
+
+  public void updateHomeAddress(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviDestination);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviDestination;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #31,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateHomeAddress:(Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviDestination;)V
+        10: return
+
+  public void routeGuidanceActDeactResult(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #32,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.routeGuidanceActDeactResult:(I)V
+        10: return
+
+  public void repeatLastNavAnnouncementResult(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #33,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.repeatLastNavAnnouncementResult:(I)V
+        10: return
+
+  public void updateVoiceGuidanceState(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #34,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateVoiceGuidanceState:(I)V
+        10: return
+
+  public void updateInfoStates(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #35,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateInfoStates:(I)V
+        10: return
+
+  public void updateTrafficBlockIndication(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #36,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateTrafficBlockIndication:(I)V
+        10: return
+
+  public void updateMapColor(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #37,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapColor:(I)V
+        10: return
+
+  public void updateMapType(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #38,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapType:(II)V
+        11: return
+
+  public void updateSupportedMapTypes(boolean, int);
+    descriptor: (ZI)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #39,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateSupportedMapTypes:(ZI)V
+        11: return
+
+  public void updateMapView(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #40,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapView:(II)V
+        11: return
+
+  public void updateSupportedMapViews(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #41,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateSupportedMapViews:(II)V
+        11: return
+
+  public void updateMapVisibility(boolean, boolean);
+    descriptor: (ZZ)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #42,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapVisibility:(ZZ)V
+        11: return
+
+  public void updateMapOrientation(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #43,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapOrientation:(I)V
+        10: return
+
+  public void updateMapScale(int, boolean, int, int, boolean);
+    descriptor: (IZIIZ)V
+    Code:
+         0: aload_0
+         1: getfield      #8                  // Field blockMapScale:Z
+         4: ifne          23
+         7: aload_0
+         8: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+        11: iload_1
+        12: iload_2
+        13: iload_3
+        14: iload         4
+        16: iload         5
+        18: invokeinterface #9,  6            // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapScale:(IZIIZ)V
+        23: return
+
+  public void updateAltitude(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #44,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateAltitude:(II)V
+        11: return
+
+  public void updateOnlineNavigationState(int, int, int);
+    descriptor: (III)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: iload_3
+         7: invokeinterface #45,  4           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateOnlineNavigationState:(III)V
+        12: return
+
+  public void updateSemidynamicRouteGuidance(de.audi.atip.interapp.combi.bap.navi.data.CombiBAPSemiDynamicRouteInfo);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPSemiDynamicRouteInfo;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #46,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateSemidynamicRouteGuidance:(Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPSemiDynamicRouteInfo;)V
+        10: return
+
+  public void poiSearchResult(int, int);
+    descriptor: (II)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #47,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.poiSearchResult:(II)V
+        11: return
+
+  public void updatePOIListSize(int);
+    descriptor: (I)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: invokeinterface #48,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updatePOIListSize:(I)V
+        10: return
+
+  public void updateFSGSetup(int, boolean);
+    descriptor: (IZ)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: invokeinterface #49,  3           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateFSGSetup:(IZ)V
+        11: return
+
+  public void updateMapPresentation(boolean, boolean, boolean);
+    descriptor: (ZZZ)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: iload_1
+         5: iload_2
+         6: iload_3
+         7: invokeinterface #50,  4           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateMapPresentation:(ZZZ)V
+        12: return
+
+  public void updateEtcStatus(de.audi.atip.interapp.combi.bap.navi.data.EtcStatus);
+    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/data/EtcStatus;)V
+    Code:
+         0: aload_0
+         1: getfield      #3                  // Field real:Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;
+         4: aload_1
+         5: invokeinterface #51,  2           // InterfaceMethod de/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi.updateEtcStatus:(Lde/audi/atip/interapp/combi/bap/navi/data/EtcStatus;)V
+        10: return
+}
