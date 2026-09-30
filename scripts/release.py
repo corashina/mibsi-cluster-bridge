@@ -39,7 +39,7 @@ def main():
     validate_baseline()
     candidate = ROOT / 'build/release-candidate'
     # The baseline reinstall exists only for comparison; it is not an uninstaller.
-    baseline_archive = candidate / 'MIBSI-P5092-baseline-install.zip'
+    baseline_archive = candidate / 'MIBSI-Cluster-Bridge-baseline-install.zip'
     if baseline_archive.exists():
         history = ROOT / 'build/baseline-comparison'
         history.mkdir(parents=True, exist_ok=True)

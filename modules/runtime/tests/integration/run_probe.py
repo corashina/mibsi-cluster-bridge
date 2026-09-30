@@ -12,7 +12,7 @@ from project import ROOT, asm_classpath, java_tool, require, reset_build
 HERE = Path(__file__).resolve().parent
 CP = asm_classpath()
 BUILD = reset_build(ROOT / 'build/integration')
-ARCHIVE = ROOT / 'build/release-candidate/MIBSI-P5092-install.zip'
+ARCHIVE = ROOT / 'build/release-candidate/MIBSI-Cluster-Bridge-install.zip'
 before = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
 with zipfile.ZipFile(ARCHIVE) as archive:
     jar = archive.read('Bootstrap/final/product/files/mhi2q-aa-navigation-proxy.jar')

@@ -77,13 +77,13 @@ receipt['checks'] = {'build_mode': 'local-runtime-build', 'dev_tools': False,
     'vehicle_tested': False}
 write_json(product / 'release-receipt.json', receipt)
 
-guide = f'''MIBSI - P5092 INSTALLATION
+guide = f'''MIBSI Cluster Bridge - INSTALLATION
 Firmware target: MHI2Q_ER_AUG22_P5092_MU1329
 Release: {release_id}
 Based on release: {upstream_id}
 
 INSTALLATION AND UPDATES
-1. Extract MIBSI-P5092-install.zip to an empty FAT32 SD card.
+1. Extract MIBSI-Cluster-Bridge-install.zip to an empty FAT32 SD card.
    metainfo2.txt and Bootstrap must be at the card root.
 2. Use the red update menu: Update > SD card > Standard.
 3. Keep the unit powered and the card inserted until the operation completes.
@@ -91,7 +91,7 @@ INSTALLATION AND UPDATES
 Updates retain the original installation backup; no prior uninstall is needed.
 
 UNINSTALLATION
-This archive installs or updates MIBSI. It is not an uninstaller.
+This archive installs or updates MIBSI Cluster Bridge. It is not an uninstaller.
 Obtain a matching uninstall package from your installed release's provider.
 Uninstallation restores the saved installation backup. Do not add an uninstall
 marker to this install package: operation metadata and checksums must also match.
@@ -122,7 +122,7 @@ write(PACKAGE / 'metainfo2.txt', before + section + block + '[Bootstrap]' + rest
 write(PACKAGE / 'SHA256SUMS', ''.join(f'{digest(PACKAGE / name)}  {name}\n' for name in sorted(BASELINE) if name != 'SHA256SUMS'))
 
 DIST.mkdir(parents=True, exist_ok=True)
-for filename, source in [('MIBSI-P5092-install.zip', PACKAGE), ('MIBSI-P5092-baseline-install.zip', UPSTREAM)]:
+for filename, source in [('MIBSI-Cluster-Bridge-install.zip', PACKAGE), ('MIBSI-Cluster-Bridge-baseline-install.zip', UPSTREAM)]:
     with zipfile.ZipFile(DIST / filename, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name in sorted(BASELINE):
             info = zipfile.ZipInfo(name, date_time=(2026, 9, 22, 0, 0, 0))

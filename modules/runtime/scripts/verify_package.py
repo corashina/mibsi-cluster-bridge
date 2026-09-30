@@ -34,7 +34,7 @@ for name, expected in baseline.items():
     check(sha((UPSTREAM / name).read_bytes()) == expected, f'Original unchanged: {name}')
 
 artifacts = {}
-for name in ['MIBSI-P5092-baseline-install.zip', 'MIBSI-P5092-install.zip']:
+for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-install.zip']:
     path = DIST / name
     artifacts[name] = sha(path.read_bytes())
     with zipfile.ZipFile(path) as archive:
@@ -129,6 +129,6 @@ for log, count in [('test-resolved.txt', 2067), ('test-missing.txt', 3), ('test-
     check(f'PASS: {count} assertions' in text, f'Handler test evidence: {log}')
 report = {'status': 'PASS', 'checks': len(checks), 'handler_assertions': 2073, 'vehicle_tested': False,
     'release_id': release_id, 'artifact_sha256': artifacts, 'changed_files': sorted(changed), 'details': checks}
-report['baseline_comparison_sha256'] = artifacts.pop('MIBSI-P5092-baseline-install.zip')
+report['baseline_comparison_sha256'] = artifacts.pop('MIBSI-Cluster-Bridge-baseline-install.zip')
 (DIST / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
 print(json.dumps({key: report[key] for key in ['status', 'checks', 'handler_assertions', 'vehicle_tested', 'release_id', 'artifact_sha256']}, indent=2))

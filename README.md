@@ -1,18 +1,18 @@
-# MIBSI P5092
+# MIBSI Cluster Bridge
 
-MIBSI installation and maintenance tools for MHI2Q P5092 firmware, supporting
-Android Auto and CarPlay integration with the instrument cluster.
+MIBSI Cluster Bridge integrates Android Auto and CarPlay with the instrument
+cluster on MHI2Q P5092 firmware, with tools for installation and maintenance.
 
 **Firmware:** `MHI2Q_ER_AUG22_P5092_MU1329`  
 **Status:** experimental; desktop checks pass, physical MMI validation is pending.
 
 ## Installation and updates
 
-Download `MIBSI-P5092-install.zip` and `SHA256SUMS.txt` from a published release.
+Download `MIBSI-Cluster-Bridge-install.zip` and `SHA256SUMS.txt` from a published release.
 The repository source ZIP is not an installer. Verify the downloaded archive:
 
 ```powershell
-Get-FileHash .\MIBSI-P5092-install.zip -Algorithm SHA256
+Get-FileHash .\MIBSI-Cluster-Bridge-install.zip -Algorithm SHA256
 ```
 
 On Linux use `sha256sum`; on macOS use `shasum -a 256`.
@@ -32,7 +32,7 @@ from the SD card when available.
 Uninstallation requires the saved installation backup and a matching uninstall
 package from the provider of your installed release. This project currently builds
 installation packages only; no uninstall archive or hardware restoration has been
-validated. Reinstalling MIBSI does not uninstall it.
+validated. Reinstalling MIBSI Cluster Bridge does not uninstall it.
 
 Do not add `MIBSI-UNINSTALL` to the installation archive: uninstall operation metadata
 and checksums must also match. Keep the original backup available for restoration.
@@ -73,7 +73,7 @@ To export the repository sources:
 python scripts/source_archive.py
 ```
 
-This creates `dist/mibsi-p5092-source.zip`. Tools, original inputs, and build outputs
+This creates `dist/mibsi-cluster-bridge-source.zip`. Tools, original inputs, and build outputs
 are excluded. Release commands build locally; they do not publish or install on a unit.
 
 ## Project structure and test scope

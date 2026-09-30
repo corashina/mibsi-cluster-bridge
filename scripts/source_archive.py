@@ -6,7 +6,7 @@ from project import ROOT, require
 
 def main():
     check()
-    destination = ROOT / 'dist/mibsi-p5092-source.zip'
+    destination = ROOT / 'dist/mibsi-cluster-bridge-source.zip'
     destination.parent.mkdir(parents=True, exist_ok=True)
     files = repository_files()
     with zipfile.ZipFile(destination, 'w', zipfile.ZIP_DEFLATED, compresslevel=7) as archive:
