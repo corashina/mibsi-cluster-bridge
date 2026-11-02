@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'scripts'))
 from project import ROOT, UPSTREAM, asm_classpath, java_tool, require, reset_build, validate_baseline
+import support_patch
 
 MOD = ROOT / 'modules/runtime'
 BUILD = ROOT / 'build/runtime'
@@ -18,6 +19,11 @@ subprocess.run([sys.executable, str(MOD / 'scripts/build_java.py')], check=True)
 PACKAGE = reset_build(ROOT / 'build/install-package')
 DIST = reset_build(ROOT / 'build/release-candidate')
 NAV = 'mhi2q-aa-navigation-proxy.jar'
+# Maintained files added to the upstream inventory, and the SD markers that
+# turn the install package into a status or cleanup package.
+ADDED = {support_patch.SUPPORT_PATH}
+MARKER_PACKAGES = {'MIBSI-Cluster-Bridge-status.zip': 'MIBSI-STATUS',
+                   'MIBSI-Cluster-Bridge-cleanup.zip': 'MIBSI-CLEANUP'}
 
 
 def digest(path, algorithm='sha256'):
@@ -42,6 +48,10 @@ require({p.relative_to(PACKAGE).as_posix() for p in PACKAGE.rglob('*') if p.is_f
 
 product = PACKAGE / 'Bootstrap/final/product'
 final = product.parent
+# Support operations: the only install script change is three hook lines.
+install_script = PACKAGE / support_patch.INSTALL_SCRIPT
+install_script.write_bytes(support_patch.apply(install_script.read_bytes().decode('utf-8')).encode('utf-8'))
+(PACKAGE / support_patch.SUPPORT_PATH).write_bytes(support_patch.SUPPORT_SOURCE.read_bytes())
 (product / 'files' / NAV).write_bytes((BUILD / NAV).read_bytes())
 nav_sha = digest(product / 'files' / NAV)
 release_id = hashlib.sha256(('MIBSI-local-runtime-v1:' + nav_sha).encode()).hexdigest()[:22]
@@ -73,7 +83,8 @@ receipt['hashes'][NAV] = nav_sha
 receipt['checks'] = {'build_mode': 'local-runtime-build', 'dev_tools': False,
     'gps_replay_tool': False, 'executed': ['ASM-bytecode-validation', 'JVM-Xverify-all',
     'input-handler-2073-assertions', 'package-integrity-validation'],
-    'reused': ['upstream-native-binaries', 'upstream-install-scripts', 'namespace-relocated-JAR-entries'],
+    'reused': ['upstream-native-binaries', 'upstream-install-scripts-with-support-hooks', 'namespace-relocated-JAR-entries'],
+    'added': ['mibsi-support-status-cleanup-uninstall-preflight'],
     'vehicle_tested': False}
 write_json(product / 'release-receipt.json', receipt)
 
@@ -90,11 +101,32 @@ INSTALLATION AND UPDATES
 4. Remove the card and restart the MMI after completion.
 Updates retain the original installation backup; no prior uninstall is needed.
 
+WHERE THE BACKUP IS
+The installation backup is stored inside the unit, in /mnt/app/root/mibsi/.
+It is not on the SD card. Formatting the install card does not lose it.
+
+STATUS REPORT (changes nothing)
+Use MIBSI-Cluster-Bridge-status.zip the same way as the installer, or add an
+empty file named MIBSI-STATUS at the card root. The report is written to
+MIBSI-Logs/status.log: every MIBSI path, its SHA-256, and a verdict.
+
 UNINSTALLATION
 This archive installs or updates MIBSI Cluster Bridge. It is not an uninstaller.
 Obtain a matching uninstall package from your installed release's provider.
 Uninstallation restores the saved installation backup. Do not add an uninstall
 marker to this install package: operation metadata and checksums must also match.
+An uninstall run on a unit with no active installation now stops with an error
+and writes MIBSI-Logs/status.log instead of reporting success.
+
+LEFTOVERS AFTER UNINSTALL
+A completed uninstall keeps its backup history in /mnt/app/root/mibsi/.
+Older releases could also leave mibsi-main.esd.new and the GEM menu files in
+/mnt/app/eso/hmi/engdefs/. Other CarPlay patches may detect these files.
+MIBSI-Cluster-Bridge-cleanup.zip (or an empty MIBSI-CLEANUP file) copies
+/mnt/app/root/mibsi/ to MIBSI-Logs/backup-archive-*/ on the card, checks the
+copy, then removes those leftovers. It refuses while any MIBSI binary, a MIBSI
+system file, an active installation or an interrupted operation is present.
+Keep the archive folder from the card.
 
 VERIFICATION
 The release workflow checks runtime compatibility, package integrity, and
@@ -105,10 +137,12 @@ write(PACKAGE / 'README.txt', guide)
 package_receipt = json.loads((product / 'package-receipt.json').read_text())
 package_receipt['release_id'] = release_id
 package_receipt['known_release_count'] = known_count
-package_receipt['hashes'] = {name: digest(product / name) for name in package_receipt['hashes']}
+package_receipt['hashes'] = {name: digest(product / name) for name in
+    [*package_receipt['hashes'], support_patch.SUPPORT_NAME]}
 write_json(product / 'package-receipt.json', package_receipt)
 
 hash_names = re.findall(r'FileName = "([^"]+)"', (final / 'hashes.txt').read_text())
+hash_names += [name.removeprefix('Bootstrap/final/') for name in sorted(ADDED)]
 write(final / 'hashes.txt', ''.join(f'FileName = "{name}"\nFileSize = "{(final / name).stat().st_size}"\n'
     f'CheckSum = "{digest(final / name, "sha1")}"\n\n' for name in hash_names))
 dir_size = sum(p.stat().st_size for p in final.rglob('*') if p.is_file())
@@ -119,17 +153,24 @@ block, rest = after.split('[Bootstrap]', 1)
 block = re.sub(r'FileSize = "\d+"', f'FileSize = "{dir_size}"', block)
 block = re.sub(r'CheckSum = "[0-9A-Fa-f]+"', f'CheckSum = "{digest(final / "hashes.txt", "sha1").upper()}"', block)
 write(PACKAGE / 'metainfo2.txt', before + section + block + '[Bootstrap]' + rest)
-write(PACKAGE / 'SHA256SUMS', ''.join(f'{digest(PACKAGE / name)}  {name}\n' for name in sorted(BASELINE) if name != 'SHA256SUMS'))
+PACKAGE_NAMES = sorted(set(BASELINE) | ADDED)
+write(PACKAGE / 'SHA256SUMS', ''.join(f'{digest(PACKAGE / name)}  {name}\n' for name in PACKAGE_NAMES if name != 'SHA256SUMS'))
 
 DIST.mkdir(parents=True, exist_ok=True)
-for filename, source in [('MIBSI-Cluster-Bridge-install.zip', PACKAGE), ('MIBSI-Cluster-Bridge-baseline-install.zip', UPSTREAM)]:
+archives = [('MIBSI-Cluster-Bridge-install.zip', PACKAGE, PACKAGE_NAMES, None),
+            ('MIBSI-Cluster-Bridge-baseline-install.zip', UPSTREAM, sorted(BASELINE), None),
+            *[(filename, PACKAGE, PACKAGE_NAMES, marker) for filename, marker in MARKER_PACKAGES.items()]]
+for filename, source, names, marker in archives:
     with zipfile.ZipFile(DIST / filename, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for name in sorted(BASELINE):
+        entries = [(name, (source / name).read_bytes()) for name in names]
+        if marker:
+            entries = sorted(entries + [(marker, b'')])
+        for name, data in entries:
             info = zipfile.ZipInfo(name, date_time=(2026, 9, 22, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = (0o100644 << 16)
-            archive.writestr(info, (source / name).read_bytes())
+            archive.writestr(info, data)
 write(DIST / 'SHA256SUMS.txt', ''.join(f'{digest(path)}  {path.name}\n' for path in sorted(DIST.glob('*.zip'))))
-print(f'Packaged local release {release_id}; {len(BASELINE)} files per archive; {known_count} recognized releases.')
+print(f'Packaged local release {release_id}; {len(PACKAGE_NAMES)} files per install archive; {known_count} recognized releases.')
 
 subprocess.run([sys.executable, str(MOD / 'scripts/verify_package.py')], check=True)
