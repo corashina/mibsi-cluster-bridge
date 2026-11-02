@@ -19,7 +19,7 @@ def source_inputs():
     inputs = {}
     for base in ('scripts', 'modules', 'tests'):
         for path in sorted((ROOT / base).rglob('*')):
-            if path.is_file() and path.suffix in ('.py', '.java'):
+            if path.is_file() and path.suffix in ('.py', '.java', '.sh'):
                 inputs[path.relative_to(ROOT).as_posix()] = digest(path)
     for name in ('dependencies.lock.json', 'reference/inventory/original-sha256.json'):
         inputs[name] = digest(ROOT / name)

@@ -11,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'scripts'))
 from project import ROOT, UPSTREAM, asm_classpath, java_tool, require, reset_build, validate_baseline
 from java_namespace import UPSTREAM_PACKAGE, PROJECT_PACKAGE, relocate_entry, rename_path
+import support_patch
 
 MOD = ROOT / 'modules/runtime'
 DIST = ROOT / 'build/release-candidate'
@@ -33,24 +34,38 @@ def check(condition, message):
 for name, expected in baseline.items():
     check(sha((UPSTREAM / name).read_bytes()) == expected, f'Original unchanged: {name}')
 
+added = {support_patch.SUPPORT_PATH}
+markers = {'MIBSI-Cluster-Bridge-status.zip': 'MIBSI-STATUS', 'MIBSI-Cluster-Bridge-cleanup.zip': 'MIBSI-CLEANUP'}
 artifacts = {}
-for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-install.zip']:
+marker_packages = {}
+for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-install.zip', *markers]:
     path = DIST / name
     artifacts[name] = sha(path.read_bytes())
     with zipfile.ZipFile(path) as archive:
         check(archive.testzip() is None, f'ZIP CRC: {name}')
-        check(set(archive.namelist()) == set(baseline) and len(archive.namelist()) == len(baseline), f'ZIP inventory: {name}')
         contents = {entry: archive.read(entry) for entry in archive.namelist()}
+        expected_names = set(baseline) if 'baseline-install' in name else set(baseline) | added
+        if name in markers:
+            expected_names.add(markers[name])
+        check(set(contents) == expected_names and len(archive.namelist()) == len(expected_names), f'ZIP inventory: {name}')
     if 'baseline-install' in name:
         check(all(sha(data) == baseline[entry] for entry, data in contents.items()), 'Restore archive matches all original bytes')
+    elif name in markers:
+        marker_packages[name] = contents
     else:
         package = contents
+for name, contents in marker_packages.items():
+    check(contents[markers[name]] == b'' and {entry: data for entry, data in contents.items()
+          if entry != markers[name]} == package, f'Marker archive is the install package plus {markers[name]}: {name}')
 
 allowed_changes = {nav_path, 'README.txt', 'MIBSI-VERSION.txt', 'metainfo2.txt', 'SHA256SUMS',
-    'Bootstrap/final/hashes.txt', *[prefix + name for name in ['install.sha256', 'VERSION.txt',
+    'Bootstrap/final/hashes.txt', support_patch.INSTALL_SCRIPT, *[prefix + name for name in ['install.sha256', 'VERSION.txt',
     'release.env', 'known-releases.txt', 'release-receipt.json', 'package-receipt.json']]}
-changed = {name for name, data in package.items() if sha(data) != baseline[name]}
-check(changed == allowed_changes, 'Only planned Java payload and metadata changed; all native files and install scripts identical')
+changed = {name for name, data in package.items() if name in baseline and sha(data) != baseline[name]}
+check(changed == allowed_changes, 'Only planned Java payload, support hooks and metadata changed; all native files identical')
+check(package[support_patch.SUPPORT_PATH] == support_patch.SUPPORT_SOURCE.read_bytes(), 'Support script matches maintained source')
+check(support_patch.strip(package[support_patch.INSTALL_SCRIPT].decode('utf-8')).encode('utf-8')
+      == (UPSTREAM / support_patch.INSTALL_SCRIPT).read_bytes(), 'Install script equals upstream plus support hooks only')
 check(all((ROOT / 'build/install-package' / name).read_bytes() == data for name, data in package.items()), 'ZIP matches assembled package')
 
 with zipfile.ZipFile(UPSTREAM / nav_path) as original, zipfile.ZipFile(io.BytesIO(package[nav_path])) as patched:
