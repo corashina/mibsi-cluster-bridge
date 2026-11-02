@@ -27,15 +27,50 @@ Updates preserve the original installation backup and do not require uninstallin
 first. If installation fails, retain the displayed error and `MIBSI-Logs/install.log`
 from the SD card when available.
 
+## Status report
+
+`MIBSI-Cluster-Bridge-status.zip` is used like the installer, but it changes nothing on
+the unit. It writes `MIBSI-Logs/status.log` to the card with every MIBSI path, its
+SHA-256, any remaining backup history, and a verdict. The same report runs when an empty
+file named `MIBSI-STATUS` is placed at the root of an install card. Ask for this log
+before giving advice about a unit.
+
 ## Uninstallation
 
-Uninstallation requires the saved installation backup and a matching uninstall
-package from the provider of your installed release. This project currently builds
-installation packages only; no uninstall archive or hardware restoration has been
-validated. Reinstalling MIBSI Cluster Bridge does not uninstall it.
+The installation backup is stored inside the unit, in `/mnt/app/root/mibsi/`. It is not
+on the SD card, so formatting the install card does not lose it.
+
+Uninstallation requires that saved backup and a matching uninstall package from the
+provider of your installed release. This project currently builds installation packages
+only; no uninstall archive or hardware restoration has been validated. Reinstalling
+MIBSI Cluster Bridge does not uninstall it.
 
 Do not add `MIBSI-UNINSTALL` to the installation archive: uninstall operation metadata
 and checksums must also match. Keep the original backup available for restoration.
+
+`MIBSI: no V2 installation to uninstall; existing files kept` means the unit has no
+`/mnt/app/root/mibsi/origin` backup pointer. A completed uninstall removes that pointer,
+so running uninstall a second time prints this message. Uninstall packages built from
+this project's installer script now stop with an error in that case and write the status
+report, instead of reporting success.
+
+### Leftovers after uninstall
+
+A completed uninstall restores every replaced file but keeps its backup history and lock
+file in `/mnt/app/root/mibsi/`. Every SD run also used to leave
+`/mnt/app/eso/hmi/engdefs/mibsi-main.esd.new`, and older bootstrap releases left
+`mibsi-main.esd` and `engdefs/scripts/mibsi/`. None of these are loaded, but other CarPlay
+patches may detect them and refuse to install. Packages from this project now remove
+`mibsi-main.esd.new` after a successful operation.
+
+`MIBSI-Cluster-Bridge-cleanup.zip` (or an empty `MIBSI-CLEANUP` file on an install card)
+removes these leftovers. It first copies `/mnt/app/root/mibsi/` to
+`MIBSI-Logs/backup-archive-<time>/` on the card and checks every file in the copy. It
+refuses, and changes nothing, on other firmware, while a backup pointer or interrupted
+operation exists, while any MIBSI binary is present, or while `gal`, `dio_manager`,
+`dio_manager.json` or `lsd.sh` still holds MIBSI content. Keep the archive folder from
+the card. Do not delete files under `/eso` or `lsd.sh` by hand. Cleanup has not been
+tested on a vehicle.
 
 ## Build and verify
 
@@ -63,8 +98,8 @@ SD directory or baseline ZIP and verifies all 34 input files against release
 set `MIBSI_UPSTREAM` to the matching input directory.
 
 The release command runs fresh build, baseline, package, and integration checks.
-Successful outputs go to `dist/release/`: the installer, checksums, and verification
-reports. Failed runs leave no release at that path. Source changes during verification
+Successful outputs go to `dist/release/`: the installer, the status and cleanup
+packages, checksums, and verification reports. Failed runs leave no release at that path. Source changes during verification
 reject the build. `python scripts/verify.py --full` runs the same workflow.
 
 To export the repository sources:
