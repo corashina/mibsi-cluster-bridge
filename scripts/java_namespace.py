@@ -70,8 +70,7 @@ def relocate_jar(source, destination):
     with zipfile.ZipFile(source) as original, zipfile.ZipFile(destination, 'w') as output:
         names = set()
         for entry in original.infolist():
-            if entry.filename == 'META-INF/NOTICE.txt':
-                continue
+            # META-INF/NOTICE.txt carries upstream source attribution and is kept.
             data = relocate_entry(entry.filename, original.read(entry))
             entry.filename = rename_path(entry.filename)
             if entry.filename in names:
