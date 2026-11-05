@@ -6,6 +6,40 @@ cluster on MHI2Q P5092 firmware, with tools for installation and maintenance.
 **Firmware:** `MHI2Q_ER_AUG22_P5092_MU1329`  
 **Status:** experimental; desktop checks pass, physical MMI validation is pending.
 
+## Compatibility
+
+| Item | Status |
+| --- | --- |
+| Firmware | `MHI2Q_ER_AUG22_P5092_MU1329` is the target. The installer also accepts the `MHI2Q_ER_AUG22_P5152` train with MainUnit `MU1329`, but that train has not been checked. |
+| Other trains | Not supported. The installer refuses any other train or MainUnit version, including the China (`CN`) trains. The patched native binaries and the JAR match one baseline's file hashes, so another train needs its own import and patch set. |
+| Instrument cluster | Built for the Virtual Cockpit cluster map. Analog clusters, including those with the larger color center display, have not been tested. The cluster map code checks for the Virtual Cockpit or MMI cluster modes. |
+| Vehicle testing | None yet. Desktop checks pass. Installation, rendering and controls have not been validated on a vehicle. |
+
+Before you ask whether a unit is supported, run the [status report](#status-report) and
+include `MIBSI-Logs/status.log`. It records the train and MainUnit version.
+
+## Provenance
+
+The project builds on an earlier MIBSI P5092 release, `7e792409480209467f17fb27`. The
+import step verifies all 34 files of that release, and the release's native binaries are
+shipped unchanged. Its Java application used the `com.nicolas.carplay` package; the build
+moves it to `com.mibsi.carplay` and leaves OEM API names as they are. Renaming the package
+does not transfer authorship: the inherited logger, `framework.Log`, is by LuKa
+(@LuKa_dev) from [mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi), and
+the baseline's attribution notice is kept in built packages. See [NOTICE.md](NOTICE.md).
+
+This repository does not contain the source of the native components
+(`libmhi2qcarplaycluster.so`, `libmhi2qaacluster.so`, `dio_manager.mhi2q_carplay_loader`,
+`gal.mhi2q_aa_cluster_loader`, `mhi2q-aa-cluster-display` and related tools). Files in
+`reference/native/` are Ghidra pseudocode, and `reference/java/` and `reference/bytecode/`
+are decompiled from the baseline JAR. Only `modules/` and `scripts/` are maintained source.
+Original binaries are not committed; supply them with `scripts/import_upstream.py`.
+
+## License
+
+GNU General Public License, version 3 or later. See [LICENSE](LICENSE) and
+[NOTICE.md](NOTICE.md). OEM firmware classes and binaries are not covered.
+
 ## Installation and updates
 
 Download `MIBSI-Cluster-Bridge-install.zip` and `SHA256SUMS.txt` from a published release.

@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 from project import ROOT, require
 
-ROOT_FILES = ('README.md', '.gitignore', '.gitattributes',
+ROOT_FILES = ('README.md', 'LICENSE', 'NOTICE.md', '.gitignore', '.gitattributes',
               '.editorconfig', 'dependencies.lock.json')
 
 
