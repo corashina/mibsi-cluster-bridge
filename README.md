@@ -23,7 +23,10 @@ include `MIBSI-Logs/status.log`. It records the train and MainUnit version.
 The project builds on an earlier MIBSI P5092 release, `7e792409480209467f17fb27`. The
 import step verifies all 34 files of that release, and the release's native binaries are
 shipped unchanged. Its Java application used the `com.nicolas.carplay` package; the build
-moves it to `com.mibsi.carplay` and leaves OEM API names as they are.
+moves it to `com.mibsi.carplay` and leaves OEM API names as they are. Renaming the package
+does not transfer authorship: the inherited logger, `framework.Log`, is by LuKa
+(@LuKa_dev) from [mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi), and
+the baseline's attribution notice is kept in built packages. See [NOTICE.md](NOTICE.md).
 
 This repository does not contain the source of the native components
 (`libmhi2qcarplaycluster.so`, `libmhi2qaacluster.so`, `dio_manager.mhi2q_carplay_loader`,
@@ -31,6 +34,11 @@ This repository does not contain the source of the native components
 `reference/native/` are Ghidra pseudocode, and `reference/java/` and `reference/bytecode/`
 are decompiled from the baseline JAR. Only `modules/` and `scripts/` are maintained source.
 Original binaries are not committed; supply them with `scripts/import_upstream.py`.
+
+## License
+
+GNU General Public License, version 3 or later. See [LICENSE](LICENSE) and
+[NOTICE.md](NOTICE.md). OEM firmware classes and binaries are not covered.
 
 ## Installation and updates
 

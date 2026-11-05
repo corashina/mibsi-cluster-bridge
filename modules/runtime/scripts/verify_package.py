@@ -69,9 +69,11 @@ check(support_patch.strip(package[support_patch.INSTALL_SCRIPT].decode('utf-8'))
 check(all((ROOT / 'build/install-package' / name).read_bytes() == data for name, data in package.items()), 'ZIP matches assembled package')
 
 with zipfile.ZipFile(UPSTREAM / nav_path) as original, zipfile.ZipFile(io.BytesIO(package[nav_path])) as patched:
-    retained_entries = [name for name in original.namelist() if name != 'META-INF/NOTICE.txt']
+    retained_entries = original.namelist()
     check([rename_path(name) for name in retained_entries] == patched.namelist(),
-          'JAR entry inventory and order preserved under project namespace, excluding removed notice')
+          'JAR entry inventory and order preserved under project namespace')
+    check('META-INF/NOTICE.txt' not in retained_entries or b'LuKa' in patched.read('META-INF/NOTICE.txt'),
+          'Upstream source attribution notice retained')
     expected = {'com/mibsi/carplay/core/CarPlaySteeringMenuInput.class', 'de/audi/kbd/dsi/KbdListener.class'}
     altered = {rename_path(name) for name in retained_entries
                if relocate_entry(name, original.read(name)) != patched.read(rename_path(name))}
