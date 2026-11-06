@@ -138,6 +138,11 @@ size = int(re.search(r'FileSize = "(\d+)"', block)[1])
 checksum = re.search(r'CheckSum = "([0-9A-F]+)"', block)[1]
 check(size == sum(len(data) for name, data in package.items() if name.startswith('Bootstrap/final/')), 'SWDL directory total includes hash manifest')
 check(checksum.lower() == sha(package['Bootstrap/final/hashes.txt'], 'sha1'), 'SWDL directory checksum')
+original_meta = (UPSTREAM / 'metainfo2.txt').read_bytes()
+dir_values = rb'(\[Bootstrap\\final\\Dir\]\r\nFileSize = ")\d+("\r\nCheckSum = ")[0-9A-F]+"'
+check(len(re.findall(dir_values, original_meta)) == 1, 'Original metainfo2.txt has one CRLF SWDL directory block')
+check(re.sub(dir_values, rb'\1\2"', package['metainfo2.txt'], count=1) == re.sub(dir_values, rb'\1\2"', original_meta, count=1),
+      'metainfo2.txt keeps every original byte, CRLF line endings included, except the SWDL directory size and checksum')
 script_checksum = re.search(r'FinalScriptChecksum = "([0-9a-f]+)"', meta)[1]
 check(script_checksum == sha(package['Bootstrap/final/finalScript.sh'], 'sha1'), 'SWDL final script checksum')
 
