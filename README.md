@@ -30,10 +30,10 @@ the baseline's attribution notice is kept in built packages. See [NOTICE.md](NOT
 
 This repository does not contain the source of the native components
 (`libmhi2qcarplaycluster.so`, `libmhi2qaacluster.so`, `dio_manager.mhi2q_carplay_loader`,
-`gal.mhi2q_aa_cluster_loader`, `mhi2q-aa-cluster-display` and related tools). Files in
-`reference/native/` are Ghidra pseudocode, and `reference/java/` and `reference/bytecode/`
-are decompiled from the baseline JAR. Only `modules/` and `scripts/` are maintained source.
-Original binaries are not committed; supply them with `scripts/import_upstream.py`.
+`gal.mhi2q_aa_cluster_loader`, `mhi2q-aa-cluster-display` and related tools), and it
+does not contain the baseline's files or anything decompiled or extracted from them.
+Only `modules/` and `scripts/` are maintained source. Supply the original bundle with
+`scripts/import_upstream.py`.
 
 ## License
 
@@ -152,15 +152,16 @@ are excluded. Release commands build locally; they do not publish or install on 
 | --- | --- |
 | `modules/navigation-core/` | Maneuver mapping and turn-card calculations |
 | `modules/runtime/` | Runtime integration, package assembly, and input tests |
-| `scripts/` | Setup, input import, verification, packaging, and optional analysis |
-| `reference/` | Wider Java application, native pseudocode, and input inventory |
+| `scripts/` | Setup, input import, verification, and packaging |
+| `reference/` | SHA-256 manifest of the 34 original input files |
 | `build/`, `dist/`, `.tools/` | Generated outputs and dependencies; excluded from Git |
 
 Tests cover navigation boundaries, comparison with the original JAR, runtime fallback
 behavior, package hashes and receipts, and offline integration with simulated services.
 They do not validate physical controls, installation, projection rendering, or the MMI
-JVM. The complete firmware application is not rebuilt: OEM dependencies are absent,
-and native reference files are pseudocode rather than compiler inputs.
+JVM. The complete firmware application is not rebuilt: OEM dependencies and native
+sources are absent. The support-script and installer-patch tests need the imported
+bundle; without it they are skipped, so CI does not run them.
 
 Application Java packages use `com.mibsi.carplay`. The build translates the baseline
 JAR to this namespace before applying the runtime changes; OEM API names and original

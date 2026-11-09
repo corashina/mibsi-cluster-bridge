@@ -1,5 +1,0 @@
-Input: mibsi-install-tool
-Language: ARM:LE:32:v8
-Functions decompiled: 112
-Functions failed: 0
-Skipped external/uninitialized functions: 71

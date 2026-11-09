@@ -1,2 +1,0 @@
-class de.audi.app.terminalmode.combi.TerminalModeBapCombi$1 {
-}

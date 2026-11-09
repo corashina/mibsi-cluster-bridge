@@ -1,4 +1,0 @@
-public interface com.mibsi.carplay.rgd.Mhi2qAaGatedCombiService$CombinedManeuverPublisher {
-  public abstract void publish(de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi, de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviManeuverDescriptor[], int, int);
-    descriptor: (Lde/audi/atip/interapp/combi/bap/navi/CombiBAPServiceNavi;[Lde/audi/atip/interapp/combi/bap/navi/data/CombiBAPNaviManeuverDescriptor;II)V
-}

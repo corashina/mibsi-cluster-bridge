@@ -5,6 +5,3 @@
 *.zip binary
 *.so binary
 fixtures/upstream/** -text
-reference/** -text linguist-generated=true
-reference/README.md text eol=lf linguist-generated=false
-reference/distribution/** -text
