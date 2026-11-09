@@ -14,10 +14,16 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'modules/runtime/scripts'))
+sys.path.insert(0, str(ROOT / 'scripts'))
 import support_patch
+from project import UPSTREAM
 
 SUPPORT = ROOT / 'modules/runtime/package/mibsi-support.sh'
-PRODUCT = ROOT / 'reference/distribution/Bootstrap/final/product'
+# The upstream install scripts are not in the repository; import the bundle first
+# (scripts/import_upstream.py) or set MIBSI_UPSTREAM. Without them these tests skip.
+PRODUCT = UPSTREAM / 'Bootstrap/final/product'
+NEEDS_UPSTREAM = unittest.skipUnless((PRODUCT / 'install_product.sh').is_file(),
+                                     'original bundle not imported (scripts/import_upstream.py)')
 GAL_MIBSI_SHA = '35586d98a70909cdd1cae18a876a6b7b0141866080c0c903a4182d51c1fda254'
 
 SHIM = r'''#!/bin/bash
@@ -64,6 +70,7 @@ echo "APP_RW=$APP_RW"
 '''
 
 
+@NEEDS_UPSTREAM
 @unittest.skipIf(shutil.which('bash') is None or shutil.which('sh') is None or sys.platform == 'win32',
                  'POSIX shell required')
 class SupportScriptTests(unittest.TestCase):
@@ -269,6 +276,7 @@ class SupportScriptTests(unittest.TestCase):
         self.assertFalse(self.exists('/mnt/app/eso/hmi/engdefs/mibsi-main.esd.new'))
 
 
+@NEEDS_UPSTREAM
 class InstallerPatchTests(unittest.TestCase):
     def setUp(self):
         self.original = (PRODUCT / 'install_product.sh').read_text()

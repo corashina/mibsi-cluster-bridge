@@ -1,5 +1,0 @@
-Input: mhi2q-aa-turn-card-renderer
-Language: ARM:LE:32:v8
-Functions decompiled: 366
-Functions failed: 0
-Skipped external/uninitialized functions: 152

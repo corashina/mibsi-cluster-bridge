@@ -1,5 +1,0 @@
-Input: gal.mhi2q_aa_cluster_loader
-Language: ARM:LE:32:v8
-Functions decompiled: 3887
-Functions failed: 0
-Skipped external/uninitialized functions: 493

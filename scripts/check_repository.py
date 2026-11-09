@@ -15,7 +15,7 @@ def repository_files():
             if not path.is_file():
                 continue
             relative = path.relative_to(ROOT).as_posix()
-            if '__pycache__' in path.parts or relative.startswith(('docs/superpowers/', 'reference/binaries/')):
+            if '__pycache__' in path.parts or relative.startswith('docs/superpowers/'):
                 continue
             if path.suffix in ('.pyc', '.class'):
                 continue
@@ -31,9 +31,6 @@ def check():
         require(path.stat().st_size < 50 * 1024 * 1024, 'Oversized source file: ' + relative)
         if path.suffix == '.py':
             ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
-        # Original reference documents are immutable evidence, not maintained guides.
-        if relative.startswith('reference/') and relative != 'reference/README.md':
-            continue
         if path.suffix not in ('.md', '.html'):
             continue
         text = path.read_text(encoding='utf-8')

@@ -1,22 +1,9 @@
 # Reference material
 
-This directory supports inspection and compatibility work. It is not an additional
-buildable application module.
+`inventory/original-sha256.json` lists the 34 files of the original MIBSI P5092
+release `7e792409480209467f17fb27` with their SHA-256. `scripts/import_upstream.py`,
+the build and the tests check the imported bundle against it. Do not edit these
+hashes to make a changed release pass verification.
 
-Java package names in the readable sources, disassembly and resources are normalized
-to `com.mibsi.carplay`. Original binary inputs and their hashes remain unchanged.
-
-| Directory | Contents |
-| --- | --- |
-| `java/application/` | Wider application Java, excluding the two maintained navigation classes |
-| `java/comparison/` | Alternative Java output for comparison |
-| `native/` | Native pseudocode and function indexes; not buildable C |
-| `bytecode/` | Baseline Java disassembly with project package names |
-| `inventory/` | Input hashes, binary metadata, symbol indexes, and strings |
-| `resources/` | Module manifests and resources with project package names |
-| `distribution/` | Original deployment text and configuration |
-| `binaries/` | Local binary copies; excluded from Git and source archives |
-
-See [project structure and test scope](../README.md#project-structure-and-test-scope). Do not edit baseline hashes to make a
-changed release pass verification. Reference material is marked as generated in
-`.gitattributes` so it does not dominate GitHub's language statistics.
+The original bundle, its binaries and anything decompiled or extracted from them are
+not kept in this repository. See [docs/upstream.md](../docs/upstream.md).
