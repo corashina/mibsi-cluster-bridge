@@ -113,10 +113,10 @@ class SupportScriptTests(unittest.TestCase):
         self.put('/mnt/app/root/mibsi/history/1793-12-0/after/manifest', b'after\n')
         self.put('/mnt/app/eso/hmi/engdefs/mibsi-main.esd.new', b'menu')
 
-    def run_support(self, action, marker=None, operation='install', product=PRODUCT):
+    def run_support(self, action, marker=None, operation='install', product=PRODUCT, path='/usr/bin:/bin'):
         if marker:
             (self.volume / marker).write_bytes(b'')
-        env = {'PATH': '/usr/bin:/bin', 'SHIM': str(self.shim), 'SUPPORT': str(SUPPORT),
+        env = {'PATH': path, 'SHIM': str(self.shim), 'SUPPORT': str(SUPPORT),
                'FAKE_ROOT': str(self.fs), 'FAKE_LOG': str(self.log), 'OPERATION': operation}
         result = subprocess.run(['sh', str(self.driver), str(self.volume), str(product), str(self.tool),
                                  str(self.version), action], env=env, capture_output=True, text=True)
@@ -148,6 +148,24 @@ class SupportScriptTests(unittest.TestCase):
         self.assertIn('only inert MIBSI leftovers remain', report)
         self.assertTrue(self.exists('/mnt/app/root/mibsi/installer.lock'))
         self.assertEqual(self.log.read_text(), '')
+
+    def test_status_works_without_sed(self):
+        # The MMX has no sed: a real status run printed "sed: cannot execute".
+        no_sed = Path(self.temp.name) / 'no-sed-bin'
+        no_sed.mkdir()
+        for directory in ('/usr/bin', '/bin'):
+            for tool in Path(directory).iterdir():
+                link = no_sed / tool.name
+                if tool.name != 'sed' and not link.exists():
+                    link.symlink_to(tool)
+        self.leftovers()
+        code, out = self.run_support('marker', 'MIBSI-STATUS', path=str(no_sed))
+        self.assertEqual(code, 0, out)
+        report = self.status_log()
+        self.assertNotIn('sed', out + report)
+        self.assertIn("firmware: Current train = 'MHI2Q_ER_AUG22_P5092'", report)
+        self.assertIn("firmware: MainUnit version = '1329'", report)
+        self.assertIn('    1793-12-0', report)
 
     def test_status_flags_mibsi_hashes_and_v1_lsd(self):
         self.put('/eso/bin/apps/gal', b'patched gal')

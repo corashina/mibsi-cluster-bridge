@@ -127,7 +127,8 @@ python scripts/release.py
 ```
 
 Setup downloads SHA-256-verified ASM 9.7.1 dependencies. Import accepts an original
-SD directory or baseline ZIP and verifies all 34 input files against release
+SD directory or baseline ZIP (the `install.zip` inside the original bundle; see
+[docs/upstream.md](docs/upstream.md) for the bundle's hashes) and verifies all 34 input files against release
 `7e792409480209467f17fb27` before storing them in `fixtures/upstream/`. Alternatively,
 set `MIBSI_UPSTREAM` to the matching input directory.
 

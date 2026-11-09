@@ -146,7 +146,8 @@ hash_names += [name.removeprefix('Bootstrap/final/') for name in sorted(ADDED)]
 write(final / 'hashes.txt', ''.join(f'FileName = "{name}"\nFileSize = "{(final / name).stat().st_size}"\n'
     f'CheckSum = "{digest(final / name, "sha1")}"\n\n' for name in hash_names))
 dir_size = sum(p.stat().st_size for p in final.rglob('*') if p.is_file())
-meta = (PACKAGE / 'metainfo2.txt').read_text()
+# metainfo2.txt is CRLF and its [Signature] covers the exact bytes: keep line endings.
+meta = (PACKAGE / 'metainfo2.txt').read_text(encoding='utf-8', newline='')
 section = '[Bootstrap\\final\\Dir]'
 before, after = meta.split(section, 1)
 block, rest = after.split('[Bootstrap]', 1)

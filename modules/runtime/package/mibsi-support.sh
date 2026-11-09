@@ -47,6 +47,14 @@ $MIBSI_STATE_DIR/pending
 $MIBSI_STATE_DIR/history
 $MIBSI_STATE_DIR"
 
+# The MMX has no sed, so prefix lines with the shell alone.
+mibsi_prefix()
+{
+    while IFS= read -r MIBSI_LINE; do
+        echo "$1$MIBSI_LINE"
+    done
+}
+
 mibsi_exists()
 {
     run_mmx /bin/ls -d "$1" </dev/null >/dev/null 2>&1
@@ -141,7 +149,7 @@ $MIBSI_EXTRA_PATHS
 EOF
     if mibsi_exists "$MIBSI_STATE_DIR/history"; then
         echo "  backup history entries:"
-        run_mmx /bin/ls "$MIBSI_STATE_DIR/history" </dev/null 2>/dev/null | sed 's/^/    /'
+        run_mmx /bin/ls "$MIBSI_STATE_DIR/history" </dev/null 2>/dev/null | mibsi_prefix "    "
     fi
 }
 
@@ -169,8 +177,8 @@ mibsi_status_report()
         echo "MIBSI status report"
         echo "package release: $MIBSI_RELEASE_ID"
         if test -f "$VERSION_FILE"; then
-            grep "Current train = " "$VERSION_FILE" 2>/dev/null | sed 's/^/firmware: /'
-            grep "MainUnit version = " "$VERSION_FILE" 2>/dev/null | sed 's/^/firmware: /'
+            grep "Current train = " "$VERSION_FILE" 2>/dev/null | mibsi_prefix "firmware: "
+            grep "MainUnit version = " "$VERSION_FILE" 2>/dev/null | mibsi_prefix "firmware: "
         else
             echo "firmware: identity unavailable"
         fi
