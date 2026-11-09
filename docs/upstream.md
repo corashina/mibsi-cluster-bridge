@@ -31,6 +31,8 @@ Passing the outer bundle ZIP fails with
 
 ## Uninstalling
 
-This project does not build an uninstaller. Units installed from release
-`7e792409480209467f17fb27` are restored with the bundle's own `uninstall.zip`.
+The release build produces `MIBSI-Cluster-Bridge-uninstall.zip`, which restores the
+on-unit backup of any MIBSI V2 installation, including one from release
+`7e792409480209467f17fb27`. The bundle's own `uninstall.zip` does the same for that
+release and remains an alternative.
 `fixtures/upstream/` is git-ignored, so imported files are never committed.

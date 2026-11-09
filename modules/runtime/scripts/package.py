@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'scripts'))
 from project import ROOT, UPSTREAM, asm_classpath, java_tool, require, reset_build, validate_baseline
 import support_patch
+import sd_package
 
 MOD = ROOT / 'modules/runtime'
 BUILD = ROOT / 'build/runtime'
@@ -17,6 +18,7 @@ BASELINE = validate_baseline()
 # Direct invocation also rebuilds and tests; saved PASS logs are never sufficient.
 subprocess.run([sys.executable, str(MOD / 'scripts/build_java.py')], check=True)
 PACKAGE = reset_build(ROOT / 'build/install-package')
+UNINSTALL_PACKAGE = ROOT / 'build/uninstall-package'
 DIST = reset_build(ROOT / 'build/release-candidate')
 NAV = 'mhi2q-aa-navigation-proxy.jar'
 # Maintained files added to the upstream inventory, and the SD markers that
@@ -24,19 +26,12 @@ NAV = 'mhi2q-aa-navigation-proxy.jar'
 ADDED = {support_patch.SUPPORT_PATH}
 MARKER_PACKAGES = {'MIBSI-Cluster-Bridge-status.zip': 'MIBSI-STATUS',
                    'MIBSI-Cluster-Bridge-cleanup.zip': 'MIBSI-CLEANUP'}
+UNINSTALL_ARCHIVE = 'MIBSI-Cluster-Bridge-uninstall.zip'
 
 
-def digest(path, algorithm='sha256'):
-    return hashlib.new(algorithm, path.read_bytes()).hexdigest()
-
-
-def write(path, text):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(text.encode('utf-8'))
-
-
-def write_json(path, value):
-    write(path, json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n')
+digest = sd_package.digest
+write = sd_package.write
+write_json = sd_package.write_json
 
 
 for rel, expected in BASELINE.items():
@@ -112,10 +107,11 @@ MIBSI-Logs/status.log: every MIBSI path, its SHA-256, and a verdict.
 
 UNINSTALLATION
 This archive installs or updates MIBSI Cluster Bridge. It is not an uninstaller.
-Obtain a matching uninstall package from your installed release's provider.
-Uninstallation restores the saved installation backup. Do not add an uninstall
-marker to this install package: operation metadata and checksums must also match.
-An uninstall run on a unit with no active installation now stops with an error
+Use MIBSI-Cluster-Bridge-uninstall.zip from the same release the same way as
+this installer. It restores the files saved in /mnt/app/root/mibsi/ when
+MIBSI was first installed. Do not add an uninstall marker to this install
+package by hand: operation metadata and checksums must also match.
+An uninstall run on a unit with no active installation stops with an error
 and writes MIBSI-Logs/status.log instead of reporting success.
 
 LEFTOVERS AFTER UNINSTALL
@@ -143,24 +139,17 @@ write_json(product / 'package-receipt.json', package_receipt)
 
 hash_names = re.findall(r'FileName = "([^"]+)"', (final / 'hashes.txt').read_text())
 hash_names += [name.removeprefix('Bootstrap/final/') for name in sorted(ADDED)]
-write(final / 'hashes.txt', ''.join(f'FileName = "{name}"\nFileSize = "{(final / name).stat().st_size}"\n'
-    f'CheckSum = "{digest(final / name, "sha1")}"\n\n' for name in hash_names))
-dir_size = sum(p.stat().st_size for p in final.rglob('*') if p.is_file())
-# metainfo2.txt is CRLF and its [Signature] covers the exact bytes: keep line endings.
-meta = (PACKAGE / 'metainfo2.txt').read_text(encoding='utf-8', newline='')
-section = '[Bootstrap\\final\\Dir]'
-before, after = meta.split(section, 1)
-block, rest = after.split('[Bootstrap]', 1)
-block = re.sub(r'FileSize = "\d+"', f'FileSize = "{dir_size}"', block)
-block = re.sub(r'CheckSum = "[0-9A-Fa-f]+"', f'CheckSum = "{digest(final / "hashes.txt", "sha1").upper()}"', block)
-write(PACKAGE / 'metainfo2.txt', before + section + block + '[Bootstrap]' + rest)
 PACKAGE_NAMES = sorted(set(BASELINE) | ADDED)
-write(PACKAGE / 'SHA256SUMS', ''.join(f'{digest(PACKAGE / name)}  {name}\n' for name in PACKAGE_NAMES if name != 'SHA256SUMS'))
+sd_package.refresh(PACKAGE, hash_names, PACKAGE_NAMES)
+
+sd_package.derive_uninstall(PACKAGE, UNINSTALL_PACKAGE, hash_names, PACKAGE_NAMES,
+                            sd_package.uninstall_guide(release_id, upstream_id))
 
 DIST.mkdir(parents=True, exist_ok=True)
 archives = [('MIBSI-Cluster-Bridge-install.zip', PACKAGE, PACKAGE_NAMES, None),
             ('MIBSI-Cluster-Bridge-baseline-install.zip', UPSTREAM, sorted(BASELINE), None),
-            *[(filename, PACKAGE, PACKAGE_NAMES, marker) for filename, marker in MARKER_PACKAGES.items()]]
+            *[(filename, PACKAGE, PACKAGE_NAMES, marker) for filename, marker in MARKER_PACKAGES.items()],
+            (UNINSTALL_ARCHIVE, UNINSTALL_PACKAGE, PACKAGE_NAMES, sd_package.UNINSTALL_MARKER)]
 for filename, source, names, marker in archives:
     with zipfile.ZipFile(DIST / filename, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         entries = [(name, (source / name).read_bytes()) for name in names]
