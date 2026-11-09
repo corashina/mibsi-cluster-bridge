@@ -45,7 +45,7 @@ def refresh(package, hash_names, package_names):
     write(final / 'hashes.txt', ''.join(f'FileName = "{name}"\nFileSize = "{(final / name).stat().st_size}"\n'
         f'CheckSum = "{digest(final / name, "sha1")}"\n\n' for name in hash_names))
     dir_size = sum(p.stat().st_size for p in final.rglob('*') if p.is_file())
-    meta = (package / 'metainfo2.txt').read_text(encoding='utf-8', newline='')
+    meta = (package / 'metainfo2.txt').read_bytes().decode('utf-8')
     before, after = meta.split(DIR_SECTION, 1)
     block, rest = after.split('[Bootstrap]', 1)
     block = re.sub(r'FileSize = "\d+"', f'FileSize = "{dir_size}"', block)
