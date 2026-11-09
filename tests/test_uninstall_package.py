@@ -1,7 +1,9 @@
 """Uninstall package derivation, without the original firmware bundle.
 
-A small package tree is built from the reference metainfo2.txt and install
-scripts, then turned into an uninstall package the way package.py does it.
+A small synthetic package tree (CRLF metainfo2.txt with a signature block) is
+turned into an uninstall package the way package.py does it. The install
+script check uses the upstream install_product.sh and runs only when the
+original bundle has been imported.
 """
 import hashlib
 import json
@@ -15,10 +17,21 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'modules/runtime/scripts'))
+sys.path.insert(0, str(ROOT / 'scripts'))
 import sd_package
 import support_patch
+from project import UPSTREAM
 
-REFERENCE = ROOT / 'reference/distribution'
+UPSTREAM_INSTALL = UPSTREAM / 'Bootstrap/final/product/install_product.sh'
+# Shape of the real file: CRLF lines, a signature over the exact bytes, and
+# one SWDL directory block whose size and checksum the build rewrites.
+METAINFO = (
+    '[common]\r\nvendor = "ESO"\r\n\r\n[Signature]\r\nsignature1 = "11583e2be1780d5ee04eb62c71e0d2f1"\r\n\r\n'
+    '[common]\r\nFinalScript = "./Bootstrap/final/finalScript.sh"\r\n\r\n'
+    '[Bootstrap\\final\\Dir]\r\nFileSize = "1"\r\nCheckSum = "0A9A338B84E6A11D4E248477A7781FFAE28F2769"\r\n\r\n'
+    '[Bootstrap]\r\nVendorInfo = "MIBSI"\r\n')
+RELEASE_ENV = 'MIBSI_GAL_SHA=35586d98\nMIBSI_RELEASE_ID=test\nMIBSI_OPERATION=install\n'
+INSTALL_SCRIPT = '#!/bin/sh\n. "$PRODUCT_DIR/release.env"\nRESULT=$?\n'
 DIR_VALUES = rb'(\[Bootstrap\\final\\Dir\]\r\nFileSize = ")\d+("\r\nCheckSum = ")[0-9A-F]+"'
 HASH_NAMES = ['finalScript.sh', 'product/release.env', 'product/package-receipt.json',
               'product/install_product.sh', 'product/mibsi-support.sh', 'product/files/payload.bin']
@@ -37,12 +50,13 @@ class UninstallPackageTests(unittest.TestCase):
         final = self.install / 'Bootstrap/final'
         product = final / 'product'
         (product / 'files').mkdir(parents=True)
-        shutil.copyfile(REFERENCE / 'metainfo2.txt', self.install / 'metainfo2.txt')
-        shutil.copyfile(REFERENCE / 'Bootstrap/final/finalScript.sh', final / 'finalScript.sh')
-        upstream_install = (REFERENCE / 'Bootstrap/final/product/install_product.sh').read_text()
-        (product / 'install_product.sh').write_text(support_patch.apply(upstream_install), newline='')
+        (self.install / 'metainfo2.txt').write_bytes(METAINFO.encode())
+        (final / 'finalScript.sh').write_bytes(b'#!/bin/sh\nexit 0\n')
+        script = (support_patch.apply(UPSTREAM_INSTALL.read_text()) if UPSTREAM_INSTALL.is_file()
+                  else INSTALL_SCRIPT)
+        (product / 'install_product.sh').write_bytes(script.encode())
         shutil.copyfile(support_patch.SUPPORT_SOURCE, product / 'mibsi-support.sh')
-        shutil.copyfile(REFERENCE / 'Bootstrap/final/product/release.env', product / 'release.env')
+        (product / 'release.env').write_bytes(RELEASE_ENV.encode())
         (product / 'files/payload.bin').write_bytes(b'\x00binary\r\n')
         sd_package.write_json(product / 'package-receipt.json', {
             'operation': 'install', 'release_id': 'test',
@@ -94,7 +108,7 @@ class UninstallPackageTests(unittest.TestCase):
                 self.assertEqual(sha(files[name]), expected, name)
 
     def test_metainfo_keeps_crlf_and_signature_bytes(self):
-        original = (REFERENCE / 'metainfo2.txt').read_bytes()
+        original = METAINFO.encode()
         derived = (self.uninstall / 'metainfo2.txt').read_bytes()
         self.assertEqual(re.sub(DIR_VALUES, rb'\1\2"', derived, count=1),
                          re.sub(DIR_VALUES, rb'\1\2"', original, count=1))
@@ -104,6 +118,7 @@ class UninstallPackageTests(unittest.TestCase):
             sd_package.derive_uninstall(self.uninstall, Path(self.temp.name) / 'again', HASH_NAMES,
                                         self.names, 'guide\n')
 
+    @unittest.skipUnless(UPSTREAM_INSTALL.is_file(), 'original bundle not imported (scripts/import_upstream.py)')
     @unittest.skipIf(shutil.which('sh') is None or sys.platform == 'win32', 'POSIX shell required')
     def test_install_script_accepts_uninstall_only_with_marker(self):
         product = self.uninstall / 'Bootstrap/final/product'
