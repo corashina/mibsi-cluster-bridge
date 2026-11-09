@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3] / 'scripts'))
 from project import ROOT, UPSTREAM, asm_classpath, java_tool, require, reset_build, validate_baseline
 from java_namespace import UPSTREAM_PACKAGE, PROJECT_PACKAGE, relocate_entry, rename_path
 import support_patch
+import sd_package
 
 MOD = ROOT / 'modules/runtime'
 DIST = ROOT / 'build/release-candidate'
@@ -31,6 +32,29 @@ def check(condition, message):
     checks.append(message)
 
 
+def check_swdl(pkg, label):
+    """Checks the MMI runs before the final script: hashes.txt, metainfo2.txt, final script."""
+    sw = pkg['Bootstrap/final/hashes.txt'].decode()
+    blocks = re.findall(r'FileName = "([^"]+)"\s+FileSize = "(\d+)"\s+CheckSum = "([0-9a-f]+)"', sw)
+    for name, size, expected in blocks:
+        data = pkg['Bootstrap/final/' + name]
+        check(len(data) == int(size) and sha(data, 'sha1') == expected, f'SWDL size and SHA1: {label}: {name}')
+    check({'Bootstrap/final/' + item[0] for item in blocks} == {name for name in pkg if name.startswith('Bootstrap/final/')} - {'Bootstrap/final/hashes.txt'}, f'SWDL hash coverage complete: {label}')
+    meta = pkg['metainfo2.txt'].decode()
+    block = meta.split('[Bootstrap\\final\\Dir]', 1)[1].split('[', 1)[0]
+    size = int(re.search(r'FileSize = "(\d+)"', block)[1])
+    checksum = re.search(r'CheckSum = "([0-9A-F]+)"', block)[1]
+    check(size == sum(len(data) for name, data in pkg.items() if name.startswith('Bootstrap/final/')), f'SWDL directory total includes hash manifest: {label}')
+    check(checksum.lower() == sha(pkg['Bootstrap/final/hashes.txt'], 'sha1'), f'SWDL directory checksum: {label}')
+    original_meta = (UPSTREAM / 'metainfo2.txt').read_bytes()
+    dir_values = rb'(\[Bootstrap\\final\\Dir\]\r\nFileSize = ")\d+("\r\nCheckSum = ")[0-9A-F]+"'
+    check(len(re.findall(dir_values, original_meta)) == 1, 'Original metainfo2.txt has one CRLF SWDL directory block')
+    check(re.sub(dir_values, rb'\1\2"', pkg['metainfo2.txt'], count=1) == re.sub(dir_values, rb'\1\2"', original_meta, count=1),
+          f'metainfo2.txt keeps every original byte, CRLF line endings included, except the SWDL directory size and checksum: {label}')
+    script_checksum = re.search(r'FinalScriptChecksum = "([0-9a-f]+)"', meta)[1]
+    check(script_checksum == sha(pkg['Bootstrap/final/finalScript.sh'], 'sha1'), f'SWDL final script checksum: {label}')
+
+
 for name, expected in baseline.items():
     check(sha((UPSTREAM / name).read_bytes()) == expected, f'Original unchanged: {name}')
 
@@ -38,7 +62,8 @@ added = {support_patch.SUPPORT_PATH}
 markers = {'MIBSI-Cluster-Bridge-status.zip': 'MIBSI-STATUS', 'MIBSI-Cluster-Bridge-cleanup.zip': 'MIBSI-CLEANUP'}
 artifacts = {}
 marker_packages = {}
-for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-install.zip', *markers]:
+uninstall_name = 'MIBSI-Cluster-Bridge-uninstall.zip'
+for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-install.zip', *markers, uninstall_name]:
     path = DIST / name
     artifacts[name] = sha(path.read_bytes())
     with zipfile.ZipFile(path) as archive:
@@ -47,11 +72,15 @@ for name in ['MIBSI-Cluster-Bridge-baseline-install.zip', 'MIBSI-Cluster-Bridge-
         expected_names = set(baseline) if 'baseline-install' in name else set(baseline) | added
         if name in markers:
             expected_names.add(markers[name])
+        if name == uninstall_name:
+            expected_names.add(sd_package.UNINSTALL_MARKER)
         check(set(contents) == expected_names and len(archive.namelist()) == len(expected_names), f'ZIP inventory: {name}')
     if 'baseline-install' in name:
         check(all(sha(data) == baseline[entry] for entry, data in contents.items()), 'Restore archive matches all original bytes')
     elif name in markers:
         marker_packages[name] = contents
+    elif name == uninstall_name:
+        uninstall = contents
     else:
         package = contents
 for name, contents in marker_packages.items():
@@ -126,25 +155,24 @@ for name, base in [('package-receipt.json', prefix), ('release-receipt.json', pr
     else:
         check(receipt['checks']['vehicle_tested'] is False and receipt['checks']['build_mode'].startswith('local-'), 'Receipt accurately identifies local untested-on-vehicle modification')
 
-sw = package['Bootstrap/final/hashes.txt'].decode()
-blocks = re.findall(r'FileName = "([^"]+)"\s+FileSize = "(\d+)"\s+CheckSum = "([0-9a-f]+)"', sw)
-for name, size, expected in blocks:
-    data = package['Bootstrap/final/' + name]
-    check(len(data) == int(size) and sha(data, 'sha1') == expected, f'SWDL size and SHA1: {name}')
-check({'Bootstrap/final/' + item[0] for item in blocks} == {name for name in package if name.startswith('Bootstrap/final/')} - {'Bootstrap/final/hashes.txt'}, 'SWDL hash coverage complete')
-meta = package['metainfo2.txt'].decode()
-block = meta.split('[Bootstrap\\final\\Dir]', 1)[1].split('[', 1)[0]
-size = int(re.search(r'FileSize = "(\d+)"', block)[1])
-checksum = re.search(r'CheckSum = "([0-9A-F]+)"', block)[1]
-check(size == sum(len(data) for name, data in package.items() if name.startswith('Bootstrap/final/')), 'SWDL directory total includes hash manifest')
-check(checksum.lower() == sha(package['Bootstrap/final/hashes.txt'], 'sha1'), 'SWDL directory checksum')
-original_meta = (UPSTREAM / 'metainfo2.txt').read_bytes()
-dir_values = rb'(\[Bootstrap\\final\\Dir\]\r\nFileSize = ")\d+("\r\nCheckSum = ")[0-9A-F]+"'
-check(len(re.findall(dir_values, original_meta)) == 1, 'Original metainfo2.txt has one CRLF SWDL directory block')
-check(re.sub(dir_values, rb'\1\2"', package['metainfo2.txt'], count=1) == re.sub(dir_values, rb'\1\2"', original_meta, count=1),
-      'metainfo2.txt keeps every original byte, CRLF line endings included, except the SWDL directory size and checksum')
-script_checksum = re.search(r'FinalScriptChecksum = "([0-9a-f]+)"', meta)[1]
-check(script_checksum == sha(package['Bootstrap/final/finalScript.sh'], 'sha1'), 'SWDL final script checksum')
+check_swdl(package, 'install')
+check_swdl(uninstall, 'uninstall')
+check(uninstall[sd_package.UNINSTALL_MARKER] == b'', 'Uninstall marker is an empty file')
+uninstall_changed = {entry for entry, data in uninstall.items()
+                     if entry != sd_package.UNINSTALL_MARKER and package.get(entry) != data}
+check(uninstall_changed == sd_package.UNINSTALL_CHANGES and set(uninstall) - {sd_package.UNINSTALL_MARKER} == set(package),
+      'Uninstall archive differs from the install package only in operation metadata and checksums')
+uninstall_env = uninstall[prefix + 'release.env'].decode().splitlines()
+install_env = package[prefix + 'release.env'].decode().splitlines()
+check([line for line in uninstall_env if line not in install_env] == ['MIBSI_OPERATION=uninstall']
+      and [line for line in install_env if line not in uninstall_env] == ['MIBSI_OPERATION=install'],
+      'Uninstall release.env changes only MIBSI_OPERATION')
+uninstall_receipt = json.loads(uninstall[prefix + 'package-receipt.json'])
+check(uninstall_receipt['operation'] == 'uninstall' and all(sha(uninstall[prefix + file]) == expected
+      for file, expected in uninstall_receipt['hashes'].items()), 'Uninstall package receipt')
+for line in uninstall['SHA256SUMS'].decode().splitlines():
+    expected, name = line.split(None, 1)
+    check(sha(uninstall[name]) == expected, f'Uninstall manifest hash: {name}')
 
 for log, count in [('test-resolved.txt', 2067), ('test-missing.txt', 3), ('test-mismatch.txt', 3)]:
     text = (ROOT / 'build/runtime/logs' / log).read_text()

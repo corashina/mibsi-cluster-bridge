@@ -4,7 +4,8 @@ MIBSI Cluster Bridge integrates Android Auto and CarPlay with the instrument
 cluster on MHI2Q P5092 firmware, with tools for installation and maintenance.
 
 **Firmware:** `MHI2Q_ER_AUG22_P5092_MU1329`  
-**Status:** experimental; desktop checks pass, physical MMI validation is pending.
+**Status:** experimental. Desktop checks pass. On a vehicle, only the status report has run;
+installation, uninstallation and cleanup have not.
 
 ## Compatibility
 
@@ -13,7 +14,7 @@ cluster on MHI2Q P5092 firmware, with tools for installation and maintenance.
 | Firmware | `MHI2Q_ER_AUG22_P5092_MU1329` is the target. The installer also accepts the `MHI2Q_ER_AUG22_P5152` train with MainUnit `MU1329`, but that train has not been checked. |
 | Other trains | Not supported. The installer refuses any other train or MainUnit version, including the China (`CN`) trains. The patched native binaries and the JAR match one baseline's file hashes, so another train needs its own import and patch set. |
 | Instrument cluster | Built for the Virtual Cockpit cluster map. Analog clusters, including those with the larger color center display, have not been tested. The cluster map code checks for the Virtual Cockpit or MMI cluster modes. |
-| Vehicle testing | None yet. Desktop checks pass. Installation, rendering and controls have not been validated on a vehicle. |
+| Vehicle testing | One P5092 `MU1329` unit has run the status report from this project's packages (November 2026). The MMI accepted the SD card and the report listed the unit correctly. Installation, uninstallation, cleanup, rendering and controls have not been run on a vehicle. |
 
 Before you ask whether a unit is supported, run the [status report](#status-report) and
 include `MIBSI-Logs/status.log`. It records the train and MainUnit version.
@@ -42,8 +43,13 @@ GNU General Public License, version 3 or later. See [LICENSE](LICENSE) and
 
 ## Installation and updates
 
-Download `MIBSI-Cluster-Bridge-install.zip` and `SHA256SUMS.txt` from a published release.
-The repository source ZIP is not an installer. Verify the downloaded archive:
+This repository publishes no release archives. The SD packages contain the original
+MIBSI binaries, which are not redistributed here (see [Provenance](#provenance)). Build
+them from your own copy of the original bundle with the steps in
+[Build and verify](#build-and-verify), or get them from whoever gave you your build,
+together with its `SHA256SUMS.txt`. The repository source ZIP is not an installer.
+
+Verify the archive before you use it:
 
 ```powershell
 Get-FileHash .\MIBSI-Cluster-Bridge-install.zip -Algorithm SHA256
@@ -74,19 +80,28 @@ before giving advice about a unit.
 The installation backup is stored inside the unit, in `/mnt/app/root/mibsi/`. It is not
 on the SD card, so formatting the install card does not lose it.
 
-Uninstallation requires that saved backup and a matching uninstall package from the
-provider of your installed release. This project currently builds installation packages
-only; no uninstall archive or hardware restoration has been validated. Reinstalling
-MIBSI Cluster Bridge does not uninstall it.
+`MIBSI-Cluster-Bridge-uninstall.zip` removes MIBSI Cluster Bridge and restores the
+files saved in that backup when MIBSI was first installed. It is the install package
+with its operation set to uninstall and an empty `MIBSI-UNINSTALL` file at the card root;
+the payload is the same. It restores any MIBSI V2 installation that still has its backup,
+including earlier MIBSI releases. Reinstalling MIBSI Cluster Bridge does not uninstall it.
 
-Do not add `MIBSI-UNINSTALL` to the installation archive: uninstall operation metadata
-and checksums must also match. Keep the original backup available for restoration.
+1. Run the [status report](#status-report) first. Its verdict should say
+   `active V2 installation with its backup`.
+2. Extract `MIBSI-Cluster-Bridge-uninstall.zip` to an empty FAT32 SD card and run it
+   from the red update menu like the installer.
+3. Keep `MIBSI-Logs/install.log`, then restart the MMI.
 
-`MIBSI: no V2 installation to uninstall; existing files kept` means the unit has no
-`/mnt/app/root/mibsi/origin` backup pointer. A completed uninstall removes that pointer,
-so running uninstall a second time prints this message. Uninstall packages built from
-this project's installer script now stop with an error in that case and write the status
-report, instead of reporting success.
+Use the uninstall package from the same build as your installer. Do not add
+`MIBSI-UNINSTALL` to the installation archive by hand: the operation in `release.env`
+and the checksums must also match, and the unit rejects the card otherwise.
+Uninstallation has been checked with desktop tests only, not on a vehicle.
+
+If the unit has no backup pointer (`/mnt/app/root/mibsi/origin`), there is nothing to
+restore. The uninstall package then stops with an error, changes nothing and writes the
+status report. A completed uninstall removes that pointer, so running it a second time
+stops the same way. Older uninstall packages print
+`MIBSI: no V2 installation to uninstall; existing files kept` in that case.
 
 ### Leftovers after uninstall
 
@@ -133,8 +148,8 @@ SD directory or baseline ZIP (the `install.zip` inside the original bundle; see
 set `MIBSI_UPSTREAM` to the matching input directory.
 
 The release command runs fresh build, baseline, package, and integration checks.
-Successful outputs go to `dist/release/`: the installer, the status and cleanup
-packages, checksums, and verification reports. Failed runs leave no release at that path. Source changes during verification
+Successful outputs go to `dist/release/`: the installer, the uninstall, status and
+cleanup packages, checksums, and verification reports. Failed runs leave no release at that path. Source changes during verification
 reject the build. `python scripts/verify.py --full` runs the same workflow.
 
 To export the repository sources:
